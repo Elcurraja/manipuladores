@@ -4,12 +4,15 @@
         <li class="menu nav-item">
             <a class="nav-link" href="#">Planificar dia</a>
         </li>
+        <li class="menu nav-item">
+            <a class="nav-link" href="./registro_manipuladores.php">Registro Manipuladores</a>
+        </li>
         <li class="menu nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Manipuladoras
+                Manipuladores
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="./manipuladores.php">Manipuladoras</a>
+                <a class="dropdown-item" href="./manipuladores.php">Manipuladores</a>
                 <a class="dropdown-item" href="./descansos.php">Descansos</a>
                 <a class="dropdown-item" href="./ausencias.php">Ausencias</a>
               </div>
@@ -26,6 +29,7 @@
                 <a class="dropdown-item" href="./turnos.php">Turnos</a>
               </div>
         </li>
+        
       </ul>
     </div>
   </nav>
