@@ -42,28 +42,35 @@
         #grupo_actualizar_borrar_btns {
             float: right;
         }
+        .table-responsive{
+            overflow-x: visible;
+        }
     </style>
     <title>Acciones sobre Descansos</title>
 </head>
 <body>
-    <?php 
+	<?php 
         include("html/menu.php");
     ?>
     <div class="container-fluid">
-        <h4 id="mensaje_descansos"></h4>
         <div id="tabla_mostrar_descansos">
             <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_descanso" />
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
                 <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
                 <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" disabled />
             </div>
+            <h4 class="text-center text-white bg-dark">DESCANSOS</h4>
+            <h4 class="text-center" id="mensaje_descansos"></h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="mostrar_descansos">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Selecciona</th>
                             <th scope="col">Id</th>
                             <th scope="col">Id Manipulador</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">DNI / Pasaporte</th>
                             <th scope="col">Fecha de Inicio</th>
                             <th scope="col">Fecha de Fin</th>
                             <th scope="col">Tipo</th>
@@ -151,6 +158,26 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- MODAL DE CONFIRMACION DE BORRADO -->
+        <div class="modal fade" id="modal_confirm_borrar_descansos" tabindex="-1" role="dialog" aria-labelledby="modal_confirm_borrar_descansos" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Confirmación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <p id="mensaje_confirm_borrar_descansos"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-danger" id="borrar_descansos_btn">Confirmar Borrado</button>
+                </div>
+              </div>
             </div>
         </div>
     </div>

@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-   
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/manip_script.js"></script>
     <style>
         #mensaje_manip, #mostrar_manip {
             display: none;
@@ -18,27 +20,27 @@
     <title>Acciones sobre Manipuladores</title>
 </head>
 <body>
-    <?php 
+	<?php 
         include("html/menu.php");
     ?>
-    <div class="container-fluid ">
+    <div class="container-fluid">
         <div id="tabla_mostrar_manip">
-            <h4 id="mensaje_manip"></h4>
             <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
                 <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
                 <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
             </div>
-            
+            <h4 class="text-center text-white bg-dark">MANIPULADORES</h4>
+            <h4 class="text-center" id="mensaje_manip"></h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="mostrar_manip">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Selecciona</th>
                             <th scope="col">Id</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellidos</th>
-                            <th scope="col">DNI</th>
+                            <th scope="col">DNI / Pasaporte</th>
                             <th scope="col">Teléfono</th>
                             <th scope="col">Dirección</th>
                             <th scope="col">Dias Seguidos Trabajados</th>
@@ -193,8 +195,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="js/manip_script.js"></script>
 </body>
 </html>

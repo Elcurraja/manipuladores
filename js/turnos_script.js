@@ -82,14 +82,14 @@ $(function(){
         if (!$("#franja").val() || !$("#hora_inicio").datetimepicker('date') || !$("#hora_fin").datetimepicker('date')) {
             $("#guardar_nuevo_turno_btn").prop("disabled", true);
             $("#mensaje_anyadir_turno").text("Todos los campos han de tener datos");
-            console.log("Mensaje: " + $("#mensaje_anyadir_turno").text());
+            //console.log("Mensaje: " + $("#mensaje_anyadir_turno").text());
         } else {
             anyadirTurno();
         }
     });
 
     /* GUARDAR CAMBIOS
-       COMPRUEBA QUE TODOS LOS IMPUTS CONTENGAN UN DATO ANTES DE PASARLOS POR AJAX */
+       COMPRUEBA QUE TODOS LOS INPUTS CONTENGAN UN DATO ANTES DE PASARLOS POR AJAX */
     $("#guardar_cambios_btn").click(function(){
         var estaVacio = false;
         $(".selec_turno:checked").closest("tr").each(function(){
@@ -139,10 +139,8 @@ $(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
-                $($(this).parent()[0]).css('background-color','#FFE189')
             } else {
                 $(this).find("input").prop("readonly", true);
-                $($(this).parent()[0]).css('background-color','')
             }
         });
     });
@@ -206,10 +204,13 @@ $(function(){
                             date : moment(respuesta.datos[index].hora_fin, "HH:mm:ss")
                         });
                     }
-                    $("#mostrar_turnos").css("display", "block");
+                    $("#mostrar_turnos").css("display", "table");
                 } else {
                     console.log(respuesta.mensaje);
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("Error en la peticion AJAX para mostrar los turnos: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function(){
             $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);

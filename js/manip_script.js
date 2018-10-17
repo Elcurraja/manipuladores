@@ -112,11 +112,8 @@ $(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
-                $($(this).parent()[0]).css('background-color','#FFE189')
             } else {
                 $(this).find("input").prop("readonly", true);
-                $($(this).parent()[0]).css('background-color','')
-
             }
         });
     });
@@ -134,9 +131,9 @@ $(function(){
                     // https://stackoverflow.com/questions/10782054/what-does-the-tilde-squiggle-twiddle-css-selector-mean
                     $("#mostrar_manip tbody tr").remove();
                     for (let index = 0; index < respuesta.datos.length; index++) {
-                        $("#mostrar_manip tbody").append("<tr><td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_manip' /></div></td><td><span>" + respuesta.datos[index].idmanipulador + "</span></td><td><input type='text' class='form-control input_m' value='" +  respuesta.datos[index].nombre + "' readonly /></td><td><input type='text' class='form-control input_g' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control input_m' value='" + respuesta.datos[index].dni + "' readonly /></td><td><input type='text' class='form-control input_m' value='" + respuesta.datos[index].telefono + "' readonly /></td><td><input type='text' class='form-control input_g' value='" + respuesta.datos[index].direccion + "' readonly /></td><td><input type='text' class='form-control input_s' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td><td><input type='text' class='form-control input_g' value='" + respuesta.datos[index].email + "' readonly /></td><td><input type='text' class='form-control input_m' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td><td><input type='text' class='form-control input_s' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td><td><input type='text' class='form-control input_s' value='" + respuesta.datos[index].velocidad + "' readonly /></td><td><input type='text' class='form-control input_s' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td><td><input type='text' class='form-control input_g' value='" + respuesta.datos[index].observaciones + "' readonly /></td></tr>");
+                        $("#mostrar_manip tbody").append("<tr><td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_manip' /></div></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td><td><input type='text' class='form-control' value='" +  respuesta.datos[index].nombre + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].telefono + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].direccion + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].email + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].velocidad + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td></tr>");
                     }
-                    $("#mostrar_manip").css("display", "block");
+                    $("#mostrar_manip").css("display", "table");
                 } else {
                     console.log(respuesta.mensaje);
                 }
@@ -218,7 +215,7 @@ $(function(){
                 var disponibilidad = $(this).find("td:nth-child(13) input").val()
             }
             var temp = {
-                "id": $(this).find("td:nth-child(2) span").text(),
+                "id": $(this).find("td:nth-child(2) input").val(),
                 "nombre": $(this).find("td:nth-child(3) input").val(),
                 "apellidos": $(this).find("td:nth-child(4) input").val(),
                 "dni": $(this).find("td:nth-child(5) input").val(),
@@ -260,7 +257,7 @@ $(function(){
         var array = [];
         $(".selec_manip:checked").closest("tr").each(function(){
             var temp = {
-                "id": $(this).find("td:nth-child(2) span").text()
+                "id": $(this).find("td:nth-child(2) input").val()
             };
             array.push(temp);
         });

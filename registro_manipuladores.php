@@ -31,7 +31,7 @@
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
         <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar</button>
     </div>
-    <div id="tabla table-responsive">
+    <div id="table-responsive">
         <table class="table table-striped table-bordered"> 
             <thead class="thead-dark">
                 <tr>

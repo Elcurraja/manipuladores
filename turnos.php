@@ -21,7 +21,7 @@
         }
         #grupo_actualizar_borrar_btns {
             float: right;
-        } 
+        }
         .table-responsive{
             overflow-x: visible;
         }
@@ -29,22 +29,23 @@
     <title>Acciones sobre Turnos</title>
 </head>
 <body>
-    <?php 
+	<?php 
         include("html/menu.php");
     ?>
- <div class="container-fluid">
-    <h1 class="display-4">Turnos</h1>
-    <div id="tabla_mostrar_turnos">
-        <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
-        <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-            <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-            <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
+    <div class="container-fluid">
+        <div id="tabla_mostrar_turnos">
+            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
+            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
+                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
         </div>
+        <h4 class="text-center text-white bg-dark">TURNOS</h4>
+        <h4 class="text-center" id="mensaje_turnos"></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="mostrar_turnos">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Selecciona</th>
                         <th scope="col">Id</th>
                         <th scope="col">Franja</th>
                         <th scope="col">Hora de Inicio</th>
@@ -56,7 +57,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
         <!-- MODAL DE AÑADIR TURNO -->
         <div class="modal fade" id="modal_anyadir_turno" tabindex="-1" role="dialog" aria-labelledby="modal_anyadir_turno" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
