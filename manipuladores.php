@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+   
+    <style>
+        #mensaje_manip, #mostrar_manip {
+            display: none;
+        }
+        #grupo_actualizar_borrar_btns {
+            float: right;
+        }
+    </style>
+    <title>Acciones sobre Manipuladores</title>
+</head>
+<body>
+    <?php 
+        include("html/menu.php");
+    ?>
+    <div class="container-fluid ">
+        <div id="tabla_mostrar_manip">
+            <h4 id="mensaje_manip"></h4>
+            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
+            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
+                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="mostrar_manip">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Dias Seguidos Trabajados</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Teléfono Familiar</th>
+                            <th scope="col">Fiabilidad</th>
+                            <th scope="col">Velocidad</th>
+                            <th scope="col">Disponibilidad</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- MODAL DE AÑADIR NUEVO MANIPULADOR 
+             https://getbootstrap.com/docs/4.1/components/modal/ -->
+        <div class="modal fade" id="modal_anyadir_manip" tabindex="-1" role="dialog" aria-labelledby="modal_anyadir_manip" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Añadir nuevo trabajador</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered" id="add_manip">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label for="nombre">Nombre: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="nombre" id="nombre" />
+                                        <small class="form-text text-muted">Campo obligatorio</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="apellidos">Apellidos: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="apellidos" id="apellidos" />
+                                        <small class="form-text text-muted">Campo obligatorio</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="dni">DNI: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="dni" id="dni" />
+                                        <small class="form-text text-muted">Campo obligatorio</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="telefono">Teléfono: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="telefono" id="telefono" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="direccion">Dirección: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="direccion" id="direccion" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="email">Email: </label>
+                                    </td>
+                                    <td>
+                                        <input type="email" class="form-control" name="email" id="email" />   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="tlf_fami" title="Teléfono de contacto de algún familiar">Teléfono Familiar: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="tlf_fami" id="tlf_familiar" title="Teléfono de contacto de algún familiar" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="fiabilidad">Fiabilidad: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="fiabilidad" id="fiabilidad" />   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="velocidad">Velocidad: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="velocidad" id="velocidad" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="disponibilidad">Disponibilidad: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="disponibilidad" id="disponibilidad" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="observaciones">Observaciones: </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="observaciones" id="observaciones" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="guardar_nuevo_manip_btn">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL DE CONFIRMACION DE BORRADO
+             https://getbootstrap.com/docs/4.1/components/modal/ -->
+        <div class="modal fade" id="modal_confirm_borrar_manip" tabindex="-1" role="dialog" aria-labelledby="modal_confirm_borrar_manip" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Confirmación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <p id="mensaje_confirm_borrar_manip"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-danger" id="borrar_manip_btn">Confirmar Borrado</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/manip_script.js"></script>
+</body>
+</html>

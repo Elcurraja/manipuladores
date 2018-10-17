@@ -1,0 +1,63 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+}
+li {
+    margin-right: 10px;
+    float: left;
+}
+.menu{
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+li.menu a {
+    display: block;
+
+    color: white;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+}
+li.menu a:hover {
+    background: #007bff;
+    color:#ffbc2c;
+}
+.menu .dropdown-menu{
+    background-color: #007bff;
+    font-size: .7em;
+   
+}
+#opciones{
+    float:right;
+}
+tbody tr td input[type="text"], tbody tr td span{
+    font-weight: bold;
+    text-align: center;
+}
+.input_s{
+    width: 90px;
+}
+.input_m{
+    width: 120px;
+}
+.input_g{
+    width: 250px;
+}
+.boton{
+    font-size: 1.2em;
+}
+@media screen and (max-width: 600px){
+    table{
+        width:100%;
+    }
+    tbody tr td input[type="text"]{
+        font-size:.8em;
+    }
+    tbody tr td span{
+        width: 20px;
+    }
+    thead tr td{
+        font-size: .8em;
+    }
+  
+}
