@@ -6,7 +6,7 @@
         </li>
         <li class="menu nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Manipuladorass
+                Manipuladoras
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="./manipuladores.php">Manipuladoras</a>
