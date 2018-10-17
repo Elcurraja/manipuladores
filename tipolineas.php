@@ -9,29 +9,29 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <?php
+<?php
     
-        require("php/mysqlConexion.php");
-        include("html/menu.php");
+    require("php/mysqlConexion.php");
+    include("html/menu.php");
 
-        if(isset($_POST['op'])){
-            switch($_POST['op']){
-                case 'add':
-                    require("php/tipo_lineas_f.php");
-                    addTipoLinea();
-                    break;
-                case 'update': 
-                    require("php/tipo_lineas_f.php");
-                    editarTipoLineas();
+    if(isset($_POST['op'])){
+        switch($_POST['op']){
+            case 'add':
+                require("php/tipo_lineas_f.php");
+                addTipoLinea();
+                break;
+            case 'update': 
+                require("php/tipo_lineas_f.php");
+                editarTipoLineas();
 
-                    break;
-                case 'delete':
-                    require("php/tipo_lineas_f.php");
-                    borrarTipoLineas();
-                    break;
-            }
+                break;
+            case 'delete':
+                require("php/tipo_lineas_f.php");
+                borrarTipoLineas();
+                break;
         }
-    ?>
+    }
+?>
     
     <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir TipoLinea</button>
     <div class="btn-group" id="opciones">
