@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Manipuladores</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/tempusdominus-bootstrap-4.min.css"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/fontello.css" />
+    <link rel="stylesheet" href="css/animation.css" />
+    <link rel="stylesheet" href="css/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/jquery-3.3.1.min.js"></script>
 </head>
@@ -95,7 +100,12 @@
     include("html/confirBorrar.html");
 ?>
 
-    <script src="js/bootstrap.min.js"></script>    
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>    
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/moment_locale_es.js"></script>
+    <script type="text/javascript" src="js/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" src="js/ajaxlivesearch.min.js"></script>  
     <script src="js/tipolinea.js"></script>
 </body>
 </html>

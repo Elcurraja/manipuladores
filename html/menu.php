@@ -20,7 +20,6 @@
                 <a class="dropdown-item" href="./ausencias.php">Ausencias</a>
               </div>
         </li>
-        
         <li class="menu nav-item dropdown ">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Configuracion
@@ -33,18 +32,19 @@
                 <a class="dropdown-item" href="./turnos.php">Turnos</a>
               </div>
         </li>
-        
       </ul>
     </div>
   </nav>
-  <h4 class="msg text-center "><?php
+    <h4 class="msg text-center ">
+    <?php
       $var= (explode("/" , $_SERVER['PHP_SELF'])[2]);
       echo ucfirst(explode(".",$var)[0]);
-    ?></h4>
+    ?>
+    </h4>
 <script>
+    //SCRIPT PARA AÑADIR UNA CLASE A UN DIV EN EL MENU PARA SABER DONDE ESTAMOS
   $(document).ready(function() {
-    var path= window.location.pathname
-    var url= path.split("/")
+    var url= (window.location.pathname).split("/")
     if(url[2]=='manipuladores.php' || url[2]=='ausencias.php' || url[2]=='descansos.php'){
         $("#divlow3").addClass("subdiv")
     }
