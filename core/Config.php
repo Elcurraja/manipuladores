@@ -24,7 +24,7 @@ class Config
                 'pass'               => 'a.1234',
                 'table'              => 'manipuladores',
                 // specify the name of search columns
-                'searchColumns'      => ['dni', 'apellidos'],
+                'searchColumns'      => ['dni', 'nombre', 'apellidos'],
                 // specify order by column. This is optional
                 'orderBy'            => 'dni',
                 // specify order direction e.g. ASC or DESC. This is optional

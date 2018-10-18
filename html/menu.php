@@ -1,15 +1,15 @@
-<nav class="menu navbar navbar-expand navbar-primary">
+<nav class="menu navbar sticky-top navbar-expand navbar-primary">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="menu nav-item">
+        <li class="menu_li nav-item">
             <a class="nav-link" href="#">Planificar dia</a>
             <div id="divlow1"></div>
         </li>
-        <li class="menu nav-item">
+        <li class="menu_li nav-item">
             <a class="nav-link" href="./registro_manipuladores.php">Registro Manipuladores</a>
             <div id="divlow2"></div>
         </li>
-        <li class="menu nav-item dropdown">
+        <li class="menu_li nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Manipuladores
               </a>
@@ -20,7 +20,7 @@
                 <a class="dropdown-item" href="./ausencias.php">Ausencias</a>
               </div>
         </li>
-        <li class="menu nav-item dropdown ">
+        <li class="menu_li nav-item dropdown ">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Configuracion
               </a>

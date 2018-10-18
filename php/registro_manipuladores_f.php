@@ -1,7 +1,14 @@
 <?php
-function mostrarRegistroManipuladores(){
+function mostrarRegistroManipuladores($fecha="todos"){
     $conn=mysql_manipuladores();
-    $query= "SELECT * from registro_manipuladores";
+    if($fecha=="todos"){
+        $query= "SELECT * FROM registro_manipuladores";
+    }
+    else{
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
+        $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
+    }
     $resultQuery =$conn->query($query);
     $i=1;
     while ($fila = $resultQuery->fetch_assoc()){

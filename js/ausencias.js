@@ -3,10 +3,10 @@ $(document).ready(function() {
       /* INICIADO DEL PLUGIN TEMPUS DOMINUS PARA LOS INPUT "HORA INICIO, FIN Y DATE"
     EN EL MOMENTO DE AÑADIR UNA AUSENCIA
        https://tempusdominus.github.io/bootstrap-4/Usage/#time-only */
-       $('#hora_fin').datetimepicker({
-        locale: 'es',
-        format: 'LT',
-        stepping: "5"
+    $('#hora_fin').datetimepicker({
+       locale: 'es',
+       format: 'LT',
+       stepping: "5"
     });
 
     $('#hora_inicio').datetimepicker({
@@ -49,6 +49,7 @@ $(document).ready(function() {
             $("#opciones .boton").prop("disabled",true);
         } 
     })
+
     $('#esdiacompleto').change(function(){
         
         if ($('#esdiacompleto').val()==1){
@@ -129,8 +130,8 @@ function updateAusencias(){
             "datos":arrayDatos,
         },
         success:function(respuesta){
-            //location.href ="./ausencias.php";
-            console.log(respuesta)
+            location.href ="./ausencias.php";
+            //console.log(respuesta)
             //alert('Update realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){

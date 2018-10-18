@@ -1,14 +1,8 @@
-ul {
-    list-style-type: none;
-    margin: 0;
-}
-li {
-    margin-right: 10px;
-    float: left;
-}
 .menu, .menu .dropdown-menu{
-    background-color: #00487C;
-    font-size: 1.4em;
+    background-color: #00487C; 
+}
+.menu{
+    box-shadow: 0px 10px 6px -4px rgba(0,0,0,0.61);
 }
 .menu .dropdown-menu{
     font-size: .7em;
@@ -20,14 +14,23 @@ li {
     height: 70px;
     font-size: 1.7em;
 }
-li.menu a {
+ul {
+    list-style-type: none;
+    margin: 0;
+}
+li {
+    margin-right: 10px;
+    float: left;
+}
+li.menu_li a {
+    font-size: 1.7em;
     display: block;
     color: white;
     text-align: center;
     padding: 10px;
     text-decoration: none;
 }
-li.menu a:hover {
+li.menu_li a:hover {
     background: #00487C;
     color:#fdb61c;
 }
@@ -37,6 +40,10 @@ li.menu a:hover {
 }
 #opciones{
     float:right;
+}
+#busqueda_fecha{
+    float: left;
+    width: 300px;
 }
 tbody tr td input[type="text"], tbody tr td span{
     font-weight: bold;

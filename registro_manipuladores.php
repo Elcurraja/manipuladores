@@ -33,35 +33,52 @@
         }
     }
 ?>
+
+        <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" />
+            <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <button type="button" class="btn btn-primary" onclick ="mostrarRegistroPorFecha();"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        
     <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar</button>
+        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="fa fa-floppy-o"></i></button>
+        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar<i class="fa fa-trash-o"></i></button>
     </div>
-    <div id="table-responsive">
-        <table class="table table-striped table-bordered"> 
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">IDRegistro</th>
-                    <th scope="col">IDManipulador</th>
-                    <th scope="col">IDPuesto</th>
-                    <th scope="col">IDTurno</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Hora inicio</th>
-                    <th scope="col">Hora Fin</th>
-                    <th scope="col">IDLinea</th>
-                </tr>
-            </thead>
-                <tbody>
-                <?php 
-                if(!$_POST){
-                    include("php/registro_manipuladores_f.php");
-                    mostrarRegistroManipuladores();
-                }
-                ?>
-            
-            </tbody>
-        </table>
+    <div id="tabla">
+        <div id="table-responsive">
+            <table class="table table-striped table-bordered"> 
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">IDRegistro</th>
+                        <th scope="col">IDManipulador</th>
+                        <th scope="col">IDPuesto</th>
+                        <th scope="col">IDTurno</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora inicio</th>
+                        <th scope="col">Hora Fin</th>
+                        <th scope="col">IDLinea</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <?php 
+                    if(isset($_POST['op']) && $_POST['op']=="busqueda_fecha"){
+                        include("php/registro_manipuladores_f.php");
+                        if(isset($_POST['fecha'])){
+                            mostrarRegistroManipuladores($_POST['fecha']);
+                        }
+                    }
+                    if(!$_POST){
+                        include("php/registro_manipuladores_f.php");
+                            mostrarRegistroManipuladores();
+                    }
+                    ?>
+                
+                </tbody>
+            </table>
+        </div>
     </div>
 
 <!-- Modal -->
@@ -106,6 +123,6 @@
     <script type="text/javascript" src="js/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/ajaxlivesearch.min.js"></script>  
-    <script src="js/tipolinea.js"></script>
+    <script src="js/registro_manipuladores.js"></script>
 </body>
 </html>
