@@ -139,8 +139,10 @@ $(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
+                $(this).parent().css('background-color','#FFE189')    
             } else {
                 $(this).find("input").prop("readonly", true);
+                $(this).parent().css('background-color','')   
             }
         });
     });

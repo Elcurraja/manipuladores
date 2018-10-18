@@ -7,6 +7,7 @@
     <title>Manipuladores</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <?php
@@ -94,7 +95,7 @@
 <?php 
     include("html/confirBorrar.html");
 ?>
-    <script src="js/jquery-3.3.1.min.js"></script>
+    
     <script src="js/bootstrap.min.js"></script>    
     <script src="js/tipolinea.js"></script>
 </body>

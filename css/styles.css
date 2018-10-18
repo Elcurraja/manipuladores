@@ -31,7 +31,10 @@ li.menu a:hover {
     background: #00487C;
     color:#fdb61c;
 }
-
+.subdiv{
+    height: 2px;
+    background-color: #fdb61c;
+}
 #opciones{
     float:right;
 }

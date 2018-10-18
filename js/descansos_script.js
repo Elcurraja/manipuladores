@@ -112,6 +112,12 @@ $(function(){
         }
     });
 
+    $("#borrar_descansos_btn").click(function(){
+        $("#modal_confirm_borrar_descansos").modal('hide');
+        $("#mensaje_confirm_borrar_descansos").empty();
+        eliminarDescansos();
+    });
+
     $("#mostrar_descansos").on("change", ".selec_descanso", function(){
         if ($(".selec_descanso:checked").length > 0) {
             $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", false);
@@ -124,8 +130,10 @@ $(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
+                $(this).parent().css('background-color','#FFE189')    
             } else {
                 $(this).find("input").prop("readonly", true);
+                $(this).parent().css('background-color','')   
             }
         });
     });

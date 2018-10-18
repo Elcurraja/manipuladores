@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     //DESHABILITAMOS O HABILITAMOS LA FILA DE INPUTS SI ESTA MARCADO EL CHECKBOX
     $("td").change(function(){
         var elementos = $(this).parent()[0];
