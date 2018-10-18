@@ -33,7 +33,7 @@
     }
 ?>
     
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir TipoLinea</button>
+    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir Nuevo</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
         <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar</button>

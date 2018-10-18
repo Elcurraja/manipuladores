@@ -34,12 +34,11 @@
     ?>
     <div class="container-fluid">
         <div id="tabla_mostrar_turnos">
-            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
+            <input type="button" class="btn btn-primary boton" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
+                <input type="button" class="btn btn-primary boton" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning boton" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
         </div>
-        <h4 class="text-center text-white bg-dark">TURNOS</h4>
         <h4 class="text-center" id="mensaje_turnos"></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="mostrar_turnos">

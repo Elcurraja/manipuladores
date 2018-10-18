@@ -1,4 +1,4 @@
-<nav class="menu navbar navbar-expand navbar-primary bg-primary">
+<nav class="menu navbar navbar-expand navbar-primary">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="menu nav-item">
@@ -33,10 +33,9 @@
       </ul>
     </div>
   </nav>
-  <h1 class="display-4"> 
-    <?php
+  <h4 class="msg text-center "><?php
       $var= (explode("/" , $_SERVER['PHP_SELF'])[2]);
       echo ucfirst(explode(".",$var)[0]);
-    ?>
-  </h1>
+    ?></h4>
+
  

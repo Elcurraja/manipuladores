@@ -31,7 +31,7 @@
         }
     ?>
     
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal" data-focus="true">Añadir Linea</button>
+    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal" data-focus="true">Añadir Nueva</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
      

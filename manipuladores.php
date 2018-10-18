@@ -25,12 +25,12 @@
     ?>
     <div class="container-fluid">
         <div id="tabla_mostrar_manip">
-            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
+            <input type="button" class="btn btn-primary boton" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
+                <input type="button" class="btn btn-primary boton" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning boton" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
             </div>
-            <h4 class="text-center text-white bg-dark">MANIPULADORES</h4>
+            
             <h4 class="text-center" id="mensaje_manip"></h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="mostrar_manip">
