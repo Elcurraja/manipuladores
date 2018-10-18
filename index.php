@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/lib/jquery-3.3.1.min.js"></script>
     <title>Portal Administracion</title>
 </head>
 <body>
@@ -15,6 +15,6 @@
     ?>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script> 
+    <script src="js/lib/bootstrap.min.js"></script> 
 </body>
 </html>

@@ -21,19 +21,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- ES NECESARIO CARGAR LOS PLUGINS EN ESTE ORDEN, DE LO CONTRARIO PUEDEN NO FUNCIONAR CORRECTAMENTE -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/lib/tempusdominus-bootstrap-4.min.css" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/fontello.css" />
-    <link rel="stylesheet" href="css/animation.css" />
-    <link rel="stylesheet" href="css/ajaxlivesearch.min.css" />
+    <link rel="stylesheet" href="css/lib/fontello.css" />
+    <link rel="stylesheet" href="css/lib/animation.css" />
+    <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="js/moment.min.js"></script>
-    <script type="text/javascript" src="js/moment_locale_es.js"></script>
-    <script type="text/javascript" src="js/tempusdominus-bootstrap-4.min.js"></script>
-    <script type="text/javascript" src="js/ajaxlivesearch.min.js"></script>
+
+    <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/moment.min.js"></script>
+    <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
+    <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
     <script type="text/javascript" src="js/descansos_script.js"></script>
     <style>
         #mensaje_descansos, #mostrar_descansos {
