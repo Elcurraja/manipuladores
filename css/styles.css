@@ -61,18 +61,6 @@ tbody tr td input[type="text"], tbody tr td span{
 .boton{
     font-size: 1.2em;
 }
-@media screen and (max-width: 600px){
-    table{
-        width:100%;
-    }
-    tbody tr td input[type="text"]{
-        font-size:.8em;
-    }
-    tbody tr td span{
-        width: 20px;
-    }
-    thead tr td{
-        font-size: .8em;
-    }
-  
+td input:not([readonly]){
+	background-color: #DFFFDE;
 }

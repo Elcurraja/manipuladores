@@ -1,4 +1,57 @@
 <?php
+require("mysqlConexion.php");
+if(isset($_POST['op'])){
+    switch($_POST['op']){
+        case "mostrarRegistros":
+     
+            mostrarRegistros($_POST['fecha']);
+        case 'update': 
+            //editarRegistroManipuladores();
+            break;
+        case 'delete':
+            //borrarRegistroManipuladores();
+            break;
+    }
+}
+// if(isset($_POST['op']) && $_POST['op']=="busqueda_fecha"){
+//     if(isset($_POST['fecha'])){
+//         mostrarRegistroManipuladores($_POST['fecha']);
+//     }
+// }
+function mostrarRegistros($fecha){
+    $conn=mysql_manipuladores();
+    if($fecha=="todos"){
+        $query= "SELECT * FROM registro_manipuladores";
+    }
+    else{
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
+        $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
+    }
+    //echo $query;
+    $resultQuery =$conn->query($query);
+    $response['datos'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        $fila = array(
+            'idregistro' => $fila['idregistro_manipulador'],
+            'idmanipulador' => $fila['idmanipulador'],
+            'idpuesto' => $fila['idpuesto'],
+            'idturno' => $fila['idturno'],
+            'fecha' => $fila['fecha'],
+            'hora_inicio' => $fila['hora_inicio'],
+            'hora_fin' => $fila['hora_fin'],
+            'idlinea' => $fila['idlinea']
+        );
+        array_push($response['datos'], $fila);
+    }
+    $conn->close();
+    echo json_encode($response);
+}
+
+
+
+
+
 function mostrarRegistroManipuladores($fecha="todos"){
     $conn=mysql_manipuladores();
     if($fecha=="todos"){

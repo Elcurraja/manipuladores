@@ -28,9 +28,8 @@
     <link rel="stylesheet" href="css/lib/animation.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
@@ -50,17 +49,20 @@
     <title>Acciones sobre Descansos</title>
 </head>
 <body>
-	<?php 
+    <?php 
         include("html/menu.php");
     ?>
-    <div class="container-fluid">
+        <h3 class="msg text-center">Descansos</h3>
+    </div>
+    <div class="container-fluid">    
+       
         <div id="tabla_mostrar_descansos">
-            <input type="button" class="btn btn-primary boton" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_descanso" />
+            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_descanso" />
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary boton" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning boton" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" disabled />
+                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" disabled />
             </div>
-           
+            
             <h4 class="text-center" id="mensaje_descansos"></h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="mostrar_descansos">
@@ -104,7 +106,7 @@
                                         <!-- "AJAX LIVE SEARCH" ES UN FORMULARIO DE BUSQUEDA PHP QUE MUESTRA EL RESULTADO
                                         A MEDIDA QUE SE ESCRIBE SIMILAR A LA FUNCION DE AUTOCOMPLETAR DE GOOGLE
                                         https://github.com/iranianpep/ajax-live-search -->
-                                        <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong> o por <strong>Apellidos</strong>: </label>
+                                        <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong>, por <strong>Nombre</strong> o por <strong>Apellidos</strong>: </label>
                                         <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
                                         <input type="text" class="form-control" name="idmanipulador" id="idmanipulador" readonly />
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->
@@ -195,10 +197,12 @@
                 onResultClick: function(e, data) {
                     // OBTENER EL VALOR DE LA PRIMERA COLUMNA (INDICE 0)
                     var selectedOne = $(data.selected).find('td').eq('0').text();
-
+                    var expreg = new RegExp("^There ");
                     /* ESTABLECER EL VALOR DEL INPUT Y DISPARADO MANUAL DEL EVENTO "CHANGE"
                        (SE USA SU CAPTURA PARA UN EVENTO DE COMPROBACION QUE ESTA EN EL ARCHIVO "descansos_script.js" ) */
-                    $('#idmanipulador').val(selectedOne).trigger("change");
+                    if(!expreg.test(selectedOne)){
+                        $('#idmanipulador').val(selectedOne).trigger("change");
+                    }
 
                     // OCULTAR LA TABLA DE RESULTADOS
                     $("#busqueda_manipulador").trigger('ajaxlivesearch:hide_result');

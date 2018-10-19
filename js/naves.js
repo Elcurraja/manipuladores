@@ -47,14 +47,14 @@ function guardarCampos(){
     })
 
     $.ajax({
-        url:"naves.php",
+        url:"php/naves.php",
         type:"POST",
         data:{
             "op": "update",
             "datos":arrayDatos,
         },
         success:function(respuesta){
-            location.href ="./naves.php";
+            location.href ="naves.php";
             console.log('Update realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
@@ -75,14 +75,14 @@ function borrarCampos(){
         }
     })
     $.ajax({
-        url:"naves.php",
+        url:"php/naves.php",
         type:"POST",
         data:{
             "op": "delete",
             "datos":arrayDatos,
         },
         success:function(respuesta){
-            location.href ="./naves.php";
+            location.href ="naves.php";
             console.log('Delete realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
@@ -94,14 +94,14 @@ function borrarCampos(){
 //RECOGEMOS LOS CAMPOS DEL MODAL PARA INSERTARLOS EN LA BD
 function addNave(){
     $.ajax({
-        url:"naves.php",
+        url:"php/naves.php",
         type:"POST",
         data:{
             "op": "add",
             "designacion":$("#designacion").val()
         },
         success:function(respuesta){
-            location.href ="./naves.php";
+            location.href ="naves.php";
             console.log('Linea insertada correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){

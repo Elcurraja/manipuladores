@@ -85,12 +85,12 @@ function addAusencia(){
         }
     }
     $.ajax({
-        url:"ausencias.php",
+        url:"php/ausencias_f.php",
         type:"POST",
         data: datos,
-        success:function(respuesta){
-            location.href ="./ausencias.php";
-            console.log('Linea insertada correctamente');
+        success:function(response){
+            location.href ="ausencias.php";
+            //console.log('Linea insertada correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
@@ -123,15 +123,14 @@ function updateAusencias(){
         }
     })
     $.ajax({
-        url:"ausencias.php",
+        url:"php/ausencias_f.php",
         type:"POST",
         data:{
             "op": "update",
             "datos":arrayDatos,
         },
         success:function(respuesta){
-            location.href ="./ausencias.php";
-            //console.log(respuesta)
+            location.href ="ausencias.php";
             //alert('Update realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
@@ -151,16 +150,15 @@ function borrarCampos(){
     })
     console.log(arrayDatos)
     $.ajax({
-        url:"ausencias.php",
+        url:"php/ausencias_f.php",
         type:"POST",
         data:{
             "op": "delete",
             "datos":arrayDatos,
         },
         success:function(respuesta){
-           
-            location.href ="./ausencias.php";
-            console.log('Delete realizado correctamente');
+            location.href ="ausencias.php";
+            //console.log('Delete realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);

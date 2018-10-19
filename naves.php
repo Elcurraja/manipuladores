@@ -11,25 +11,10 @@
 </head>
 <body>
     <?php
-        include("php/mysqlConexion.php");
         include("html/menu.php");
-        include("php/naves_f.php");
-     
-        if(isset($_POST['op'])){
-            switch($_POST['op']){
-                case 'add':
-                    addNave();
-                    break;
-                case 'update': 
-                    editarNaves();
-                    break;
-                case 'delete':
-                    borrarNaves();
-                    break;
-            }
-        }
     ?>
-    
+        <h3 class="msg text-center">Naves</h3>
+    </div>
     <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir Nueva</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
@@ -45,8 +30,9 @@
                 </tr>
             </thead>
                 <tbody>
-                <?php 
-                 mostrarNaves();
+                <?php
+                    include("php/naves_f.php");
+                    mostrarNaves();
                 ?>
             
             </tbody>

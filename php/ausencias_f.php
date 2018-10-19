@@ -1,4 +1,18 @@
 <?php
+include("mysqlConexion.php");
+  if(isset($_POST['op'])){
+    switch($_POST['op']){
+        case 'add':
+            addAusencia();
+            break;
+        case 'update': 
+            editarAusencias();
+            break;
+        case 'delete':
+            borrarAusencias();
+            break;
+    }
+}
 
 function mostrarAusencias(){
     $conn=mysql_manipuladores();

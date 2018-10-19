@@ -1,5 +1,18 @@
 <?php
-
+include("mysqlConexion.php");
+if(isset($_POST['op'])){
+    switch($_POST['op']){
+        case 'add':
+            addlinea();
+            break;
+        case 'update': 
+            editarLineas();
+            break;
+        case 'delete':
+            borrarLineas();
+            break;
+    }
+}
 function mostrarLineas(){
     $conn=mysql_manipuladores();
     $query= "SELECT * from lineas";

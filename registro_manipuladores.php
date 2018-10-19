@@ -16,39 +16,27 @@
 </head>
 <body>
 <?php
-    
-    require("php/mysqlConexion.php");
     include("html/menu.php");
-
-    if(isset($_POST['op'])){
-        switch($_POST['op']){
-            case 'update': 
-                include("php/registro_manipuladores_f.php");
-                editarRegistroManipuladores();
-                break;
-            case 'delete':
-                include("php/registro_manipuladores_f.php");
-                borrarRegistroManipuladores();
-                break;
-        }
-    }
 ?>
-
+        <h3 class="msg text-center">Registro Manipuladores</h3>
+    </div>
+    
         <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" />
+            <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha"/>
             <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                <button type="button" class="btn btn-primary" onclick ="mostrarRegistroPorFecha();"><i class="fa fa-search"></i></button>
             </div>
+            <button type="button" class="btn btn-primary" onclick ="mostrarRegistro();"><i class="fa fa-search"></i></button>
         </div>
+        <button type="button" id="mostrarTodos" class="btn btn-primary">Mostrar Todos</button>
         
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="fa fa-floppy-o"></i></button>
         <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar<i class="fa fa-trash-o"></i></button>
     </div>
-    <div id="tabla">
+    
         <div id="table-responsive">
-            <table class="table table-striped table-bordered"> 
+            <table class="table table-striped table-bordered" id="tabla_registro"> 
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -62,24 +50,11 @@
                         <th scope="col">IDLinea</th>
                     </tr>
                 </thead>
-                    <tbody>
-                    <?php 
-                    if(isset($_POST['op']) && $_POST['op']=="busqueda_fecha"){
-                        include("php/registro_manipuladores_f.php");
-                        if(isset($_POST['fecha'])){
-                            mostrarRegistroManipuladores($_POST['fecha']);
-                        }
-                    }
-                    if(!$_POST){
-                        include("php/registro_manipuladores_f.php");
-                            mostrarRegistroManipuladores();
-                    }
-                    ?>
-                
+                <tbody>                
                 </tbody>
             </table>
         </div>
-    </div>
+    
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

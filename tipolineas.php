@@ -11,29 +11,10 @@
 </head>
 <body>
 <?php
-    
-    require("php/mysqlConexion.php");
     include("html/menu.php");
-
-    if(isset($_POST['op'])){
-        switch($_POST['op']){
-            case 'add':
-                require("php/tipo_lineas_f.php");
-                addTipoLinea();
-                break;
-            case 'update': 
-                require("php/tipo_lineas_f.php");
-                editarTipoLineas();
-
-                break;
-            case 'delete':
-                require("php/tipo_lineas_f.php");
-                borrarTipoLineas();
-                break;
-        }
-    }
 ?>
-    
+        <h3 class="msg text-center">Tipo Lineas</h3>
+    </div>
     <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir Nuevo</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
@@ -60,37 +41,37 @@
         </table>
     </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Linea</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-striped table-bordered" id="add_manip">
-            <tbody>
-                <tr>
-                    <td>
-                        <label for="nombre">Nombre: </label>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="nombre" id="nombre" />
-                    </td>
-                </tr>
-                
-                
-            </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" onclick ="addTipoLinea();">Añadir Tipo Linea</button>
-      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Añadir Linea</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped table-bordered" id="add_manip">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="nombre">Nombre: </label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="nombre" id="nombre" />
+                        </td>
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick ="addTipoLinea();">Añadir Tipo Linea</button>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
 <?php 
     include("html/confirBorrar.html");

@@ -11,27 +11,10 @@
 </head>
 <body>
     <?php
-        include("php/mysqlConexion.php");
         include("html/menu.php");
-        include("php/lineas_f.php");
-        
-        // echo $_SERVER['REQUEST_URI'];
-
-        if(isset($_POST['op'])){
-            switch($_POST['op']){
-                case 'add':
-                    addlinea();
-                    break;
-                case 'update': 
-                    editarLineas();
-                    break;
-                case 'delete':
-                    borrarLineas();
-                    break;
-            }
-        }
     ?>
-    
+        <h3 class="msg text-center">Lineas</h3>
+    </div>
     <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal" data-focus="true">Añadir Nueva</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
@@ -52,8 +35,9 @@
                 </tr>
             </thead>
                 <tbody>
-                <?php 
-                 mostrarLineas();
+                <?php
+                    include("php/lineas_f.php");
+                    mostrarLineas();
                 ?>
             
             </tbody>

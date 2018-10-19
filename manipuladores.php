@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/manip_script.js"></script>
     <style>
         #mensaje_manip, #mostrar_manip {
@@ -20,17 +20,19 @@
     <title>Acciones sobre Manipuladores</title>
 </head>
 <body>
-	<?php 
+    <?php 
         include("html/menu.php");
     ?>
+        <h3 class="msg text-center">Manipuladores</h3>
+    </div>
     <div class="container-fluid">
-        <div id="tabla_mostrar_manip">
-            <input type="button" class="btn btn-primary boton" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
-            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary boton" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning boton" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
-            </div>
             
+        <div id="tabla_mostrar_manip">
+            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
+            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
+                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
+            </div>
             <h4 class="text-center" id="mensaje_manip"></h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="mostrar_manip">

@@ -46,24 +46,25 @@ function guardarCampos(){
     })
     
  $.ajax({
-        url:"tipolineas.php",
+        url:"php/tipo_lineas_f.php",
         type:"POST",
         data:{
             op: "update",
             datos:arrayDatos
         },
-        success: function(respuesta){
-            console.log(respuesta)
-            var json = JSON.parse(respuesta.error);
+        success: function(response){
+            console.log(response)
+            var json = JSON.parse(response.error);
             if (json.error == 1) {
                 console.log("Error en php: " + json.mensaje);
             }
         },
-        error: function(jqXHR,textStatus, errorThrown){
+        error: function(response,jqXHR,textStatus, errorThrown){
+            console.log(response)
             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
         }
     }).done(function(){
-        location.href ="./tipolineas.php";
+        location.href ="tipolineas.php";
     });
 }
 //RECORREMOS LAS FILAS, COGEMOS EL ID DE CADA FILA CHECKEADA Y LA BORRAMOS MEDIANTE AJAX
@@ -79,7 +80,7 @@ function borrarCampos(){
         }
     })
     $.ajax({
-        url:"tipolineas.php",
+        url:"php/tipo_lineas_f.php",
         type:"POST",
         data:{
             "op": "delete",
@@ -87,7 +88,7 @@ function borrarCampos(){
         },
         success:function(respuesta){
             //$('body').empty().html(respuesta);
-            location.href ="./tipolineas.php";
+            location.href ="tipolineas.php";
             console.log('Delete realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
@@ -99,14 +100,14 @@ function borrarCampos(){
 //RECOGEMOS LOS CAMPOS DEL MODAL PARA INSERTARLOS EN LA BD
 function addTipoLinea(){
     $.ajax({
-        url:"tipolineas.php",
+        url:"php/tipo_lineas_f.php",
         type:"POST",
         data:{
             "op": "add",
             "nombre":$("#nombre").val()
         },
         success:function(respuesta){
-            location.href ="./tipolineas.php";
+            location.href ="tipolineas.php";
             console.log('Linea insertada correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){

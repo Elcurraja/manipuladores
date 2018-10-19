@@ -1,5 +1,18 @@
 <?php
-
+require("mysqlConexion.php");
+if(isset($_POST['op'])){
+    switch($_POST['op']){
+        case 'add':
+            addTipoLinea();
+            break;
+        case 'update': 
+            editarTipoLineas();
+            break;
+        case 'delete':
+            borrarTipoLineas();
+            break;
+    }
+}
 function mostrarTipoLineas(){
     $conn=mysql_manipuladores();
     $query= "SELECT * from tipo_linea";
@@ -24,21 +37,22 @@ function editarTipoLineas(){
             $nombre= $fila['nombre'];
             $sql= "UPDATE tipo_linea SET nombre='$nombre' where idtipolinea=$id";
             $resultQuery = $conn->query($sql);
-            echo $sql;
             if (!$resultQuery) {
                 throw new Exception($conn->error);
             }
+            else{
+                $response['error'] = 0;
+            }
         }
-        $respuesta['error'] = 0;
         $conn->commit();
     } 
     catch (Exception $e) {
         $conn->rollback();
-        $respuesta['error'] = 1;
-        $respuesta['mensaje'] = $e->getMessage();
+        $response['error'] = 1;
+        $response['mensaje'] = $e->getMessage();
     }
     header('Content-type: application/json; charset=utf-8');
-    echo json_encode($respuesta);
+    echo json_encode($response);
 }
 
 function borrarTipoLineas(){

@@ -1,4 +1,5 @@
-<nav class="menu navbar sticky-top navbar-expand navbar-primary">
+<div id="cont" class="sticky-top">
+<nav class="menu navbar navbar-expand navbar-primary">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="menu_li nav-item">
@@ -35,23 +36,17 @@
       </ul>
     </div>
   </nav>
-    <h4 class="msg text-center ">
-    <?php
-      $var= (explode("/" , $_SERVER['PHP_SELF'])[2]);
-      echo ucfirst(explode(".",$var)[0]);
-    ?>
-    </h4>
 <script>
     //SCRIPT PARA AÑADIR UNA CLASE A UN DIV EN EL MENU PARA SABER DONDE ESTAMOS
   $(document).ready(function() {
     var url= (window.location.pathname).split("/")
-    if(url[2]=='manipuladores.php' || url[2]=='ausencias.php' || url[2]=='descansos.php'){
+    if(url[3]=='manipuladores.php' || url[3]=='ausencias.php' || url[3]=='descansos.php'){
         $("#divlow3").addClass("subdiv")
     }
-    else if(url[2]=='naves.php'|| url[2]=='lineas.php' || url[2]=='tipolineas.php' || url[2]=='turnos.php'){
+    else if(url[3]=='naves.php'|| url[3]=='lineas.php' || url[3]=='tipolineas.php' || url[3]=='turnos.php'){
         $("#divlow4").addClass("subdiv")
     }
-    else if(url[2]=='registro_manipuladores.php'){
+    else if(url[3]=='registro_manipuladores.php'){
         $("#divlow2").addClass("subdiv")
     }
     else{

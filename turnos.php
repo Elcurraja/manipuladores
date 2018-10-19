@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="css/lib/tempusdominus-bootstrap-4.min.css" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
@@ -33,12 +32,15 @@
 	<?php 
         include("html/menu.php");
     ?>
+        <h3 class="msg text-center">Turnos</h3>
+    </div>
     <div class="container-fluid">
+        
         <div id="tabla_mostrar_turnos">
-            <input type="button" class="btn btn-primary boton" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
+            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary boton" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning boton" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
+                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
+                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
         </div>
         <h4 class="text-center" id="mensaje_turnos"></h4>
         <div class="table-responsive">

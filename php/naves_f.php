@@ -1,5 +1,19 @@
 <?php
+include("mysqlConexion.php");
 
+if(isset($_POST['op'])){
+    switch($_POST['op']){
+        case 'add':
+            addNave();
+            break;
+        case 'update': 
+            editarNaves();
+            break;
+        case 'delete':
+            borrarNaves();
+            break;
+    }
+}
 function mostrarNaves(){
     $conn=mysql_manipuladores();
     $query= "SELECT * from naves";

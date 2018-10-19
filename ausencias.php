@@ -40,25 +40,10 @@
 </head>
 <body>
     <?php
-    
-        require("php/mysqlConexion.php");
         include("html/menu.php");
-        include("php/ausencias_f.php");
-        if(isset($_POST['op'])){
-            switch($_POST['op']){
-                case 'add':
-                    addAusencia();
-                    break;
-                case 'update': 
-                    editarAusencias();
-                    break;
-                case 'delete':
-                    borrarAusencias();
-                    break;
-            }
-        }
     ?>
-    
+        <h3 class="msg text-center">Ausencias</h3>
+    </div>
     <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir Nueva</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="updateAusencias();" disabled="disabled">Guardar</button>
@@ -81,6 +66,7 @@
                 <tbody>
                 <?php 
                 if(!$_POST){
+                    include("php/ausencias_f.php");
                     mostrarAusencias();
                 }
                 ?>

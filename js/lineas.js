@@ -51,7 +51,7 @@ function guardarCampos(){
     })
 
     $.ajax({
-        url:"lineas.php",
+        url:"php/lineas.php",
         type:"POST",
         data:{
             "op": "update",
@@ -78,7 +78,7 @@ function borrarCampos(){
         }
     })
     $.ajax({
-        url:"lineas.php",
+        url:"php/lineas.php",
         type:"POST",
         data:{
             "op": "delete",
@@ -87,7 +87,7 @@ function borrarCampos(){
         success:function(respuesta){
             location.href ="./lineas.php";
             //$('body').empty().html(respuesta);
-            console.log('Delete realizado correctamente');
+            //console.log('Delete realizado correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
@@ -98,7 +98,7 @@ function borrarCampos(){
 //RECOGEMOS LOS CAMPOS DEL MODAL PARA INSERTARLOS EN LA BD
 function addlinea(){
     $.ajax({
-        url:"lineas.php",
+        url:"php/lineas.php",
         type:"POST",
         data:{
             "op": "add",
@@ -109,9 +109,8 @@ function addlinea(){
             "puestosmax":$("#puestosmax").val()
         },
         success:function(respuesta){
-            //$('body').empty().html(respuesta);
             location.href ="./lineas.php";
-            console.log('Linea insertada correctamente');
+            //console.log('Linea insertada correctamente');
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
