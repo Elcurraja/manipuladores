@@ -23,7 +23,7 @@
     <title>Manipuladores</title>
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/lib/tempusdominus-bootstrap-4.min.css"/>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
@@ -44,10 +44,10 @@
     ?>
         <h3 class="msg text-center">Ausencias</h3>
     </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal">Añadir Nueva</button>
+    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="far fa-plus-square"></i> Añadir Nueva</button>
     <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="updateAusencias();" disabled="disabled">Guardar</button>
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar</button>
+        <button type="button" class="btn boton btn-primary" onclick ="updateAusencias();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
+        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
     </div>
     <div id="tabla">
         <table class="table table-striped table-bordered"> 
@@ -107,7 +107,7 @@
                         <div class="input-group date" id="fecha" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" data-target="#fecha"/>
                             <div class="input-group-append" data-target="#fecha" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                             </div>
                         </div>
                     </td>
@@ -118,8 +118,8 @@
                     </td>
                     <td>
                     <select id="esdiacompleto">
-                        <option value="1" >Si</option>
-                        <option value="0" selected>No</option>
+                        <option value="1" selected>Si</option>
+                        <option value="0" >No</option>
                     </select>
                     </td>
                 </tr>
@@ -131,7 +131,7 @@
                         <div class="input-group date" id="hora_inicio" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" data-target="#hora_inicio" />
                             <div class="input-group-append" data-target="#hora_inicio" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                <div class="input-group-text"><i class="far fa-clock"></i></div>
                             </div>
                         </div>
                     </td>
@@ -144,7 +144,7 @@
                         <div class="input-group date" id="hora_fin" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" data-target="#hora_fin" />
                             <div class="input-group-append" data-target="#hora_fin" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                <div class="input-group-text"><i class="far fa-clock"></i></div>
                             </div>
                         </div>
                     </td>

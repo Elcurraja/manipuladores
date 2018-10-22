@@ -3,21 +3,17 @@ require("mysqlConexion.php");
 if(isset($_POST['op'])){
     switch($_POST['op']){
         case "mostrarRegistros":
-     
             mostrarRegistros($_POST['fecha']);
+            break;
         case 'update': 
-            //editarRegistroManipuladores();
+            updateReg();
             break;
         case 'delete':
             //borrarRegistroManipuladores();
             break;
     }
 }
-// if(isset($_POST['op']) && $_POST['op']=="busqueda_fecha"){
-//     if(isset($_POST['fecha'])){
-//         mostrarRegistroManipuladores($_POST['fecha']);
-//     }
-// }
+
 function mostrarRegistros($fecha){
     $conn=mysql_manipuladores();
     if($fecha=="todos"){
@@ -28,9 +24,8 @@ function mostrarRegistros($fecha){
         $fechaF=date("Y-m-d",strtotime($var));
         $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
     }
-    //echo $query;
     $resultQuery =$conn->query($query);
-    $response['datos'] = array();
+    $response['datosReg'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
         $fila = array(
             'idregistro' => $fila['idregistro_manipulador'],
@@ -42,97 +37,59 @@ function mostrarRegistros($fecha){
             'hora_fin' => $fila['hora_fin'],
             'idlinea' => $fila['idlinea']
         );
-        array_push($response['datos'], $fila);
+        array_push($response['datosReg'], $fila);
     }
+    $query= "SELECT idturno FROM turnos";
+    $resultQuery =$conn->query($query);
+    $response['turnos'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        array_push($response['turnos'],$fila['idturno']);
+    }
+
+    $query= "SELECT idlinea FROM lineas";
+    $resultQuery =$conn->query($query);
+    $response['lineas'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        array_push($response['lineas'],$fila['idlinea']);
+    }
+
     $conn->close();
     echo json_encode($response);
 }
 
-
-
-
-
-function mostrarRegistroManipuladores($fecha="todos"){
+function updateReg(){
     $conn=mysql_manipuladores();
-    if($fecha=="todos"){
-        $query= "SELECT * FROM registro_manipuladores";
+    $conn->begin_transaction();
+    try {
+        foreach($_POST['datos'] as $fila){
+            $idregistro=$fila['idregistro'];
+            $idpuesto= $fila['idpuesto'];
+            $idturno=$fila['idturno'];
+            $fecha=date("Y-m-d",strtotime(str_replace("/","-",$fila['fecha'])));
+            $horainicio=$fila['horainicio'];
+            $horafin=$fila['horafin'];
+            $idlinea=$fila['idlinea'];
+            
+            $sql= "UPDATE registro_manipuladores 
+                SET idpuesto=$idpuesto,idturno=$idturno,fecha='$fecha',
+                hora_inicio='$horainicio',hora_fin='$horafin',idlinea=$idlinea
+                where idregistro_manipulador=$idregistro";
+            $resultQuery = $conn->query($sql);
+            if (!$resultQuery) {
+                throw new Exception($conn->error);
+            }
+            else{
+                $response['error'] = 0;
+            }
+        }
+        $conn->commit();
+    } 
+    catch (Exception $e) {
+        $conn->rollback();
+        $response['error'] = 1;
+        $response['mensaje'] = $e->getMessage();
     }
-    else{
-        $var= str_replace("/","-",$fecha);
-        $fechaF=date("Y-m-d",strtotime($var));
-        $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
-    }
-    $resultQuery =$conn->query($query);
-    $i=1;
-    while ($fila = $resultQuery->fetch_assoc()){
-    ?>
-    <tr class="fila">
-        <td><input type="checkbox" name="edit" class="checkedit"></td>
-        <td><span><?=$fila['idregistro_manipulador']?></span></td>
-        <td><span><?=$fila['idmanipulador']?></span></td>
-        <td><input type="text" name="idpuesto" value="<?=$fila['idpuesto']?>" class="input_s form-control" disabled="disable"></td>
-        <td><input type="text" name="idturno" value="<?=$fila['idturno']?>" class="input_s form-control" disabled="disable"></td>
-      
-        <td><div class="input-group date" id="fecha<?=$i ?>" data-target-input="nearest" >
-                <input type="text" class="form-control datetimepicker-input" data-target="#fecha<?=$i?>" disabled="disable">
-                <div class="input-group-append" data-target="#fecha<?=$i?>" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-                </div>
-            </div>
-            <script type="text/javascript">
-            $(function () {
-                var fecha= "<?=$fila['fecha']; ?>"
-                var indice ="<?=$i;?>"
-                $('#fecha'+indice).datetimepicker({
-                    locale: 'es',
-                    format: 'L',
-                    date:fecha
-                });
-            });
-            </script>
-        </td>
-        <td><div class="input-group date" id="hora_inicio_table<?=$i ?>" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#hora_inicio_table<?=$i?>" disabled="disable">
-                <div class="input-group-append" data-target="#hora_inicio_table<?=$i?>" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-                </div>
-            </div>
-            <script type="text/javascript">
-            $(function () {
-                var horai= "<?=$fila['hora_inicio']; ?>"
-                var indice ="<?=$i;?>"
-                $('#hora_inicio_table'+indice).datetimepicker({
-                    locale: 'es',
-                    format: 'LT',
-                    date:moment(horai,"HH:mm:ss")
-                });
-            });
-            </script>
-        </td>
-        <td><div class="input-group date" id="hora_fin_table<?=$i?>" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#hora_fin_table<?=$i?>" disabled="disable">
-                <div class="input-group-append" data-target="#hora_fin_table<?=$i?>" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-            </div>
-            </div>
-            <script type="text/javascript">
-            $(function () {
-                var horaf= "<?=$fila['hora_fin'];?>"
-                var indice ="<?=$i;?>"
-                $('#hora_fin_table'+indice).datetimepicker({
-                    locale: 'es',
-                    format: 'LT',
-                    date:moment(horaf,"HH:mm:ss")
-                });
-            });
-            </script> 
-        </td>
-
-
-        <td><input type="text" name="idlinea" value="<?=$fila['idlinea']?>" class="input_s form-control" disabled="disable"></td>
-    </tr>
-    <?php 
-    $i++;
-    }
+    header('Content-type: application/json; charset=utf-8');
+    echo json_encode($response);
 }
 ?>

@@ -7,7 +7,8 @@
     <!-- ES NECESARIO CARGAR LOS PLUGINS EN ESTE ORDEN, DE LO CONTRARIO PUEDEN NO FUNCIONAR CORRECTAMENTE -->
     <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
     <link rel="stylesheet" href="css/lib/tempusdominus-bootstrap-4.min.css" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
@@ -15,17 +16,6 @@
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/turnos_script.js"></script>
-    <style>
-        #mensaje_turnos, #mostrar_turnos {
-            display: none;
-        }
-        #grupo_actualizar_borrar_btns {
-            float: right;
-        }
-        .table-responsive{
-            overflow-x: visible;
-        }
-    </style>
     <title>Acciones sobre Turnos</title>
 </head>
 <body>
@@ -37,10 +27,10 @@
     <div class="container-fluid">
         
         <div id="tabla_mostrar_turnos">
-            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" />
+            <button type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" ><i class="far fa-plus-square"></i> Añadir nuevo</button>
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled />
+                <button type="button" class="btn btn-primary" id="guardar_cambios_btn" disabled ><i class="far fa-save"></i> Guardar cambios</button>
+                <button type="button" class="btn btn-warning" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
         </div>
         <h4 class="text-center" id="mensaje_turnos"></h4>
         <div class="table-responsive">
@@ -91,7 +81,7 @@
                                         <div class="input-group date" id="hora_inicio" data-target-input="nearest">
                                             <input type="text" class="form-control datetimepicker-input" data-target="#hora_inicio" />
                                             <div class="input-group-append" data-target="#hora_inicio" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                                <div class="input-group-text"><i class='far fa-clock'></i></div>
                                             </div>
                                         </div>
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->
@@ -107,7 +97,7 @@
                                         <div class="input-group date" id="hora_fin" data-target-input="nearest">
                                             <input type="text" class="form-control datetimepicker-input" data-target="#hora_fin" />
                                             <div class="input-group-append" data-target="#hora_fin" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                                <div class="input-group-text"><i class='far fa-clock'></i></div>
                                             </div>
                                         </div>
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->

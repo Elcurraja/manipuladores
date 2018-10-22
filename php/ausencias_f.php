@@ -29,7 +29,7 @@ function mostrarAusencias(){
         <td><div class="input-group date" id="fecha<?=$i ?>" data-target-input="nearest" >
                 <input type="text" class="form-control datetimepicker-input" data-target="#fecha<?=$i?>" disabled="disable">
                 <div class="input-group-append" data-target="#fecha<?=$i?>" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                 </div>
             </div>
             <script type="text/javascript">
@@ -48,7 +48,7 @@ function mostrarAusencias(){
         <td><div class="input-group date" id="hora_inicio_table<?=$i ?>" data-target-input="nearest">
                 <input type="text" class="form-control datetimepicker-input" data-target="#hora_inicio_table<?=$i?>" disabled="disable">
                 <div class="input-group-append" data-target="#hora_inicio_table<?=$i?>" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                    <div class="input-group-text"><i class="far fa-clock"></i></div>
                 </div>
             </div>
             <script type="text/javascript">
@@ -66,7 +66,7 @@ function mostrarAusencias(){
         <td><div class="input-group date" id="hora_fin_table<?=$i?>" data-target-input="nearest">
                 <input type="text" class="form-control datetimepicker-input" data-target="#hora_fin_table<?=$i?>" disabled="disable">
                 <div class="input-group-append" data-target="#hora_fin_table<?=$i?>" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                    <div class="input-group-text"><i class="far fa-clock"></i></div>
             </div>
             </div>
             <script type="text/javascript">

@@ -76,10 +76,19 @@ $(function(){
     });
 
     $("#guardar_nuevo_descanso_btn").click(function () {
-        if (!$("#idmanipulador").val() || !$("#tipo_descanso").val() || !$("#fecha_inicio").datetimepicker('date') || !$("#fecha_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_descanso_btn").prop("disabled", true);
-        } else {
+        var estaVacio = false;
+        try {
+            if (!$("#idmanipulador").val() || !$("#tipo_descanso").val() || !$("#fecha_inicio").datetimepicker('date').format("YYYY-MM-DD") || !$("#fecha_fin").datetimepicker('date').format("YYYY-MM-DD")) {
+                estaVacio = true;
+            }
+        } catch (error) {
+            console.log("Error: " + error.message);
+            estaVacio = true;
+        }
+        if (!estaVacio) {
             anyadirDescanso();
+        } else {
+            $("#guardar_nuevo_descanso_btn").prop("disabled", true);
         }
     });
 
@@ -87,15 +96,20 @@ $(function(){
        COMPRUEBA QUE TODOS LOS INPUTS CONTENGAN UN DATO ANTES DE PASARLOS POR AJAX */
     $("#guardar_cambios_btn").click(function(){
         var estaVacio = false;
-        $(".selec_descanso:checked").closest("tr").each(function(){
-            if(!$(this).find("td:nth-child(7) > div").datetimepicker('date') || !$(this).find("td:nth-child(8) > div").datetimepicker('date') || !$(this).find("td:nth-child(9) input").val()){
-                estaVacio = true;
-            }
-        });
-        if (estaVacio) {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
-        } else {
+        try {
+            $(".selec_descanso:checked").closest("tr").each(function(){
+                if(!$(this).find("td:nth-child(7) > div").datetimepicker('date').format("YYYY-MM-DD") || !$(this).find("td:nth-child(8) > div").datetimepicker('date').format("YYYY-MM-DD") || !$(this).find("td:nth-child(9) input").val()){
+                    estaVacio = true;
+                }
+            });
+        } catch (error) {
+            console.log("Error: " + error.message);
+            estaVacio = true;
+        }
+        if (!estaVacio) {
             editarDescansos();
+        } else {
+            mostrarDescansos();
         }
     });
 
@@ -152,7 +166,17 @@ $(function(){
                 if (respuesta.error == 0) {
                     $("#mostrar_descansos tbody").empty();
                     for (let index = 0; index < respuesta.datos.length; index++){
-                        $("#mostrar_descansos tbody").append("<tr><td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_descanso' /></div></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].iddescanso + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].nombre + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td><td><div class='input-group date' id='fecha_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='fa fa-calendar'></i></div></div></div></td><td><div class='input-group date' id='fecha_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_fin_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='fa fa-calendar'></i></div></div></div></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].tipo + "' readonly /></td></tr>");
+                        $("#mostrar_descansos tbody").append(
+                            "<tr>" +
+                            "<td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_descanso' /></div></td>" +
+                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].iddescanso + "' readonly /></td>" +
+                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].nombre + "' readonly /></td>" +
+                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
+                            "<td><div class='input-group date' id='fecha_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>" +
+                            "<td><div class='input-group date' id='fecha_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_fin_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>" +
+                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tipo + "' readonly /></td>" +
+                            "</tr>"
+                        );
                         $('#fecha_inicio_' + index).datetimepicker({
                             locale: 'es',
                             format: 'DD-MM-YYYY',

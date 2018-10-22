@@ -23,7 +23,8 @@
     <!-- ES NECESARIO CARGAR LOS PLUGINS EN ESTE ORDEN, DE LO CONTRARIO PUEDEN NO FUNCIONAR CORRECTAMENTE -->
     <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
     <link rel="stylesheet" href="css/lib/tempusdominus-bootstrap-4.min.css" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
@@ -35,17 +36,6 @@
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
     <script type="text/javascript" src="js/descansos_script.js"></script>
-    <style>
-        #mensaje_descansos, #mostrar_descansos {
-            display: none;
-        }
-        #grupo_actualizar_borrar_btns {
-            float: right;
-        }
-        .table-responsive{
-            overflow-x: visible;
-        }
-    </style>
     <title>Acciones sobre Descansos</title>
 </head>
 <body>
@@ -57,10 +47,10 @@
     <div class="container-fluid">    
        
         <div id="tabla_mostrar_descansos">
-            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_descanso" />
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_descanso" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" disabled />
+                <button type="button" class="btn btn-primary" id="guardar_cambios_btn" disabled ><i class="far fa-save"></i> Guardar cambios</button>
+                <button type="button" class="btn btn-warning" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" disabled ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
             </div>
             
             <h4 class="text-center" id="mensaje_descansos"></h4>
@@ -122,7 +112,7 @@
                                         <div class="input-group date" id="fecha_inicio" data-target-input="nearest">
                                             <input type="text" class="form-control datetimepicker-input" data-target="#fecha_inicio" />
                                             <div class="input-group-append" data-target="#fecha_inicio" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                             </div>
                                         </div>
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->
@@ -138,7 +128,7 @@
                                         <div class="input-group date" id="fecha_fin" data-target-input="nearest">
                                             <input type="text" class="form-control datetimepicker-input" data-target="#fecha_fin" />
                                             <div class="input-group-append" data-target="#fecha_fin" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                             </div>
                                         </div>
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->
@@ -197,7 +187,10 @@
                 onResultClick: function(e, data) {
                     // OBTENER EL VALOR DE LA PRIMERA COLUMNA (INDICE 0)
                     var selectedOne = $(data.selected).find('td').eq('0').text();
+
+                    // COMPROBAR QUE EL VALOR DEL INPUT NO ES EL DEL MENSAJE QUE APARECE CUANDO NO HAY RESULTADOS
                     var expreg = new RegExp("^There ");
+
                     /* ESTABLECER EL VALOR DEL INPUT Y DISPARADO MANUAL DEL EVENTO "CHANGE"
                        (SE USA SU CAPTURA PARA UN EVENTO DE COMPROBACION QUE ESTA EN EL ARCHIVO "descansos_script.js" ) */
                     if(!expreg.test(selectedOne)){
@@ -211,8 +204,14 @@
                     // OBTENER EL VALOR DE LA PRIMERA COLUMNA (INDICE 0)
                     var selectedOne = $(data.selected).find('td').eq('0').text();
 
-                    // ESTABLECER EL VALOR DEL INPUT
-                    $('#idmanipulador').val(selectedOne);
+                    // COMPROBAR QUE EL VALOR DEL INPUT NO ES EL DEL MENSAJE QUE APARECE CUANDO NO HAY RESULTADOS
+                    var expreg = new RegExp("^There ");
+
+                    /* ESTABLECER EL VALOR DEL INPUT Y DISPARADO MANUAL DEL EVENTO "CHANGE"
+                       (SE USA SU CAPTURA PARA UN EVENTO DE COMPROBACION QUE ESTA EN EL ARCHIVO "descansos_script.js" ) */
+                    if(!expreg.test(selectedOne)){
+                        $('#idmanipulador').val(selectedOne).trigger("change");
+                    }
 
                     // OCULTAR LA TABLA DE RESULTADOS
                     $("#busqueda_manipulador").trigger('ajaxlivesearch:hide_result');

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Manipuladores</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/lib/jquery-3.3.1.min.js"></script>
@@ -15,11 +16,11 @@
     ?>
         <h3 class="msg text-center">Lineas</h3>
     </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal" data-focus="true">Añadir Nueva</button>
+    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal" data-focus="true"><i class="far fa-plus-square"></i> Añadir Nueva</button>
     <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar</button>
+        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
      
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar</button>
+        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
     </div>
     <div id="tabla">
         <table class="table table-striped table-bordered"> 

@@ -5,18 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/manip_script.js"></script>
-    <style>
-        #mensaje_manip, #mostrar_manip {
-            display: none;
-        }
-        #grupo_actualizar_borrar_btns {
-            float: right;
-        }
-    </style>
     <title>Acciones sobre Manipuladores</title>
 </head>
 <body>
@@ -28,37 +22,35 @@
     <div class="container-fluid">
             
         <div id="tabla_mostrar_manip">
-            <input type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_manip" />
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_manip" ><i class="far fa-address-card"></i> Añadir nuevo</button>
             <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <input type="button" class="btn btn-primary" value="Guardar cambios" id="guardar_cambios_btn" disabled />
-                <input type="button" class="btn btn-warning" value="Borrar Seleccionados" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled />
+                <button type="button" class="btn btn-primary" id="guardar_cambios_btn" disabled ><i class="far fa-save"></i> Guardar cambios</button>
+                <button type="button" class="btn btn-warning" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
             </div>
             <h4 class="text-center" id="mensaje_manip"></h4>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="mostrar_manip">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Selecciona</th>
-                            <th scope="col">Id</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
-                            <th scope="col">DNI / Pasaporte</th>
-                            <th scope="col">Teléfono</th>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Dias Seguidos Trabajados</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Teléfono Familiar</th>
-                            <th scope="col">Fiabilidad</th>
-                            <th scope="col">Velocidad</th>
-                            <th scope="col">Disponibilidad</th>
-                            <th scope="col">Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table class="table table-responsive table-bordered table-hover" id="mostrar_manip">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Selecciona</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">DNI / Pasaporte</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Dias Seguidos Trabajados</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Teléfono Familiar</th>
+                        <th scope="col">Fiabilidad</th>
+                        <th scope="col">Velocidad</th>
+                        <th scope="col">Disponibilidad</th>
+                        <th scope="col">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
         <!-- MODAL DE AÑADIR NUEVO MANIPULADOR 
              https://getbootstrap.com/docs/4.1/components/modal/ -->

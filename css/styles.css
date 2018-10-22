@@ -58,9 +58,26 @@ tbody tr td input[type="text"], tbody tr td span{
 .input_g{
     width: 250px;
 }
+.selectReg{
+    width: 80px;
+}
 .boton{
     font-size: 1.2em;
 }
-td input:not([readonly]){
+#mostrarTodos{
+    margin-left: 20px;
+}
+/* SELECTORES ESPECIFICOS PARA LAS PAGINAS */
+td input:enabled{
 	background-color: #DFFFDE;
+}
+.table-responsive{
+	overflow-x: visible;
+}
+#grupo_actualizar_borrar_btns {
+	float: right;
+}
+/* MANIPULADORES, DESCANSOS, TURNOS */
+#mensaje_manip, #mostrar_manip, #mensaje_descansos, #mostrar_descansos, #mensaje_turnos, #mostrar_turnos {
+            display: none;
 }

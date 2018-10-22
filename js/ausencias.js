@@ -50,8 +50,10 @@ $(document).ready(function() {
         } 
     })
 
+    //POR DEFECTO OCULTA EN EL MODAL DE AÑADIR AUSENCIA LOS INPUTS PARA LAS HORAS, 
+    //AL CAMBIAR SI ES DIA COMPLETO A NO, LOS MOSTRAMOS
+    $('.hora').css("display","none")
     $('#esdiacompleto').change(function(){
-        
         if ($('#esdiacompleto').val()==1){
             $('.hora').css("display","none")
         }

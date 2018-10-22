@@ -7,7 +7,7 @@
     <title>Manipuladores</title>
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/lib/tempusdominus-bootstrap-4.min.css"/>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
@@ -22,17 +22,18 @@
     </div>
     
         <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha"/>
+            <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
             <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
             </div>
-            <button type="button" class="btn btn-primary" onclick ="mostrarRegistro();"><i class="fa fa-search"></i></button>
+            <button type="button" class="btn btn-primary" onclick ="showReg();"><i class="fa fa-search"></i></button>
         </div>
+
         <button type="button" id="mostrarTodos" class="btn btn-primary">Mostrar Todos</button>
         
     <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="fa fa-floppy-o"></i></button>
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar<i class="fa fa-trash-o"></i></button>
+        <button type="button" class="btn boton btn-primary" onclick ="updateReg();" disabled="disabled"><i class="far fa-save"></i> Guardar </button>
+        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
     </div>
     
         <div id="table-responsive">

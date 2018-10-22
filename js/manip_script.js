@@ -3,7 +3,7 @@ $(function(){
     /* COMPROBACION INICIAL EXISTENCIA DE DATOS EN 'manipuladores'.
        SI EXISTEN SE MUESTRA LA TABLA, SI NO, SE MUESTRA UN MENSAJE */
     $.ajax({
-        url: "php/manipuladores.php",
+        url: "php/manipuladores_ajax.php",
         type: "post",
         dataType: "json",
         data: {
@@ -122,7 +122,7 @@ $(function(){
 /* ---------------------------------------------------------------- FUNCIONES ------------------------------------------------------------ */
     function mostrarManipuladores(){
         $.ajax({
-            url: "php/manipuladores.php",
+            url: "php/manipuladores_ajax.php",
             type: "post",
             dataType : "json",
             data: {
@@ -133,7 +133,24 @@ $(function(){
                     // https://stackoverflow.com/questions/10782054/what-does-the-tilde-squiggle-twiddle-css-selector-mean
                     $("#mostrar_manip tbody tr").remove();
                     for (let index = 0; index < respuesta.datos.length; index++) {
-                        $("#mostrar_manip tbody").append("<tr><td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_manip' /></div></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td><td><input type='text' class='form-control' value='" +  respuesta.datos[index].nombre + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].telefono + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].direccion + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].email + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].velocidad + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td></tr>");
+                        $("#mostrar_manip tbody").append(
+                        "<tr>" +
+                        "<td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_manip' /></div></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" +  respuesta.datos[index].nombre + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].telefono + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].direccion + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].email + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].velocidad + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td>" +
+                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td>" +
+                        "</tr>"
+                    );
                     }
                     $("#mostrar_manip").css("display", "table");
                 } else {
@@ -165,7 +182,7 @@ $(function(){
             var disponibilidad = $("#disponibilidad").val()
         }
         $.ajax({
-            url: "php/manipuladores.php",
+            url: "php/manipuladores_ajax.php",
             type: "post",
             dataType: "json",
             data: {
@@ -235,7 +252,7 @@ $(function(){
             array.push(temp);
         });
         $.ajax({
-            url: "php/manipuladores.php",
+            url: "php/manipuladores_ajax.php",
             type: "post",
             dataType: "json",
             data: {
@@ -264,7 +281,7 @@ $(function(){
             array.push(temp);
         });
         $.ajax({
-            url: "php/manipuladores.php",
+            url: "php/manipuladores_ajax.php",
             type: "post",
             dataType: "json",
             data: {

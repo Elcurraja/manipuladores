@@ -53,14 +53,12 @@ function guardarCampos(){
             datos:arrayDatos
         },
         success: function(response){
-            console.log(response)
             var json = JSON.parse(response.error);
             if (json.error == 1) {
                 console.log("Error en php: " + json.mensaje);
             }
         },
         error: function(response,jqXHR,textStatus, errorThrown){
-            console.log(response)
             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
         }
     }).done(function(){

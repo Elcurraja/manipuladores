@@ -47,7 +47,7 @@ function guardarCampos(){
     })
 
     $.ajax({
-        url:"php/naves.php",
+        url:"php/naves_f.php",
         type:"POST",
         data:{
             "op": "update",
@@ -75,7 +75,7 @@ function borrarCampos(){
         }
     })
     $.ajax({
-        url:"php/naves.php",
+        url:"php/naves_f.php",
         type:"POST",
         data:{
             "op": "delete",
@@ -94,7 +94,7 @@ function borrarCampos(){
 //RECOGEMOS LOS CAMPOS DEL MODAL PARA INSERTARLOS EN LA BD
 function addNave(){
     $.ajax({
-        url:"php/naves.php",
+        url:"php/naves_f.php",
         type:"POST",
         data:{
             "op": "add",

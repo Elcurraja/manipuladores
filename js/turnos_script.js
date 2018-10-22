@@ -5,7 +5,7 @@ $(function(){
     /* COMPROBACION INICIAL EXISTENCIA DE DATOS EN 'turnos'.
        SI EXISTEN SE MUESTRA LA TABLA, SI NO, SE MUESTRA UN MENSAJE */
     $.ajax({
-        url: "php/turnos.php",
+        url: "php/turnos_ajax.php",
         type: "post",
         dataType : "json",
         data: {
@@ -79,12 +79,20 @@ $(function(){
     /* AÑADIR NUEVO TURNO
        COMPRUEBA QUE TODOS LOS INPUTS CONTENGAN UN DATO ANTES DE PASARLOS POR AJAX */
     $("#guardar_nuevo_turno_btn").click(function(){
-        if (!$("#franja").val() || !$("#hora_inicio").datetimepicker('date') || !$("#hora_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_turno_btn").prop("disabled", true);
-            $("#mensaje_anyadir_turno").text("Todos los campos han de tener datos");
-            //console.log("Mensaje: " + $("#mensaje_anyadir_turno").text());
-        } else {
+        var estaVacio = false;
+        try {
+            if (!$("#franja").val() || !$("#hora_inicio").datetimepicker('date').format("LT") || !$("#hora_fin").datetimepicker('date').format("LT")) {
+                estaVacio = true;
+            }
+        } catch (error) {
+            console.log("Error: " + error.message);
+            estaVacio = true;
+        }
+        if (!estaVacio) {
             anyadirTurno();
+        } else {
+            $("#guardar_nuevo_turno_btn").prop("disabled", true);
+            $("#mensaje_anyadir_turno").text("Todos los campos han de tener datos válidos");
         }
     });
 
@@ -92,15 +100,20 @@ $(function(){
        COMPRUEBA QUE TODOS LOS INPUTS CONTENGAN UN DATO ANTES DE PASARLOS POR AJAX */
     $("#guardar_cambios_btn").click(function(){
         var estaVacio = false;
-        $(".selec_turno:checked").closest("tr").each(function(){
-            if(!$(this).find("td:nth-child(3) input").val() || !$(this).find("td:nth-child(4) > div").datetimepicker('date').format('LT') || !$(this).find("td:nth-child(5) > div").datetimepicker('date').format('LT')){
-                estaVacio = true;
-            }
-        });
-        if (estaVacio) {
-            $("#guardar_cambios_btn").prop("disabled", true);
-        } else {
+        try {
+            $(".selec_turno:checked").closest("tr").each(function(){
+                if(!$(this).find("td:nth-child(3) input").val() || !$(this).find("td:nth-child(4) > div").datetimepicker('date').format('LT') || !$(this).find("td:nth-child(5) > div").datetimepicker('date').format('LT')){
+                    estaVacio = true;
+                }
+            });
+        } catch (error) {
+            console.log("Error: " + error.message);
+            estaVacio = true;
+        }
+        if (!estaVacio) {
             editarTurnos();
+        } else {
+            mostrarTurnos();
         }
     });
 
@@ -149,7 +162,7 @@ $(function(){
     /* ---------------------------------------------------------- FUNCIONES --------------------------------------------------- */
     function anyadirTurno(){
         $.ajax({
-            url: "php/turnos.php",
+            url: "php/turnos_ajax.php",
             type: "post",
             dataType : "json",
             data: {
@@ -178,7 +191,7 @@ $(function(){
 
     function mostrarTurnos(){
         $.ajax({
-            url: "php/turnos.php",
+            url: "php/turnos_ajax.php",
             type: "post",
             dataType : "json",
             data: {
@@ -188,7 +201,15 @@ $(function(){
                 if (respuesta.error == 0) {
                     $("#mostrar_turnos tbody tr").remove();
                     for (let index = 0; index < respuesta.datos.length; index++) {
-                        $("#mostrar_turnos tbody").append("<tr><td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_turno' /></div></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].idturno + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].franja + "' readonly /></td><td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='fa fa-clock-o'></i></div></div></div></td><td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' readonly /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='fa fa-clock-o'></i></div></div></div></td></tr>");
+                        $("#mostrar_turnos tbody").append(
+                            "<tr>" +
+                            "<td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_turno' /></div></td>" +
+                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idturno + "' readonly /></td>" +
+                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].franja + "' readonly /></td>" +
+                            "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
+                            "<td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' readonly /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
+                            "</tr>"
+                        );
                         $('#hora_inicio_' + index).datetimepicker({
                             locale: 'es',
                             format: 'LT',
@@ -231,7 +252,7 @@ $(function(){
             array.push(temp);
         });
         $.ajax({
-            url: "php/turnos.php",
+            url: "php/turnos_ajax.php",
             type: "post",
             dataType : "json",
             data: {
@@ -260,7 +281,7 @@ $(function(){
             array.push(temp);
         });
         $.ajax({
-            url: "php/turnos.php",
+            url: "php/turnos_ajax.php",
             type: "post",
             dataType : "json",
             data: {
