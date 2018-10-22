@@ -45,7 +45,7 @@ li.menu_li a:hover {
     float: left;
     width: 300px;
 }
-tbody tr td input[type="text"], tbody tr td span{
+tbody tr td input[type="text"], tbody tr td span,.selectReg{
     font-weight: bold;
     text-align: center;
 }
