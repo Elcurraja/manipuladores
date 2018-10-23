@@ -30,12 +30,12 @@
         </div>
 
         <button type="button" id="mostrarTodos" class="btn btn-primary">Mostrar Todos</button>
+        <button type="button" class="btn btn-primary" onclick ="window.location.href='./reasignarpuesto.php'">Reasignar Puesto </button>
         
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="updateReg();" disabled="disabled"><i class="far fa-save"></i> Guardar </button>
         <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
     </div>
-    
         <div id="table-responsive">
             <table class="table table-striped table-bordered" id="tabla_registro"> 
                 <thead class="thead-dark">

@@ -64,9 +64,44 @@ tbody tr td input[type="text"], tbody tr td span,.selectReg{
 .boton{
     font-size: 1.2em;
 }
-#mostrarTodos{
+
+#botonVolver{
+    float: left;
+    margin-bottom: 20px;
+}
+.clear{
+    clear: both;
+}
+#conf{
+    width: auto;
+}
+#buscadorReasignar{
+    margin-bottom: 20px;
+}
+#nombreB,#info,#fecha input,#mostrarTodos,#buscarReg{
     margin-left: 20px;
 }
+#nombreB,#nombreInfo,#fechaInfo{
+    float:left; 
+}
+#nombreInfo,#fechaInfo,#nombreInfo input,#fechaInfo input{
+    font-size: 20px;
+    font-weight: bold;
+}
+#nombreInfo, #fechaInfo{
+    margin-bottom: 10px;
+    margin-top: 20px;
+  
+}
+#nombreInfo input{
+    width: 400px;
+    border: none;
+    background-color: white;
+}
+#fechaB input{
+    width: 150px;
+}
+
 /* SELECTORES ESPECIFICOS PARA LAS PAGINAS */
 td input:enabled, td select:enabled{
 	background-color: #DFFFDE;

@@ -11,18 +11,29 @@ if(isset($_POST['op'])){
         case 'delete':
             //borrarRegistroManipuladores();
             break;
+        case 'buscarReg': 
+        mostrarRegistros($_POST['fecha'],$_POST['id']);
+        break;
     }
 }
 
-function mostrarRegistros($fecha){
+function mostrarRegistros($fecha,$id=0){
     $conn=mysql_manipuladores();
-    if($fecha=="todos"){
-        $query= "SELECT * FROM registro_manipuladores";
-    }
-    else{
+    if($id!=0){
         $var= str_replace("/","-",$fecha);
         $fechaF=date("Y-m-d",strtotime($var));
-        $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
+        $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF' AND idmanipulador=$id";
+    }
+    else{
+
+        if($fecha=="todos"){
+            $query= "SELECT * FROM registro_manipuladores";
+        }
+        else{
+            $var= str_replace("/","-",$fecha);
+            $fechaF=date("Y-m-d",strtotime($var));
+            $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
+        }
     }
     $resultQuery =$conn->query($query);
     $response['datosReg'] = array();
@@ -39,18 +50,20 @@ function mostrarRegistros($fecha){
         );
         array_push($response['datosReg'], $fila);
     }
-    $query= "SELECT idturno FROM turnos";
-    $resultQuery =$conn->query($query);
-    $response['turnos'] = array();
-    while ($fila = $resultQuery->fetch_assoc()){
-        array_push($response['turnos'],$fila['idturno']);
-    }
-
-    $query= "SELECT idlinea FROM lineas";
-    $resultQuery =$conn->query($query);
-    $response['lineas'] = array();
-    while ($fila = $resultQuery->fetch_assoc()){
-        array_push($response['lineas'],$fila['idlinea']);
+    if($id==0){
+        $query= "SELECT idturno FROM turnos";
+        $resultQuery =$conn->query($query);
+        $response['turnos'] = array();
+        while ($fila = $resultQuery->fetch_assoc()){
+            array_push($response['turnos'],$fila['idturno']);
+        }
+        
+        $query= "SELECT idlinea FROM lineas";
+        $resultQuery =$conn->query($query);
+        $response['lineas'] = array();
+        while ($fila = $resultQuery->fetch_assoc()){
+            array_push($response['lineas'],$fila['idlinea']);
+        }
     }
 
     $conn->close();

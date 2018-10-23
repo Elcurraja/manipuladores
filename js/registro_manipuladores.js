@@ -46,7 +46,6 @@ $(document).ready(function() {
     showReg()
 })
 
-
 function showReg(){
     if ($("#busqueda_fecha").datetimepicker('date')==null){
         var datos ={
