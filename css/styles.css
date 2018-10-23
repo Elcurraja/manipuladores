@@ -68,7 +68,7 @@ tbody tr td input[type="text"], tbody tr td span,.selectReg{
     margin-left: 20px;
 }
 /* SELECTORES ESPECIFICOS PARA LAS PAGINAS */
-td input:enabled{
+td input:enabled, td select:enabled{
 	background-color: #DFFFDE;
 }
 .table-responsive{
@@ -80,4 +80,7 @@ td input:enabled{
 /* MANIPULADORES, DESCANSOS, TURNOS */
 #mensaje_manip, #mostrar_manip, #mensaje_descansos, #mostrar_descansos, #mensaje_turnos, #mostrar_turnos {
             display: none;
+}
+.bootstrap-datetimepicker-widget {
+    z-index: 1021;
 }
