@@ -11,7 +11,7 @@
  Target Server Version : 50633
  File Encoding         : 65001
 
- Date: 19/10/2018 14:13:19
+ Date: 24/10/2018 14:05:42
 */
 
 SET NAMES utf8mb4;
@@ -93,20 +93,24 @@ CREATE TABLE `lineas`  (
   `idtipolinea` int(11) NOT NULL,
   `estadisponible` tinyint(1) NULL DEFAULT 0,
   `puestos_maximos` int(11) NULL DEFAULT NULL,
+  `fiabilidad` int(1) NULL DEFAULT NULL,
+  `velocidad` int(1) NULL DEFAULT NULL,
+  `disponibilidad` int(1) NULL DEFAULT NULL,
   PRIMARY KEY (`idlinea`) USING BTREE,
   INDEX `lineas_idnave_fk_idx`(`idnave`) USING BTREE,
   INDEX `lineas_idtipolinea_fk_idx`(`idtipolinea`) USING BTREE,
   CONSTRAINT `lineas_idnave_fk` FOREIGN KEY (`idnave`) REFERENCES `naves` (`idnave`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `lineas_idtipolinea_fk` FOREIGN KEY (`idtipolinea`) REFERENCES `tipo_linea` (`idtipolinea`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of lineas
 -- ----------------------------
-INSERT INTO `lineas` VALUES (2, 'linea 2', 1, 2, 1, 22);
-INSERT INTO `lineas` VALUES (3, 'linea 3', 3, 3, 0, 20);
-INSERT INTO `lineas` VALUES (4, 'linea 4', 1, 1, 0, NULL);
-INSERT INTO `lineas` VALUES (9, 'linea 5', 4, 3, 0, 11);
+INSERT INTO `lineas` VALUES (2, 'linea 2', 2, 2, 1, 222, 2, 2, 2);
+INSERT INTO `lineas` VALUES (3, 'linea 3', 3, 3, 2, 33, 3, 3, 3);
+INSERT INTO `lineas` VALUES (4, 'linea 4', 1, 1, 0, 10, 3, 5, 1);
+INSERT INTO `lineas` VALUES (9, 'linea 5', 4, 3, 0, 11, 7, 8, 9);
+INSERT INTO `lineas` VALUES (11, '9', 9, 9, 1, 9, 9, 9, 9);
 
 -- ----------------------------
 -- Table structure for manipuladores
@@ -127,7 +131,7 @@ CREATE TABLE `manipuladores`  (
   `disponibilidad` int(11) NULL DEFAULT 0,
   `observaciones` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idmanipulador`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of manipuladores
@@ -135,9 +139,10 @@ CREATE TABLE `manipuladores`  (
 INSERT INTO `manipuladores` VALUES (1, 'julio', 'Gomez Restrepo', '78945612o', '987654123', 'adif adifjaijf di oapsdofij 6', 0, 'regisof_viveros@app.com', '456123789', 0, 0, 0, 'observaciones');
 INSERT INTO `manipuladores` VALUES (3, 'Silvia', 'Gil Piñero', '45871243b', '', '', 0, '', '', 0, 0, 0, 'observaciones');
 INSERT INTO `manipuladores` VALUES (4, 'Tamara', 'gvbnmvbnmvbnm', '46798241j', '102345687', 'iuyt uttb y ytuyiuytyt', 0, 'asdfasdfasdf@oppijdfio', '989879877', 0, 0, 0, 'poiu');
-INSERT INTO `manipuladores` VALUES (5, 'Lidia', 'gvbcvbcvbcvbcvbcv', '4821741b', '111223344', 'kgkg kj jhk kjg kj kjghk', 0, 'kjhgkug7u8', '999887755', 0, 0, 0, 'null');
+INSERT INTO `manipuladores` VALUES (5, 'Lidia', 'Gomez Garcia lorca', '4821741b', '111223344', 'kgkg kj jhk kjg kj kjghk', 0, 'kjhgkug7u8', '999887755', 0, 0, 0, 'null');
 INSERT INTO `manipuladores` VALUES (10, 'Manuela', 'Garcia', '98765341c', '', '', 0, '', '', 0, 0, 0, 'null');
 INSERT INTO `manipuladores` VALUES (12, 'Antonia', 'Gines Copano', '48569654l', '', '', 0, '', '', 0, 0, 0, 'ñacañaca');
+INSERT INTO `manipuladores` VALUES (13, 'Rafaela', 'Carrá Suarez', '35775335l', '', '', 0, '', '', 0, 0, 0, '');
 
 -- ----------------------------
 -- Table structure for naves
@@ -152,11 +157,11 @@ CREATE TABLE `naves`  (
 -- ----------------------------
 -- Records of naves
 -- ----------------------------
-INSERT INTO `naves` VALUES (1, 'prue');
-INSERT INTO `naves` VALUES (2, 'si');
-INSERT INTO `naves` VALUES (3, 'si');
-INSERT INTO `naves` VALUES (4, 'no');
-INSERT INTO `naves` VALUES (9, 'casual');
+INSERT INTO `naves` VALUES (1, 'Nave 1');
+INSERT INTO `naves` VALUES (2, 'Nave 2');
+INSERT INTO `naves` VALUES (3, 'Garage');
+INSERT INTO `naves` VALUES (4, 'Criadero');
+INSERT INTO `naves` VALUES (9, 'Oficinas');
 
 -- ----------------------------
 -- Table structure for puestos
@@ -190,14 +195,17 @@ CREATE TABLE `registro_manipuladores`  (
   CONSTRAINT `registroManipuladores_idlinea_fk` FOREIGN KEY (`idlinea`) REFERENCES `lineas` (`idlinea`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `registroManipuladores_idmanipulador_fk` FOREIGN KEY (`idmanipulador`) REFERENCES `manipuladores` (`idmanipulador`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `registroManipuladores_idturno_fk` FOREIGN KEY (`idturno`) REFERENCES `turnos` (`idturno`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of registro_manipuladores
 -- ----------------------------
-INSERT INTO `registro_manipuladores` VALUES (1, 1, '2', 4, '2018-10-17', '14:10:35', '17:10:38', 2);
-INSERT INTO `registro_manipuladores` VALUES (2, 3, '5', 5, '2018-10-17', '13:11:26', '13:11:24', 3);
-INSERT INTO `registro_manipuladores` VALUES (3, 5, '4', 5, '2018-10-18', '13:11:41', '13:11:44', 4);
+INSERT INTO `registro_manipuladores` VALUES (1, 1, '2', 4, '2018-10-17', '02:00:00', '04:02:00', 2);
+INSERT INTO `registro_manipuladores` VALUES (2, 3, '2222', 5, '2018-10-17', '13:11:00', '13:11:00', 3);
+INSERT INTO `registro_manipuladores` VALUES (3, 5, '4', 6, '2018-10-18', '13:11:00', '13:11:00', 9);
+INSERT INTO `registro_manipuladores` VALUES (4, 5, '3', 10, '2018-10-22', '08:00:00', '09:30:00', 9);
+INSERT INTO `registro_manipuladores` VALUES (5, 5, '3', 10, '2018-10-22', '09:30:00', '11:00:00', 3);
+INSERT INTO `registro_manipuladores` VALUES (6, 5, '3', 10, '2018-10-22', '11:00:00', '12:00:00', 4);
 
 -- ----------------------------
 -- Table structure for tipo_linea
@@ -229,14 +237,16 @@ CREATE TABLE `turnos`  (
   `hora_inicio` time(0) NULL DEFAULT NULL,
   `hora_fin` time(0) NULL DEFAULT NULL,
   PRIMARY KEY (`idturno`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of turnos
 -- ----------------------------
-INSERT INTO `turnos` VALUES (4, 'Turno de Noche', '21:00:00', '03:30:00');
-INSERT INTO `turnos` VALUES (5, 'dsarew', '10:00:00', '16:00:00');
-INSERT INTO `turnos` VALUES (6, 'asdad', '14:05:00', '14:05:00');
+INSERT INTO `turnos` VALUES (4, 'Turno de Dia', '08:00:00', '14:30:00');
+INSERT INTO `turnos` VALUES (5, 'Turno de Tarde', '14:30:00', '21:00:00');
+INSERT INTO `turnos` VALUES (6, 'Turno de Noche', '21:00:00', '03:30:00');
 INSERT INTO `turnos` VALUES (8, 'asdñfloaidsfj', '14:30:00', '14:30:00');
+INSERT INTO `turnos` VALUES (9, 'prueba', '09:50:00', '09:50:00');
+INSERT INTO `turnos` VALUES (10, 'Turno de día', '08:00:00', '14:30:00');
 
 SET FOREIGN_KEY_CHECKS = 1;
