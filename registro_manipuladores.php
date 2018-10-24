@@ -30,7 +30,7 @@
         </div>
 
         <button type="button" id="mostrarTodos" class="btn btn-primary">Mostrar Todos</button>
-        <button type="button" class="btn btn-primary" onclick ="window.location.href='./reasignarpuesto.php'">Reasignar Puesto </button>
+        <button type="button" class="btn btn-primary" onclick ="window.location.href='./reasignar_linea.php'">Reasignar Linea </button>
         
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="updateReg();" disabled="disabled"><i class="far fa-save"></i> Guardar </button>
@@ -76,8 +76,6 @@
                         <input type="text" class="form-control" name="nombre" id="nombre" />
                     </td>
                 </tr>
-                
-                
             </tbody>
         </table>
       </div>
@@ -98,6 +96,6 @@
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>  
-    <script src="js/registro_manipuladores.js"></script>
+    <script type="text/javascript" src="js/registro_manipuladores.js"></script>
 </body>
 </html>

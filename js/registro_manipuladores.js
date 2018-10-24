@@ -74,12 +74,12 @@ function showReg(){
                         "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
                         "<td><span>"+ response.datosReg[index].idmanipulador+"</span></td>"+
                         "<td><input type='text' name='idpuesto' value='" + response.datosReg[index].idpuesto + "' class='input_s form-control' disabled='disable'></td>"+
-                        "<td><select class='form-control selectReg' id='idturno_"+index+"' disabled=disable></select>"+
+                        "<td><select class='form-control selectReg' id='idturno_"+index+"' disabled=disable></select></td>"+
                         //"<td><input type='text' name='idpuesto' value='" + response.datosReg[index].idturno + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><div class='input-group date' id='fecha_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#fecha_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>"+
                         "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
                         "<td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
-                        "<td><select class='form-control selectReg' id='idlinea"+index+"' disabled=disable></select>")
+                        "<td><select class='form-control selectReg' id='idlinea"+index+"' disabled=disable></select></td>");
                        
                         $('#fecha_'+ index).datetimepicker({
                             locale: 'es',

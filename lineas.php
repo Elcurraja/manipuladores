@@ -22,8 +22,8 @@
      
         <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
     </div>
-    <div id="tabla">
-        <table class="table table-striped table-bordered"> 
+    <div id="table-responsive">
+        <table class="table table-striped table-bordered" id="tabla_datos"> 
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -33,12 +33,14 @@
                     <th scope="col">IDtipolinea</th>
                     <th scope="col">Disponible</th>
                     <th scope="col">Puestos_Maximos</th>
+                    <th scope="col">Fiabilidad</th>
+                    <th scope="col">Velocidad</th>
+                    <th scope="col">Disponibilidad</th>
                 </tr>
             </thead>
-                <tbody>
+                <tbody id="tabla_datos">
                 <?php
-                    include("php/lineas_f.php");
-                    mostrarLineas();
+                     include("php/lineas_f.php");
                 ?>
             
             </tbody>
@@ -69,7 +71,7 @@
                         <label for="idnave">IDnave: </label>
                     </td>
                     <td>
-                        <select id="idnave">
+                        <select id="idnave" class="form-control">
                         <?php
                             $conn=mysql_manipuladores();
                             $resultQuery =$conn->query("SELECT idnave from naves");
@@ -85,7 +87,7 @@
                         <label for="idtipolinea">IDtipolinea: </label>
                     </td>
                     <td>
-                        <select id="idtipolinea">
+                        <select id="idtipolinea" class="form-control">
                         <?php
                             $conn=mysql_manipuladores();
                             $resultQuery =$conn->query("SELECT idtipolinea from tipo_linea");
@@ -101,20 +103,43 @@
                         <label for="disponible">Disponible: </label>
                     </td>
                     <td>
-                        <select id="disponible">
+                        <select id="disponible" class="form-control">
                             <option value="0">No</option>
                             <option value="1">Si</option>
                         </select>
                     </td>
                     <tr>
                     <td>
-                        <label for="nombre">Puestosmax: </label>
+                        <label for="nombre">Puestos Maximos: </label>
                     </td>
                     <td>
                         <input type="text" class="form-control" name="puestosmax" id="puestosmax" />
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <label for="nombre">Fiabilidad: </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="fiabilidad" id="fiabilidad" />
+                    </td>
                 </tr>
+                <tr>
+                    <td>
+                        <label for="nombre">Velocidad: </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="velocidad" id="velocidad" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="nombre">Disponibilidad: </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="disponibilidad" id="disponibilidad" />
+                    </td>
+                </tr>               
             </tbody>
         </table>
       </div>

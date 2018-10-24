@@ -4,6 +4,11 @@ $(document).ready(function() {
         locale: 'es',
         format: 'L',
     });
+    $('#horai_').datetimepicker({
+        locale: 'es',
+        format: 'LT',
+        date: moment("19:00:00","HH:mm")
+    });
   
     $("#fechaB").on("change.datetimepicker ",function(){
         $('#fechaInfoInput').val($(this).datetimepicker('date').format('L'));
@@ -36,36 +41,36 @@ function buscarReg(){
         dataType: "json",
         data: datos,
         success:function(response){
-            $("tbody").empty();
+            $("tbody#tablalineas").empty();
                 for (let index = 0; index < response.datosReg.length; index++){
-                    console.log(response.datosReg[index].hora_inicio)
-                    console.log(response.datosReg[index].hora_fin)
-                    $("tbody").append(
+                    $("tbody#tablalineas").append(
                         "<tr class='fila'>"+
                         "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
                         "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
-                        "<td><input type='text' name='idpuesto' value='" + response.datosReg[index].idpuesto + "' class='input_s form-control' disabled='disable'></td>"+
-                        "<td><input type='text' name='idpuesto' value='" + response.datosReg[index].idturno + "' class='input_s form-control' disabled='disable'></td>"+
-                        "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
-                        "<td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
-                        "<td><input type='text' name='idlinea' value='" + response.datosReg[index].idlinea + "' class='input_s form-control' disabled='disable'></td>")
+                        "<td><input type='text' name='idturno' value='" + response.datosReg[index].idturno + "' class='input_s form-control' disabled='disable'></td>"+
+                        "<td><div class='input-group date' id='horai_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horai_" + index +"' disabled='disable'><div class='input-group-append' data-target='#horai_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
+                        "<td><div class='input-group date' id='horaf_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horaf_" + index +"' disabled='disable'><div class='input-group-append' data-target='#horaf_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
+                        "<td><input type='text' name='idlinea' value='" + response.datosReg[index].idlinea + "' class='input_s form-control' disabled='disable'></td>"
+                        );
+                
+                        console.log(index == (response.datosReg.length-1))
+                        if(index == (response.datosReg.length-1)){
+                            $("tr.fila").append("<td><button type='button' id='reasignarLinea' class='btn btn-primary' onclick ='reasignarLinea();'>Reasignar</button></td>")
+                        }
                         
-                        $('#hora_inicio_' + index).datetimepicker({
+                        $('#horai_'+ index).datetimepicker({
                             locale: 'es',
                             format: 'LT',
                             date: moment(response.datosReg[index].hora_inicio,"HH:mm")
                         });
-                        $('#hora_fin_' + index).datetimepicker({
+                        $('#horaf_' + index).datetimepicker({
                             locale: 'es',
                             format: 'LT',
                             date: moment(response.datosReg[index].hora_fin,"HH:mm")
                         });
-                        
-
                     }
         },
         error:function(jqXHR, textStatus, errorThrown){
-            //console.log(datos)
             console.log("Error en la peticion AJAX para mostrar los registros: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
     })

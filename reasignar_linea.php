@@ -22,9 +22,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Manipuladores</title>
-    
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">    
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/lib/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
@@ -35,13 +33,13 @@
 
     <script src="js/lib/jquery-3.3.1.min.js"></script>
 
-    <title>Reasignar Puesto</title>
+    <title>Reasignar Linea</title>
 </head>
 <body>
     <?php
         include("html/menu.php");
     ?>
-     <h3 class="msg text-center">Reasignar Puesto Manipulador</h3>
+     <h3 class="msg text-center">Reasignar Linea Manipulador</h3>
     </div>
     <button type="button" id="botonVolver" class="btn btn-primary" onclick ="window.location.href='./registro_manipuladores.php'">Volver a registro</button>
     <div class="clear"></div>
@@ -74,20 +72,22 @@
     <div class="clear"></div>
 </div>
 
+
 <div id="table-responsive">
     <table class="table table-striped table-bordered" id="tabla_registro"> 
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">IDRegistro</th>
-                <th scope="col">IDPuesto</th>
                 <th scope="col">IDTurno</th>
                 <th scope="col">Hora inicio</th>
                 <th scope="col">Hora Fin</th>
                 <th scope="col">IDLinea</th>
+                <th scope="col">#</th>
             </tr>
         </thead>
-        <tbody>                
+        <tbody id="tablalineas">
+              
         </tbody>
     </table>
 </div>
@@ -97,7 +97,7 @@
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>  
-    <script type="text/javascript" src="js/reasignar_puesto.js"></script>  
+    <script type="text/javascript" src="js/reasignar_linea.js"></script>  
 <script>
 $(function(){
     $("#busqueda_manipulador").ajaxlivesearch({

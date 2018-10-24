@@ -2,6 +2,9 @@
 include("mysqlConexion.php");
 if(isset($_POST['op'])){
     switch($_POST['op']){
+        case 'showLineas':
+            showLineas();
+            break;
         case 'add':
             addlinea();
             break;
@@ -13,24 +16,42 @@ if(isset($_POST['op'])){
             break;
     }
 }
-function mostrarLineas(){
+function showLineas(){
     $conn=mysql_manipuladores();
     $query= "SELECT * from lineas";
+    
     $resultQuery =$conn->query($query);
+    $response['lineas'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
-    ?>
-    <tr class="fila">
-        <td><input type="checkbox" name="edit" class="checkedit"></td>
-        <td><span><?=$fila['idlinea']?></span></td>
-        <td><input type="text" name="nombre" value="<?=$fila['nombre']?>" class="border rounded" disabled="disable"></td>
-        <td><input type="text" name="idnave" value="<?=$fila['idnave']?>" class="border rounded" disabled="disable"></td>
-        <td><input type="text" name="idtipolinea" value="<?=$fila['idtipolinea']?>" class="border rounded" disabled="disable"></td>
-        <td><input type="text" name="disponible" value="<?=$fila['estadisponible']?>" class="border rounded" disabled="disable"></td>
-        <td><input type="text" name="puestosmax" value="<?=$fila['puestos_maximos']?>" class="border rounded" disabled="disable"></td>
-
-    </tr>
-    <?php 
+        $fila = array(
+            'idlinea' => $fila['idlinea'],
+            'nombre' => $fila['nombre'],
+            'idnave' => $fila['idnave'],
+            'idtipolinea' => $fila['idtipolinea'],
+            'estadisponible' => $fila['estadisponible'],
+            'puestosmax' => $fila['puestos_maximos'],
+            'fiabilidad' => $fila['fiabilidad'],
+            'velocidad' => $fila['velocidad'],
+            'disponibilidad' => $fila['disponibilidad'],
+        );
+        array_push($response['lineas'], $fila);
     }
+    $query= "SELECT idnave FROM naves";
+    $resultQuery =$conn->query($query);
+    $response['idnave'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        array_push($response['idnave'],$fila['idnave']);
+    }
+
+    $query= "SELECT idtipolinea FROM tipo_linea";
+    $resultQuery =$conn->query($query);
+    $response['idtipolinea'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        array_push($response['idtipolinea'],$fila['idtipolinea']);
+    }
+
+    $conn->close();
+    echo json_encode($response);
 }
 function editarLineas(){
     $conn=mysql_manipuladores();
@@ -42,7 +63,14 @@ function editarLineas(){
         $idtipolinea=$fila['IDtipolinea'];
         $disponible=$fila['disponible'];
         $puestosmax=$fila['puestosmax'];
-        $sql= "UPDATE lineas SET nombre='$nombre',idnave=$idnave,idtipolinea=$idtipolinea,estadisponible=$disponible,puestos_maximos=$puestosmax where idlinea=$id";
+        $fiabilidad = $fila['fiabilidad'];
+        $velocidad = $fila['velocidad'];
+        $disponibilidad = $fila['disponibilidad'];
+        $sql= "UPDATE lineas 
+        SET nombre='$nombre',idnave=$idnave,idtipolinea=$idtipolinea,estadisponible=$disponible,
+            puestos_maximos=$puestosmax,fiabilidad=$fiabilidad,velocidad=$velocidad,disponibilidad=$disponibilidad
+            where idlinea=$id";
+        echo $sql;
         $resultQuery = $conn->query($sql);
         $conn->commit();
     }
@@ -65,9 +93,13 @@ function addlinea(){
     $idtipolinea=$_POST['idtipolinea'];
     $disponible=$_POST['disponible'];
     $puestosmax=$_POST['puestosmax'];
-    $sql="INSERT INTO lineas (nombre,idnave,idtipolinea,estadisponible,puestos_maximos) 
-            VALUES ('$nombre',$idnave,$idtipolinea,$disponible,$puestosmax)";
+    $fiabilidad=$_POST['fiabilidad'];
+    $velocidad=$_POST['velocidad'];
+    $disponibilidad=$_POST['disponibilidad'];
+    $sql="INSERT INTO lineas (nombre,idnave,idtipolinea,estadisponible,puestos_maximos,fiabilidad,velocidad,disponibilidad) 
+            VALUES ('$nombre',$idnave,$idtipolinea,$disponible,$puestosmax,$fiabilidad,$velocidad,$disponibilidad)";
     $resultQuery = $conn->query($sql);
+    echo $sql;
     $conn->commit();
 
 }
