@@ -28,7 +28,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">IDlinea</th>
-                    <th scope="col">nombre</th>
+                    <th scope="col">Nombre</th>
                     <th scope="col">IDnave</th>
                     <th scope="col">IDtipolinea</th>
                     <th scope="col">Disponible</th>

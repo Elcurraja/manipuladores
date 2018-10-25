@@ -9,39 +9,48 @@ if(isset($_POST['op'])){
             updateReg();
             break;
         case 'delete':
-            //borrarRegistroManipuladores();
+            deleteReg();
             break;
         case 'buscarReg': 
-        mostrarRegistros($_POST['fecha'],$_POST['id']);
+            mostrarRegistros($_POST['fecha'],$_POST['id']);
+            break;
+        case 'reasignarLinea':
+            reasignarLinea();
         break;
     }
 }
 
 function mostrarRegistros($fecha,$id=0){
     $conn=mysql_manipuladores();
+    //QUERY GENERAL CON LOS CAMPOS REQUERIDOS Y LAS TABLAS DONDE LOS SACAREMOS
+    $query1 = "SELECT r.idregistro_manipulador,r.idmanipulador,concat(m.nombre, ' ', m.apellidos)as nombre,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea FROM registro_manipuladores as r,manipuladores as m ";
+    
+    //BUSQUEDA POR ID_MANIPULADOR
     if($id!=0){
         $var= str_replace("/","-",$fecha);
         $fechaF=date("Y-m-d",strtotime($var));
-        $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF' AND idmanipulador=$id";
+        $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador=$id AND  r.idmanipulador = m.idmanipulador ORDER BY hora_fin";
     }
     else{
-
+        //BUSQUEDA DE TODOS
         if($fecha=="todos"){
-            $query= "SELECT * FROM registro_manipuladores";
+            $query= "$query1 WHERE r.idmanipulador = m.idmanipulador";
         }
-        else{
+        else{//BUSQUEDA POR UNA FECHA CONCRETA
             $var= str_replace("/","-",$fecha);
             $fechaF=date("Y-m-d",strtotime($var));
-            $query= "SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'";
+            $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador = m.idmanipulador";
         }
     }
+    // echo $query;
     $resultQuery =$conn->query($query);
     $response['datosReg'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
         $fila = array(
             'idregistro' => $fila['idregistro_manipulador'],
             'idmanipulador' => $fila['idmanipulador'],
-            'idpuesto' => $fila['idpuesto'],
+            'nombre'=>$fila['nombre'],
+            //'idpuesto' => $fila['idpuesto'],
             'idturno' => $fila['idturno'],
             'fecha' => $fila['fecha'],
             'hora_inicio' => $fila['hora_inicio'],
@@ -50,6 +59,8 @@ function mostrarRegistros($fecha,$id=0){
         );
         array_push($response['datosReg'], $fila);
     }
+
+    //QUERY PARA SACAR LOS TURNOS Y MOSTRARLAS EN EL SELECT LUEGO
     if($id==0){
         $query= "SELECT idturno FROM turnos";
         $resultQuery =$conn->query($query);
@@ -57,7 +68,7 @@ function mostrarRegistros($fecha,$id=0){
         while ($fila = $resultQuery->fetch_assoc()){
             array_push($response['turnos'],$fila['idturno']);
         }
-        
+        //QUERY PARA SACAR LAS LINEAS Y MOSTRARLAS EN EL SELECT LUEGO
         $query= "SELECT idlinea FROM lineas";
         $resultQuery =$conn->query($query);
         $response['lineas'] = array();
@@ -76,7 +87,7 @@ function updateReg(){
     try {
         foreach($_POST['datos'] as $fila){
             $idregistro=$fila['idregistro'];
-            $idpuesto= $fila['idpuesto'];
+            //$idpuesto= $fila['idpuesto'];
             $idturno=$fila['idturno'];
             $fecha=date("Y-m-d",strtotime(str_replace("/","-",$fila['fecha'])));
             $horainicio=$fila['horainicio'];
@@ -84,7 +95,7 @@ function updateReg(){
             $idlinea=$fila['idlinea'];
             
             $sql= "UPDATE registro_manipuladores 
-                SET idpuesto=$idpuesto,idturno=$idturno,fecha='$fecha',
+                SET idturno=$idturno,fecha='$fecha',
                 hora_inicio='$horainicio',hora_fin='$horafin',idlinea=$idlinea
                 where idregistro_manipulador=$idregistro";
             $resultQuery = $conn->query($sql);
@@ -105,4 +116,72 @@ function updateReg(){
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($response);
 }
+function deleteReg(){
+    $conn=mysql_manipuladores();
+    $conn->begin_transaction();
+    foreach($_POST['datos'] as $fila){
+        $id=$fila['idRegistroManipulador'];
+        $sql= "DELETE FROM registro_manipuladores where idregistro_manipulador=$id";
+        $resultQuery = $conn->query($sql);
+        $conn->commit();
+    }
+}
+function reasignarLinea(){
+    $conn=mysql_manipuladores();
+    $conn->begin_transaction();
+try {
+   
+    $idmanipulador= $_POST['idmanipulador'];
+    $fecha=date("Y-m-d",strtotime(str_replace("/","-",$_POST['fecha'])));
+    $idturno = $_POST['idturno'];
+    $horainicio = $_POST['horainicio'];
+    $horafin = $_POST['horafin'];
+    $idlinea = $_POST['idlinea'];
+    $query = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
+                VALUES ($idmanipulador,$idturno,'$fecha','$horainicio','$horafin',$idlinea)";
+    $resultQuery = $conn->query($query);
+    if (!$resultQuery) {
+        throw new Exception($conn->error);
+    }
+    else{
+        $response['errorInsert'] = 0;
+    }
+    
+    $conn->commit();
+} 
+catch (Exception $e) {
+    $conn->rollback();
+    $response['errorInsert'] = 1;
+    $response['mensajeInsert'] = $e->getMessage();
+}
+
+try {
+    $idregistro= $_POST['idregistro'];
+    $horainicio = $_POST['horainicio'];
+    $query = "UPDATE registro_manipuladores SET hora_fin='$horainicio' WHERE idregistro_manipulador=$idregistro";
+    $resultQuery = $conn->query($query);
+    if (!$resultQuery) {
+        throw new Exception($conn->error);
+    }
+    else{
+        $response['errorUpdate'] = 0;
+    }
+    
+    $conn->commit();
+} 
+catch (Exception $e) {
+    $conn->rollback();
+    $response['errorUpdate'] = 1;
+    $response['mensajeUpdate'] = $e->getMessage();
+}
+
+header('Content-type: application/json; charset=utf-8');
+echo json_encode($response);
+}
+
+// $query= "UPDATE registro_manipuladores 
+// SET idpuesto=$idpuesto,idturno=$idturno,fecha='$fecha',
+// hora_inicio='$horainicio',hora_fin='$horafin',idlinea=$idlinea
+// where idregistro_manipulador=$idregistro";
+
 ?>

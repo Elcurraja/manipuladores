@@ -92,6 +92,81 @@
     </table>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modalReasignarLinea" tabindex="-1" role="dialog" aria-labelledby="modalReasignarLineaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalReasignarLineaLabel">Reasignar Linea </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="add_manip">
+            <tbody id="modalReasignarLinea">
+                <tr>
+                    <td>
+                        <label for="idregistro">ID Registro: </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="idregistro" id="idregistro" disabled="disable" />                    
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="idturno">ID Turno: </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="idturno" id="idturno" disabled="disable"/>
+                    </td>
+                </tr>
+   
+                <tr class="hora">
+                    <td>
+                        <label for="hora_inicio_rl">Hora Inicio: </label>
+                    </td>
+                    <td>
+                        <div class="input-group date" id="hora_inicio_rl" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#hora_inicio_rl"/>
+                            <div class="input-group-append" data-target="#hora_inicio_rl" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="hora">
+                    <td>
+                        <label for="hora_fin_rl">Hora Fin: </label>
+                    </td>
+                    <td>
+                        <div class="input-group date" id="hora_fin_rl" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#hora_fin_rl" />
+                            <div class="input-group-append" data-target="#hora_fin_rl" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="idlinea">ID Linea: </label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="idlinea" id="idlinea"/>
+                    </td>
+                </tr>
+                <input type="hidden" class="form-control" name="idmanipulador" id="idmanipulador"/>
+                <input type="hidden" class="form-control" name="fecha" id="fecha"/>
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick ="reasignarLinea();">Reasignar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>    
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>

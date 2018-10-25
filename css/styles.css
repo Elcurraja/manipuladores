@@ -1,5 +1,5 @@
 .menu, .menu .dropdown-menu{
-    background-color: #00487C; 
+    background-color: #1565c0; 
 }
 .menu{
     box-shadow: 0px 10px 6px -4px rgba(0,0,0,0.61);
@@ -8,7 +8,7 @@
     font-size: .7em;
 }
 .msg{
-    background-color: #00518C;
+    background-color: #1565c0;
     padding-top: 20px;
     color: #C9E8FF;
     height: 70px;
@@ -31,7 +31,7 @@ li.menu_li a {
     text-decoration: none;
 }
 li.menu_li a:hover {
-    background: #00487C;
+    background: #1565c0;
     color:#fdb61c;
 }
 .subdiv{
@@ -118,4 +118,10 @@ td input:enabled, td select:enabled{
 }
 .bootstrap-datetimepicker-widget {
     z-index: 1021;
+}
+#modalReasignarLinea input:disabled{
+    background-color: #F8F8F8;
+}
+#modalReasignarLinea input:enabled{
+    background-color: white;
 }

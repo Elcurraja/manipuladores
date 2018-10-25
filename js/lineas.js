@@ -45,10 +45,7 @@ function showLineas(){
             //console.log(response)
             $("tbody#tabla_datos").empty();
                 for (let index = 0; index < response.lineas.length; index++){
-                    if(response.lineas[index].estadisponible==1){
-                        var disponible="Si"
-                    }
-                    else var disponible="No"
+                    
                     $("tbody#tabla_datos").append(
                         "<tr class='fila'>"+
                         "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
@@ -56,20 +53,30 @@ function showLineas(){
                         "<td><input type='text' name='nombre' value='" + response.lineas[index].nombre + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><select class='form-control selectReg' id='idnave"+index+"' disabled=disable></select>"+
                         "<td><select class='form-control selectReg' id='idtipolinea"+index+"' disabled=disable></select>"+
-                        "<td><input type='text' name='disponible' value='" + disponible + "' class='input_s form-control' disabled='disable'></td>"+
+                        "<td><select class='form-control selectReg' id='disponible"+index+"' disabled=disable></select>"+
                         "<td><input type='text' name='puestosmax' value='" + response.lineas[index].puestosmax + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><input type='text' name='fiabilidad' value='" + response.lineas[index].fiabilidad + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><input type='text' name='velocidad' value='" + response.lineas[index].velocidad + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><input type='text' name='disponibilidad' value='" + response.lineas[index].disponibilidad + "' class='input_s form-control' disabled='disable'></td>")
                     
                         for (let l=0;l<response.idnave.length;l++){                            
-                        if(response.idnave[l]==response.lineas[index].idnave){
+                            if(response.idnave[l]==response.lineas[index].idnave){
                                 $("#idnave"+index).append("<option value='"+ response.idnave[l]+"'selected>"+response.idnave[l] +"</option>")
                             }
                             else{
                                 $("#idnave"+index).append("<option value='"+ response.idnave[l]+"'>"+response.idnave[l] +"</option>")
                             }
                         }
+
+                        if(response.lineas[index].estadisponible==1){
+                            $("#disponible"+index).append("<option value='1'selected>Si</option>")
+                            $("#disponible"+index).append("<option value='0'>No</option>")
+                        }
+                        else {
+                            $("#disponible"+index).append("<option value='1'>Si</option>")
+                            $("#disponible"+index).append("<option value='0' selected>No</option>")
+                        }
+                            
                         for (let l=0;l<response.idtipolinea.length;l++){                            
                             if(response.idtipolinea[l]==response.lineas[index].idtipolinea){
                                     $("#idtipolinea"+index).append("<option value='"+ response.idtipolinea[l]+"'selected>"+response.idtipolinea[l] +"</option>")
@@ -91,16 +98,12 @@ function guardarCampos(){
     var arrayDatos=[];
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
-            if($(this).find("td:nth-child(6) input").val()=="Si"){
-                var disponible = 1
-            }
-            else var disponible=2
             var datos = {
                 "IDlineas": $(this).find("td:nth-child(2) span").text(),
                 "nombre": $(this).find("td:nth-child(3) input").val(),
                 "IDnave": $(this).find("td:nth-child(4) .selectReg").val(),
                 "IDtipolinea": $(this).find("td:nth-child(5) .selectReg").val(),
-                "disponible": disponible,
+                "disponible": $(this).find("td:nth-child(6) .selectReg").val(),
                 "puestosmax": $(this).find("td:nth-child(7) input").val(),
                 "fiabilidad": $(this).find("td:nth-child(8) input").val(),
                 "velocidad": $(this).find("td:nth-child(9) input").val(),

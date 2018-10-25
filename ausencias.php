@@ -95,7 +95,7 @@
                     <td>
                         <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong> o por <strong>Apellidos</strong>: </label>
                         <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
-                        <input type="text" class="form-control" name="manipulador" id="manipulador" readonly />
+                        <input type="text" class="form-control" name="manipulador" id="manipulador" readonly style="width:550px"/>
                     
                     </td>
                 </tr>
@@ -117,7 +117,7 @@
                         <label for="esdiacompleto">Dia completo: </label>
                     </td>
                     <td>
-                    <select id="esdiacompleto">
+                    <select id="esdiacompleto" class="form-control">
                         <option value="1" selected>Si</option>
                         <option value="0" >No</option>
                     </select>

@@ -98,7 +98,7 @@
                                         https://github.com/iranianpep/ajax-live-search -->
                                         <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong>, por <strong>Nombre</strong> o por <strong>Apellidos</strong>: </label>
                                         <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
-                                        <input type="text" class="form-control" name="idmanipulador" id="idmanipulador" readonly />
+                                        <input type="text" class="form-control" name="idmanipulador" id="idmanipulador" readonly style="width:550px"/>
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->
                                     </td>
                                 </tr>
