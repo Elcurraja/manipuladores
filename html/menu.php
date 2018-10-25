@@ -46,7 +46,7 @@
     else if(url[3]=='naves.php'|| url[3]=='lineas.php' || url[3]=='tipolineas.php' || url[3]=='turnos.php'){
         $("#divlow4").addClass("subdiv")
     }
-    else if(url[3]=='registro_manipuladores.php'){
+    else if(url[3]=='registro_manipuladores.php'|| url[3]=='reasignar_linea.php'){
         $("#divlow2").addClass("subdiv")
     }
     else{
