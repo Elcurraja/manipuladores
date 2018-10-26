@@ -8,18 +8,6 @@ $(document).ready(function() {
     $("#fechaB").on("change.datetimepicker ",function(){
         $('#fechaInfoInput').val($(this).datetimepicker('date').format('L'));
     })
-
-    $("#tabla_registro").on("change","td",function(){
-        var elementos = $(this).parent()[0];
-        if($(elementos).find("input:checked").val()){
-            $(elementos).find("input[type=text],select").prop("disabled",false);
-            $(elementos).css('background-color','#FFE189')    
-        }
-        else {
-            $(elementos).find("input[type=text],select").prop("disabled",true);
-            $(elementos).css('background-color','')
-        }
-    })
 })
 
 function buscarReg(){
@@ -40,12 +28,11 @@ function buscarReg(){
                 for (let index = 0; index < response.datosReg.length; index++){
                     $("tbody#tablalineas").append(
                         "<tr class='fila' id='fila"+ index +"'>"+
-                        "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
                         "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
-                        "<td><input type='text' name='idturno' value='" + response.datosReg[index].idturno + "' class='input_s form-control' disabled='disable'></td>"+
-                        "<td><div class='input-group date' id='horai_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horai_" + index +"' disabled='disable'><div class='input-group-append' data-target='#horai_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
-                        "<td><div class='input-group date' id='horaf_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horaf_" + index +"' disabled='disable'><div class='input-group-append' data-target='#horaf_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
-                        "<td><input type='text' name='idlinea' value='" + response.datosReg[index].idlinea + "' class='input_s form-control' disabled='disable'></td>"
+                        "<td><input type='text' name='idturno' value='" + response.datosReg[index].idturno + "' class='input_s form-control' readonly></td>"+
+                        "<td><div class='input-group date' id='horai_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horai_" + index +"' readonly><div class='input-group-append' data-target='#horai_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
+                        "<td><div class='input-group date' id='horaf_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horaf_" + index +"' readonly><div class='input-group-append' data-target='#horaf_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
+                        "<td><input type='text' name='idlinea' value='" + response.datosReg[index].idlinea + "' class='input_s form-control' readonly></td>"
                         );
 
                         if(index == (response.datosReg.length-1)){
@@ -75,14 +62,14 @@ function buscarReg(){
 
 //RECOGEMOS LOS DATOS DEL REGISTRO CON EL BOTON PARA REASIGNAR Y SE LOS MANDAMOS AL MODAL
 function modalReasignarLinea(){
-
-    $("#modalReasignarLinea #idregistro").val($("tr.fila:last-child").find("td:nth-child(2) > span").text())
-    $("#modalReasignarLinea #idturno").val($("tr.fila:last-child").find("td:nth-child(3) > input").val())
-    $("#modalReasignarLinea #idlinea").val($("tr.fila:last-child").find("td:nth-child(6) > input").val())
+    //ASIGNAMOS LOS VALORES EN LOS INPUTS DEL MODAL
+    $("#modalReasignarLinea #idregistro").val($("tr.fila:last-child").find("td:nth-child(1) > span").text())
+    $("#modalReasignarLinea #idturno").val($("tr.fila:last-child").find("td:nth-child(2) > input").val())
+    $("#modalReasignarLinea #idlinea").val($("tr.fila:last-child").find("td:nth-child(5) > input").val())
     $("#modalReasignarLinea #idmanipulador").val($("#manipulador").val())
     $("#modalReasignarLinea #fecha").val($("#fechaB").datetimepicker('date').format('L'))
-    var horainicio=$("tr.fila:last-child").find("td:nth-child(4) > div").datetimepicker('date').format('LT')
-    var horafin= $("tr.fila:last-child").find("td:nth-child(5) > div").datetimepicker('date').format('LT')
+    var horainicio=$("tr.fila:last-child").find("td:nth-child(3) > div").datetimepicker('date').format('LT')
+    var horafin= $("tr.fila:last-child").find("td:nth-child(4) > div").datetimepicker('date').format('LT')
     $('#hora_inicio_rl').datetimepicker({
         locale: 'es',
         format: 'LT',

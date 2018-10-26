@@ -44,18 +44,18 @@
     ?>
         <h3 class="msg text-center">Ausencias</h3>
     </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalAddAusencia"><i class="far fa-plus-square"></i> Añadir Nueva</button>
     <div class="btn-group" id="opciones">
         <button type="button" class="btn boton btn-primary" onclick ="updateAusencias();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
         <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
     </div>
     <div id="tabla">
-        <table class="table table-striped table-bordered"> 
+        <table class="table table-striped table-bordered" id="tabla_ausencia"> 
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID ausencia</th>
-                    <th scope="col">ID manipulador</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
                     <th scope="col">fecha</th>
                     <th scope="col">Dia Completo</th>
                     <th scope="col">Hora Inicio</th>
@@ -67,7 +67,7 @@
                 <?php 
                 if(!$_POST){
                     include("php/ausencias_f.php");
-                    mostrarAusencias();
+                    //mostrarAusencias();
                 }
                 ?>
             
@@ -78,11 +78,11 @@
     
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalAddAusencia" tabindex="-1" role="dialog" aria-labelledby="modalAddAusenciaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Ausencia</h5>
+        <h5 class="modal-title" id="modalAddAusenciaLabel">Añadir Ausencia</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -183,7 +183,6 @@
                 onResultClick: function(e, data) {
                     // get the index 0 (first column) value
                     var selectedOne = $(data.selected).find('td').eq('0').text();
-
                     // set the input value
                     $('#manipulador').val(selectedOne);
 
@@ -191,22 +190,11 @@
                     $("#busqueda_manipulador").trigger('ajaxlivesearch:hide_result');
                 },
                 onResultEnter: function(e, data) {
-                    // do whatever you want
-                    // jQuery("#ls_query").trigger('ajaxlivesearch:search', {query: 'test'});
                 },
                 onAjaxComplete: function(e, data) {
 
                 }
             });
-
-            /* $("input[type=radio][name=opciones_busqueda]").change(function() {
-                if (this.value == "por_dni") {
-                    console.log("evento por dni");
-                }
-                else if (this.value == 'por_apellido') {
-                    console.log("evento por apellido");
-                }
-            }); */
         });
     </script>
     

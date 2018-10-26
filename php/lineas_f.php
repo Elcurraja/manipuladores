@@ -36,18 +36,22 @@ function showLineas(){
         );
         array_push($response['lineas'], $fila);
     }
-    $query= "SELECT idnave FROM naves";
+    $query= "SELECT idnave,designacion FROM naves";
     $resultQuery =$conn->query($query);
-    $response['idnave'] = array();
+    $response['nave'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
-        array_push($response['idnave'],$fila['idnave']);
+        $fila=array('idnave'=> $fila['idnave'],
+                    'designacion'=> $fila['designacion']);
+            array_push($response['nave'],$fila);
     }
 
-    $query= "SELECT idtipolinea FROM tipo_linea";
+    $query= "SELECT idtipolinea,nombre FROM tipo_linea";
     $resultQuery =$conn->query($query);
-    $response['idtipolinea'] = array();
+    $response['tipolinea'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
-        array_push($response['idtipolinea'],$fila['idtipolinea']);
+        $fila=array('idtipolinea'=> $fila['idtipolinea'],
+                    'nombre'=> $fila['nombre']);
+            array_push($response['tipolinea'],$fila);
     }
 
     $conn->close();

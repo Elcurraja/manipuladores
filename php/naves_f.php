@@ -23,7 +23,7 @@ function mostrarNaves(){
     <tr class="fila">
         <td><input type="checkbox" name="edit" class="checkedit"></td>
         <td><span><?=$fila['idnave']?></span></td>
-        <td><input type="text" name="designacion" value="<?=$fila['designacion']?>" disabled="disable"></td>
+        <td><input type="text" name="designacion" class="form-control" value="<?=$fila['designacion']?>" disabled="disable"></td>
     </tr>
     <?php 
     }

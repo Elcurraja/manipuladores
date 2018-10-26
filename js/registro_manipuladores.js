@@ -14,9 +14,9 @@ $(document).ready(function() {
         }
     })
     //MOSTRAMOS U OCULTAMOS EL MENU PARA GUARDAR O BORRAR
-    $("#tabla_registro").on("change", ".checkedit", function(){
+    $("#tabla_registro div input").on("change", ".checkedit", function(){
         var countchecked = false;
-        $(".checkedit").each(function(){
+        $(this).each(function(){
             if($(this).is(":checked")){
                 countchecked = true;
                 return false;
@@ -72,7 +72,7 @@ function showReg(){
                         "<tr class='fila'>"+
                         "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
                         "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
-                        "<td><span>"+ response.datosReg[index].idmanipulador+"</span></td>"+
+                        "<input type='hidden' class='form-control' name='idmanipulador' id='idmanipulador'value='"+ response.datosReg[index].idmanipulador+"'/>"+
                         "<td><span>"+ response.datosReg[index].nombre+"</span></td>"+
                         //"<td><input type='text' name='idpuesto' value='" + response.datosReg[index].idpuesto + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><select class='form-control selectReg' id='idturno_"+index+"' disabled=disable></select></td>"+
@@ -97,20 +97,20 @@ function showReg(){
                             date: moment(response.datosReg[index].hora_fin,"HH:mm:ss")
                         });
                         for (let i=0;i<response.turnos.length;i++){                            
-                            if(response.turnos[i]==response.datosReg[index].idturno){
-                                $("#idturno_"+index).append("<option value='"+ response.turnos[i]+"'selected>"+response.turnos[i] +"</option>")
+                            if(response.turnos[i].idturno==response.datosReg[index].idturno){
+                                $("#idturno_"+index).append("<option value='"+ response.turnos[i].idturno+"'selected>"+ response.turnos[i].franja +"</option>")
                             }
                             else{
-                                $("#idturno_"+index).append("<option value='"+ response.turnos[i]+"'>"+response.turnos[i] +"</option>")
+                                $("#idturno_"+index).append("<option value='"+ response.turnos[i].idturno +"'>"+ response.turnos[i].franja +"</option>")
                             }
                         }
                         
                         for (let l=0;l<response.lineas.length;l++){                            
-                            if(response.lineas[l]==response.datosReg[index].idlinea){
-                                $("#idlinea"+index).append("<option value='"+ response.lineas[l]+"'selected>"+response.lineas[l] +"</option>")
+                            if(response.lineas[l].idlinea==response.datosReg[index].idlinea){
+                                $("#idlinea"+index).append("<option value='"+ response.lineas[l].idlinea+"'selected>" + response.lineas[l].nombre + "</option>")
                             }
                             else{
-                                $("#idlinea"+index).append("<option value='"+ response.lineas[l]+"'>"+response.lineas[l] +"</option>")
+                                $("#idlinea"+index).append("<option value='"+ response.lineas[l].idlinea+"'>" + response.lineas[l].nombre + "</option>")
                             }
                         }
 

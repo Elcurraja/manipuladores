@@ -22,7 +22,7 @@ function mostrarTipoLineas(){
     <tr class="fila">
         <td><input type="checkbox" name="edit" class="checkedit"></td>
         <td><span><?=$fila['idtipolinea']?></span></td>
-        <td><input type="text" name="nombre" value="<?=$fila['nombre']?>" disabled="disable"></td>
+        <td><input type="text" name="nombre" class="form-control" value="<?=$fila['nombre']?>" disabled="disable"></td>
     </tr>
     <?php 
     }

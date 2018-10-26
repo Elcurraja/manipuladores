@@ -22,11 +22,11 @@ $(document).ready(function() {
         });
         if(countchecked){
             // $("#opciones").css("display","block");
-            $(".boton").prop("disabled",false);
+            $("#opciones .boton").prop("disabled",false);
         }
         else{
             // $("#opciones").css("display","none");
-            $(".boton").prop("disabled",true);
+            $("#opciones .boton").prop("disabled",true);
         } 
     })
 })

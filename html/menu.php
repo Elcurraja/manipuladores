@@ -3,7 +3,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="menu_li nav-item">
-            <a class="nav-link" href="#">Planificar dia</a>
+            <a class="nav-link" href="./reparto_1.php">Planificar dia</a>
             <div id="divlow1"></div>
         </li>
         <li class="menu_li nav-item">

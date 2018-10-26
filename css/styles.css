@@ -1,3 +1,4 @@
+/* CSS PARA EL MENU*/
 .menu, .menu .dropdown-menu{
     background-color: #1565c0; 
 }
@@ -6,13 +7,6 @@
 }
 .menu .dropdown-menu{
     font-size: .7em;
-}
-.msg{
-    background-color: #1565c0;
-    padding-top: 20px;
-    color: #C9E8FF;
-    height: 70px;
-    font-size: 1.7em;
 }
 ul {
     list-style-type: none;
@@ -34,29 +28,29 @@ li.menu_li a:hover {
     background: #1565c0;
     color:#fdb61c;
 }
+/*PEQUEÑA BARRA QUE APARECE DEBAJO DE CADA LISTA DEL MENU, PARA INDICARNOS DONDE ESTAMOS*/
 .subdiv{
     height: 2px;
     background-color: #fdb61c;
 }
+
+/* DIV QUE CONTIENE EL TEXTO QUE NOS MUESTRA DONDE ESTAMOS*/
+.msg{
+    background-color: #1565c0;
+    padding-top: 20px;
+    color: #C9E8FF;
+    height: 70px;
+    font-size: 1.7em;
+}
+.clear{
+    clear: both;
+}
 #opciones{
     float:right;
 }
-#busqueda_fecha{
-    float: left;
-    width: 300px;
-}
-tbody tr td input[type="text"], tbody tr td span,.selectReg{
+tbody tr td input[type="text"], tbody tr td span,select{
     font-weight: bold;
     text-align: center;
-}
-.input_s{
-    width: 90px;
-}
-.input_m{
-    width: 120px;
-}
-.input_g{
-    width: 250px;
 }
 .selectReg{
     width: 80px;
@@ -64,43 +58,21 @@ tbody tr td input[type="text"], tbody tr td span,.selectReg{
 .boton{
     font-size: 1.2em;
 }
-
 #botonVolver{
     float: left;
     margin-bottom: 20px;
 }
-.clear{
-    clear: both;
-}
 #conf{
     width: auto;
 }
-#buscadorReasignar{
-    margin-bottom: 20px;
+.custom-control-label{
+    transform: scale(1.2);
+    margin-bottom: 1rem;
+    margin-left: 50%;
 }
-#nombreB,#info,#fecha input,#mostrarTodos,#buscarReg{
-    margin-left: 20px;
-}
-#nombreB,#nombreInfo,#fechaInfo{
-    float:left; 
-}
-#nombreInfo,#fechaInfo,#nombreInfo input,#fechaInfo input{
-    font-size: 20px;
-    font-weight: bold;
-}
-#nombreInfo, #fechaInfo{
-    margin-bottom: 10px;
-    margin-top: 20px;
-  
-}
-#nombreInfo input{
-    width: 400px;
-    border: none;
-    background-color: white;
-}
-#fechaB input{
-    width: 150px;
-}
+/* .input_s{
+    width: 100px;
+} */
 
 /* SELECTORES ESPECIFICOS PARA LAS PAGINAS */
 td input:enabled, td select:enabled{
@@ -119,9 +91,44 @@ td input:enabled, td select:enabled{
 .bootstrap-datetimepicker-widget {
     z-index: 1021;
 }
+
+/* REGISTRO_MANIPULADORES Y REASIGNAR*/
+#busqueda_fecha{
+    float: left;
+    width: 300px;
+}
+#nombreB,#info,#fecha input,#mostrarTodos,#buscarReg{
+    margin-left: 20px;
+}
+#tabla_registro select {
+    width: 190px;
+}
+/*REASIGNAR LINEA MANIPULADOR*/
+#nombreB,#nombreInfo,#fechaInfo{
+    float:left; 
+}
+#nombreInfo,#fechaInfo,#nombreInfo input,#fechaInfo input{
+    font-size: 20px;
+    font-weight: bold;
+}
+#nombreInfo, #fechaInfo{
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+#nombreInfo input{
+    width: 400px;
+    border: none;
+    background-color: white;
+}
+#fechaB input{
+    width: 150px;
+}
 #modalReasignarLinea input:disabled{
     background-color: #F8F8F8;
 }
-#modalReasignarLinea input:enabled{
+#modalReasignarLinea input:enabled,#tabla_reasignar input{
     background-color: white;
+}
+#buscadorReasignar{
+    margin-bottom: 20px;
 }

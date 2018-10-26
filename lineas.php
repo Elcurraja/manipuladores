@@ -27,12 +27,12 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">IDlinea</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">IDnave</th>
-                    <th scope="col">IDtipolinea</th>
+                    <th scope="col">Nave</th>
+                    <th scope="col">Tipo linea</th>
                     <th scope="col">Disponible</th>
-                    <th scope="col">Puestos_Maximos</th>
+                    <th scope="col">Puestos Maximos</th>
                     <th scope="col">Fiabilidad</th>
                     <th scope="col">Velocidad</th>
                     <th scope="col">Disponibilidad</th>

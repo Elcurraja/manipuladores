@@ -3,36 +3,36 @@ $(document).ready(function() {
       /* INICIADO DEL PLUGIN TEMPUS DOMINUS PARA LOS INPUT "HORA INICIO, FIN Y DATE"
     EN EL MOMENTO DE AÑADIR UNA AUSENCIA
        https://tempusdominus.github.io/bootstrap-4/Usage/#time-only */
-    $('#hora_fin').datetimepicker({
+    $('#modalAddAusencia #hora_fin').datetimepicker({
        locale: 'es',
        format: 'LT',
        stepping: "5"
     });
 
-    $('#hora_inicio').datetimepicker({
+    $('#modalAddAusencia #hora_inicio').datetimepicker({
         locale: 'es',
         format: 'LT',
         stepping: "5"
     });
-    $('#fecha').datetimepicker({
+    $('#modalAddAusencia #fecha').datetimepicker({
         locale: 'es',
         format: 'L',
     });
 
     //DESHABILITAMOS O HABILITAMOS LA FILA DE INPUTS SI ESTA MARCADO EL CHECKBOX
-    $("#tabla td").change(function(){
+    $("#tabla_ausencia").on("change","td",function(){
         var elementos = $(this).parent()[0];
         if($(elementos).find("input:checked").val()){
-            var hijos =$(elementos).find("input[type=text]").prop("disabled",false);
+            var hijos =$(elementos).find("input[type=text],select").prop("disabled",false);
             $(elementos).css('background-color','#FFE189')    
         }
         else {
-            var hijos =$(elementos).find("input[type=text]").prop("disabled",true);
+            var hijos =$(elementos).find("input[type=text],select").prop("disabled",true);
             $(elementos).css('background-color','')
         }
     })
     //MOSTRAMOS U OCULTAMOS EL MENU PARA GUARDAR O BORRAR
-    $(".checkedit").on("change",function(){
+    $("#tabla_ausencia").on("change", ".checkedit", function(){
         var countchecked = false;
         $(".checkedit").each(function(){
             if($(this).is(":checked")){
@@ -41,11 +41,9 @@ $(document).ready(function() {
             }
         });
         if(countchecked){
-            // $("#opciones").css("display","block");
             $("#opciones .boton").prop("disabled",false);
         }
         else{
-            // $("#opciones").css("display","none");
             $("#opciones .boton").prop("disabled",true);
         } 
     })
@@ -61,9 +59,64 @@ $(document).ready(function() {
             $('.hora').css("display","table-row")
         }
     })
-
+    showAusencias()
 });
+function showAusencias(){
+    $.ajax({
+        url:"php/ausencias_f.php",
+        type:"POST",
+        dataType: "json",
+        data: {
+            op:"show"
+        },
+        success:function(response){
+            $("#tabla_ausencia tbody").empty();
+                for (let index = 0; index < response.datosAusencia.length; index++){
+                    $("tbody").append(
+                        "<tr class='fila'>"+
+                        "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck1'><label class='custom-control-label' for='customCheck1'></label></div></td>'"+
+                        "<td><span>"+ response.datosAusencia[index].idausencia +"</span></td>"+
+                        "<input type='hidden' class='form-control' name='idmanipulador' id='idmanipulador'value='"+ response.datosAusencia[index].idmanipulador+"'disabled='disable'/>"+
+                        "<td><span>"+ response.datosAusencia[index].nombre+"</span></td>"+
+                        "<td><div class='input-group date' id='fecha_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#fecha_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>"+
+                        "<td><select class='form-control selectReg' id='esdiacompleto"+index+"' disabled=disable></select></td>"+
+                        "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
+                        "<td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
+                        "<td><input type='text' class='form-control' name='observaciones' id='observaciones'value='"+ response.datosAusencia[index].observaciones+"'disabled='disable'/></td>");
+                       
+                        $('#fecha_'+ index).datetimepicker({
+                            locale: 'es',
+                            format: 'DD-MM-YYYY',
+                            date: response.datosAusencia[index].fecha
+                        });
+                        $('#hora_inicio_' + index).datetimepicker({
+                            locale: 'es',
+                            format: 'LT',
+                            date: moment(response.datosAusencia[index].hora_inicio,"HH:mm:ss")
+                        });
+                        $('#hora_fin_' + index).datetimepicker({
+                            locale: 'es',
+                            format: 'LT',
+                            date: moment(response.datosAusencia[index].hora_fin,"HH:mm:ss")
+                        });
 
+                        if(response.datosAusencia[index].esdiacompleto==1){
+                            $("#esdiacompleto"+index).append("<option value='1'selected>Si</option>")
+                            $("#esdiacompleto"+index).append("<option value='0'>No</option>")
+                        }
+                        else {
+                            $("#esdiacompleto"+index).append("<option value='1'>Si</option>")
+                            $("#esdiacompleto"+index).append("<option value='0' selected>No</option>")
+                        }
+
+                    }
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            //console.log(datos)
+            console.log("Error en la peticion AJAX para mostrar los registros: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+        }
+    })
+}
 function addAusencia(){
     
     if ($("#hora_inicio").datetimepicker('date')==null && $("#hora_fin").datetimepicker('date')==null){

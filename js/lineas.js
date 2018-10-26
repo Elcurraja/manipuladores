@@ -51,20 +51,20 @@ function showLineas(){
                         "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
                         "<td><span>"+ response.lineas[index].idlinea +"</span></td>"+
                         "<td><input type='text' name='nombre' value='" + response.lineas[index].nombre + "' class='input_s form-control' disabled='disable'></td>"+
-                        "<td><select class='form-control selectReg' id='idnave"+index+"' disabled=disable></select>"+
-                        "<td><select class='form-control selectReg' id='idtipolinea"+index+"' disabled=disable></select>"+
+                        "<td><select class='form-control selectFont' id='idnave"+index+"' disabled=disable></select>"+
+                        "<td><select class='form-control selectFont' id='idtipolinea"+index+"' disabled=disable></select>"+
                         "<td><select class='form-control selectReg' id='disponible"+index+"' disabled=disable></select>"+
                         "<td><input type='text' name='puestosmax' value='" + response.lineas[index].puestosmax + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><input type='text' name='fiabilidad' value='" + response.lineas[index].fiabilidad + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><input type='text' name='velocidad' value='" + response.lineas[index].velocidad + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><input type='text' name='disponibilidad' value='" + response.lineas[index].disponibilidad + "' class='input_s form-control' disabled='disable'></td>")
                     
-                        for (let l=0;l<response.idnave.length;l++){                            
-                            if(response.idnave[l]==response.lineas[index].idnave){
-                                $("#idnave"+index).append("<option value='"+ response.idnave[l]+"'selected>"+response.idnave[l] +"</option>")
+                        for (let l=0;l<response.nave.length;l++){                            
+                            if(response.nave[l].idnave==response.lineas[index].idnave){
+                                $("#idnave"+index).append("<option value='"+ response.nave[l].idnave+"'selected>"+response.nave[l].designacion +"</option>")
                             }
                             else{
-                                $("#idnave"+index).append("<option value='"+ response.idnave[l]+"'>"+response.idnave[l] +"</option>")
+                                $("#idnave"+index).append("<option value='"+ response.nave[l].idnave+"'>"+response.nave[l].designacion +"</option>")
                             }
                         }
 
@@ -77,12 +77,12 @@ function showLineas(){
                             $("#disponible"+index).append("<option value='0' selected>No</option>")
                         }
                             
-                        for (let l=0;l<response.idtipolinea.length;l++){                            
-                            if(response.idtipolinea[l]==response.lineas[index].idtipolinea){
-                                    $("#idtipolinea"+index).append("<option value='"+ response.idtipolinea[l]+"'selected>"+response.idtipolinea[l] +"</option>")
+                        for (let l=0;l<response.tipolinea.length;l++){                            
+                            if(response.tipolinea[l]==response.lineas[index].idtipolinea){
+                                    $("#idtipolinea"+index).append("<option value='"+ response.tipolinea[l].idtipolinea+"'selected>"+response.tipolinea[l].nombre +"</option>")
                                 }
                                 else{
-                                    $("#idtipolinea"+index).append("<option value='"+ response.idtipolinea[l]+"'>"+response.idtipolinea[l] +"</option>")
+                                    $("#idtipolinea"+index).append("<option value='"+ response.tipolinea[l].idtipolinea+"'>"+response.tipolinea[l].nombre +"</option>")
                                 }
                             }
                     }
@@ -101,8 +101,8 @@ function guardarCampos(){
             var datos = {
                 "IDlineas": $(this).find("td:nth-child(2) span").text(),
                 "nombre": $(this).find("td:nth-child(3) input").val(),
-                "IDnave": $(this).find("td:nth-child(4) .selectReg").val(),
-                "IDtipolinea": $(this).find("td:nth-child(5) .selectReg").val(),
+                "IDnave": $(this).find("td:nth-child(4) .selectFont").val(),
+                "IDtipolinea": $(this).find("td:nth-child(5) .selectFont").val(),
                 "disponible": $(this).find("td:nth-child(6) .selectReg").val(),
                 "puestosmax": $(this).find("td:nth-child(7) input").val(),
                 "fiabilidad": $(this).find("td:nth-child(8) input").val(),

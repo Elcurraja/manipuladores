@@ -74,10 +74,9 @@
 
 
 <div id="table-responsive">
-    <table class="table table-striped table-bordered" id="tabla_registro"> 
+    <table class="table table-striped table-bordered" id="tabla_reasignar"> 
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">IDRegistro</th>
                 <th scope="col">IDTurno</th>
                 <th scope="col">Hora inicio</th>

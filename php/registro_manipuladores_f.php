@@ -62,25 +62,29 @@ function mostrarRegistros($fecha,$id=0){
 
     //QUERY PARA SACAR LOS TURNOS Y MOSTRARLAS EN EL SELECT LUEGO
     if($id==0){
-        $query= "SELECT idturno FROM turnos";
+        $query= "SELECT idturno,franja FROM turnos";
         $resultQuery =$conn->query($query);
         $response['turnos'] = array();
         while ($fila = $resultQuery->fetch_assoc()){
-            array_push($response['turnos'],$fila['idturno']);
+            $fila=array('idturno'=> $fila['idturno'],
+                        'franja'=> $fila['franja']);
+            array_push($response['turnos'],$fila);
         }
         //QUERY PARA SACAR LAS LINEAS Y MOSTRARLAS EN EL SELECT LUEGO
-        $query= "SELECT idlinea FROM lineas";
+        $query= "SELECT idlinea,nombre FROM lineas";
         $resultQuery =$conn->query($query);
         $response['lineas'] = array();
         while ($fila = $resultQuery->fetch_assoc()){
-            array_push($response['lineas'],$fila['idlinea']);
+            $fila=array('idlinea'=> $fila['idlinea'],
+                        'nombre'=> $fila['nombre']);
+            array_push($response['lineas'],$fila);
         }
     }
 
     $conn->close();
     echo json_encode($response);
 }
-
+//FUNCION PARA ACTUALIZAR EL REGISTRO
 function updateReg(){
     $conn=mysql_manipuladores();
     $conn->begin_transaction();
@@ -116,6 +120,8 @@ function updateReg(){
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($response);
 }
+
+//BORRAR REGISTROS
 function deleteReg(){
     $conn=mysql_manipuladores();
     $conn->begin_transaction();
@@ -126,62 +132,60 @@ function deleteReg(){
         $conn->commit();
     }
 }
+//SE EJECUTA EL INSERT DEL NUEVO REGISTRO Y HACEMOS UN UPDATE DEL ULTIMO REGISTRO
+//DONDE CAMBIAMOS LA FECHA_FIN POR LA HORA_INICIO DEL NUEVO REGISTRO
 function reasignarLinea(){
     $conn=mysql_manipuladores();
     $conn->begin_transaction();
-try {
-   
-    $idmanipulador= $_POST['idmanipulador'];
-    $fecha=date("Y-m-d",strtotime(str_replace("/","-",$_POST['fecha'])));
-    $idturno = $_POST['idturno'];
-    $horainicio = $_POST['horainicio'];
-    $horafin = $_POST['horafin'];
-    $idlinea = $_POST['idlinea'];
-    $query = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
-                VALUES ($idmanipulador,$idturno,'$fecha','$horainicio','$horafin',$idlinea)";
-    $resultQuery = $conn->query($query);
-    if (!$resultQuery) {
-        throw new Exception($conn->error);
+
+    //INSERT
+    try {
+        $idmanipulador= $_POST['idmanipulador'];
+        $fecha=date("Y-m-d",strtotime(str_replace("/","-",$_POST['fecha'])));
+        $idturno = $_POST['idturno'];
+        $horainicio = $_POST['horainicio'];
+        $horafin = $_POST['horafin'];
+        $idlinea = $_POST['idlinea'];
+        $query = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
+                    VALUES ($idmanipulador,$idturno,'$fecha','$horainicio','$horafin',$idlinea)";
+        $resultQuery = $conn->query($query);
+        if (!$resultQuery) {
+            throw new Exception($conn->error);
+        }
+        else{
+            $response['errorInsert'] = 0;
+        }
+        
+        $conn->commit();
+    } 
+    catch (Exception $e) {
+        $conn->rollback();
+        $response['errorInsert'] = 1;
+        $response['mensajeInsert'] = $e->getMessage();
     }
-    else{
-        $response['errorInsert'] = 0;
+
+    //UPDATE
+    try {
+        $idregistro= $_POST['idregistro'];
+        $horainicio = $_POST['horainicio'];
+        $query = "UPDATE registro_manipuladores SET hora_fin='$horainicio' WHERE idregistro_manipulador=$idregistro";
+        $resultQuery = $conn->query($query);
+        if (!$resultQuery) {
+            throw new Exception($conn->error);
+        }
+        else{
+            $response['errorUpdate'] = 0;
+        }
+        
+        $conn->commit();
+    } 
+    catch (Exception $e) {
+        $conn->rollback();
+        $response['errorUpdate'] = 1;
+        $response['mensajeUpdate'] = $e->getMessage();
     }
-    
-    $conn->commit();
-} 
-catch (Exception $e) {
-    $conn->rollback();
-    $response['errorInsert'] = 1;
-    $response['mensajeInsert'] = $e->getMessage();
+
+    header('Content-type: application/json; charset=utf-8');
+    echo json_encode($response);
 }
-
-try {
-    $idregistro= $_POST['idregistro'];
-    $horainicio = $_POST['horainicio'];
-    $query = "UPDATE registro_manipuladores SET hora_fin='$horainicio' WHERE idregistro_manipulador=$idregistro";
-    $resultQuery = $conn->query($query);
-    if (!$resultQuery) {
-        throw new Exception($conn->error);
-    }
-    else{
-        $response['errorUpdate'] = 0;
-    }
-    
-    $conn->commit();
-} 
-catch (Exception $e) {
-    $conn->rollback();
-    $response['errorUpdate'] = 1;
-    $response['mensajeUpdate'] = $e->getMessage();
-}
-
-header('Content-type: application/json; charset=utf-8');
-echo json_encode($response);
-}
-
-// $query= "UPDATE registro_manipuladores 
-// SET idpuesto=$idpuesto,idturno=$idturno,fecha='$fecha',
-// hora_inicio='$horainicio',hora_fin='$horafin',idlinea=$idlinea
-// where idregistro_manipulador=$idregistro";
-
 ?>

@@ -41,14 +41,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">ID Registro</th>
-                        <th scope="col">ID Manipulador</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">ID Turno</th>
+                        <th scope="col">Turno</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Hora inicio</th>
                         <th scope="col">Hora Fin</th>
-                        <th scope="col">IDLinea</th>
+                        <th scope="col">Linea</th>
                     </tr>
                 </thead>
                 <tbody>                
