@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
-    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
@@ -17,41 +16,45 @@
     <?php 
         include("html/menu.php");
     ?>
-        <h3 class="msg text-center">Manipuladores</h3>
-    </div>
-    <div class="container-fluid">
             
-        <div id="tabla_mostrar_manip">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_manip" ><i class="far fa-address-card"></i> Añadir nuevo</button>
-            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <button type="button" class="btn btn-primary" id="guardar_cambios_btn" disabled ><i class="far fa-save"></i> Guardar cambios</button>
-                <button type="button" class="btn btn-warning" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" disabled ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+            <div class="row align-items-end" id="test">
+                <div class="col-3">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_manip" ><i class="far fa-address-card"></i> Añadir nuevo</button>
+                </div>
+                <div class="col-6">
+                    <h3 class="msg text-center">Manipuladores</h3>
+                </div>
+                <div class="col-3">
+                    <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
+                        <button type="button" class="btn btn-warning" id="guardar_cambios_btn" ><i class="far fa-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+                    </div>
+                </div>
             </div>
-            <h4 class="text-center" id="mensaje_manip"></h4>
-            <table class="table table-responsive table-bordered table-hover" id="mostrar_manip">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Selecciona</th>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">DNI / Pasaporte</th>
-                        <th scope="col">Teléfono</th>
-                        <th scope="col">Dirección</th>
-                        <th scope="col">Dias Seguidos Trabajados</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Teléfono Familiar</th>
-                        <th scope="col">Fiabilidad</th>
-                        <th scope="col">Velocidad</th>
-                        <th scope="col">Disponibilidad</th>
-                        <th scope="col">Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
         </div>
+        <h4 class="text-center" id="mensaje_manip"></h4>
+        <table class="table table-responsive table-bordered table-hover" id="mostrar_manip">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Selecciona</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col">DNI / Pasaporte</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Dias Seguidos Trabajados</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Teléfono Familiar</th>
+                    <th scope="col">Fiabilidad</th>
+                    <th scope="col">Velocidad</th>
+                    <th scope="col">Disponibilidad</th>
+                    <th scope="col">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
         <!-- MODAL DE AÑADIR NUEVO MANIPULADOR 
              https://getbootstrap.com/docs/4.1/components/modal/ -->
         <div class="modal fade" id="modal_anyadir_manip" tabindex="-1" role="dialog" aria-labelledby="modal_anyadir_manip" aria-hidden="true">

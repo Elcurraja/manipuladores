@@ -32,7 +32,8 @@ function showAusencias(){
                 ausencias AS a,
                 manipuladores AS m 
             WHERE
-                m.idmanipulador = a.idmanipulador";
+                m.idmanipulador = a.idmanipulador
+            ORDER BY a.fecha ASC ";
     $resultQuery =$conn->query($query);
     if (!$resultQuery) {
         $response['error'] = 1;
@@ -87,10 +88,7 @@ function editarAusencias(){
         $idausencia=$fila['idausencia'];
         $fechaF = explode("/",$fila['fecha']);
         $fecha =$fechaF[2]."-".$fechaF[1]."-".$fechaF[0];
-        if($fila['diacompleto']=='si')
-            $diacompleto=1;
-        else
-            $diacompleto=0;
+        $diacompleto=$fila['diacompleto'];
         $observaciones=$fila['observaciones'];
         if(isset($fila['horainicio']) && isset($fila['horafin'])){
             $horainicio=$fila['horainicio'];

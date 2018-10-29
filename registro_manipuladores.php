@@ -19,8 +19,8 @@
     include("html/menu.php");
 ?>
 
-    <div class="row align-items-end" id="test">
-        <div class="col-5" id="opciones-l">
+    <div class="row align-items-end" id="cabecera">
+        <div class="col-5">
             <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
                 <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
                 <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
@@ -34,7 +34,7 @@
         <div class="col-3">
             <h3 class="msg text-center">Registro Manipuladores</h3>
         </div>
-        <div class="col-3" id="opciones-r">
+        <div class="col-4">
             <div class="btn-group" role="group" id="opciones" >
                 <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="updateReg();"><i class="far fa-save"></i> Guardar </button>
                 <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>

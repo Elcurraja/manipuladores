@@ -96,19 +96,13 @@ $(function(){
        EL EVENTO ES FIJADO MANUALMENTE A SU ELEMENTO ESTATICO PADRE MAS CERCANO: <table id="mostrar_manip">
        https://stackoverflow.com/questions/13418963/jquery-onchange-function-not-triggering-for-dynamically-created-inputs */
     $("#mostrar_manip").on("change", ".selec_manip", function(){
-        /* console.log($(this).parent().siblings().length + " elementos con datos en esta fila, " 
-                                                + $(".selec_manip").length + " filas totales, " 
-                                                + $(".selec_manip:checked").length + " fila/s seleccionada/s y " 
-                                                // https://stackoverflow.com/questions/8465821/find-all-unchecked-checkbox-in-jquery
-                                                + $(".selec_manip:not(:checked)").length + " fila/s no seleccionada/s en la tabla"); */
-        
         if ($(".selec_manip:checked").length > 0) {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", false);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "block");
         } else {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
         }
         var isChecked = $(this).prop("checked");
-        $(this).closest("td").siblings("td:gt(0)").each(function(){
+        $(this).closest("td").siblings().each(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
@@ -134,23 +128,23 @@ $(function(){
                     $("#mostrar_manip tbody tr").remove();
                     for (let index = 0; index < respuesta.datos.length; index++) {
                         $("#mostrar_manip tbody").append(
-                        "<tr>" +
-                        "<td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_manip' /></div></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" +  respuesta.datos[index].nombre + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].telefono + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].direccion + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].email + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].velocidad + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td>" +
-                        "<td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td>" +
-                        "</tr>"
-                    );
+                            "<tr>" +
+                                "<td scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_manip custom-control-input' id='customCheck" + index + "'><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
+                                "<input type='hidden' value='" + respuesta.datos[index].idmanipulador + "' />" +
+                                "<td><input type='text' class='form-control' value='" +  respuesta.datos[index].nombre + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].telefono + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].direccion + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].email + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].velocidad + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td>" +
+                            "</tr>"
+                        );
                     }
                     $("#mostrar_manip").css("display", "table");
                 } else {
@@ -161,22 +155,22 @@ $(function(){
                 console.log("Error en la peticion AJAX para mostrar: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function(){
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
         });
     }
 
     function anyadirManipulador(){
-        if($("#fiabilidad").val().length < 1){
+        if(!esNumerico($("#fiabilidad").val()) || $("#fiabilidad").val().length < 1){
             var fiabilidad = 0;
         } else {
             var fiabilidad = $("#fiabilidad").val();
         }
-        if($("#velocidad").val().length < 1){
+        if(!esNumerico($("#velocidad").val()) || $("#velocidad").val().length > 1){
             var velocidad = 0;
         } else {
             var velocidad = $("#velocidad").val();
         }
-        if ($("#disponibilidad").val().length < 1) {
+        if (!esNumerico($("#disponibilidad").val()) || $("#disponibilidad").val().length > 1) {
             var disponibilidad = 0;
         } else {
             var disponibilidad = $("#disponibilidad").val()
@@ -218,23 +212,23 @@ $(function(){
     function editarManipuladores(){
         var array = [];
         $(".selec_manip:checked").closest("tr").each(function(){
-            if($(this).find("td:nth-child(11) input").val().length < 1){
+            if(!esNumerico($(this).find("td:nth-child(11) input").val()) || $(this).find("td:nth-child(11) input").val().length > 1){
                 var fiabilidad = 0;
             } else {
                 var fiabilidad = $(this).find("td:nth-child(11) input").val();
             }
-            if($(this).find("td:nth-child(12) input").val().length < 1){
+            if(!esNumerico($(this).find("td:nth-child(12) input").val()) || $(this).find("td:nth-child(12) input").val().length > 1){
                 var velocidad = 0;
             } else {
                 var velocidad = $(this).find("td:nth-child(12) input").val();
             }
-            if ($(this).find("td:nth-child(13) input").val().length < 1) {
+            if (!esNumerico($(this).find("td:nth-child(13) input").val()) || $(this).find("td:nth-child(13) input").val().length > 1) {
                 var disponibilidad = 0;
             } else {
                 var disponibilidad = $(this).find("td:nth-child(13) input").val()
             }
             var temp = {
-                "id": $(this).find("td:nth-child(2) input").val(),
+                "id": $(this).children("input").val(),
                 "nombre": $(this).find("td:nth-child(3) input").val(),
                 "apellidos": $(this).find("td:nth-child(4) input").val(),
                 "dni": $(this).find("td:nth-child(5) input").val(),
@@ -299,5 +293,9 @@ $(function(){
         }).done(function(){
             mostrarManipuladores();
         });
+    }
+
+    function esNumerico(valor) {
+        return !isNaN(parseFloat(valor)) && isFinite(valor);
     }
 });

@@ -40,8 +40,8 @@
         include("html/menu.php");
     ?>
 
-    <div class="row align-items-end" id="test">
-        <div class="col-3" id="opciones-l">
+    <div class="row align-items-end" id="cabecera">
+        <div class="col-3">
             <button type="button" id="botonVolver" class="btn btn-primary" onclick ="window.location.href='./registro_manipuladores.php'"><i class="fas fa-arrow-alt-circle-left"></i> Volver a registro</button>
         </div>
         <div class="col-6">

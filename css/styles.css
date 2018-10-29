@@ -3,7 +3,7 @@
     background-color: #0d47a1; 
 }
 .menu{
-    box-shadow: 0px 10px 6px -4px rgba(0,0,0,0.61);
+    box-shadow: 0px 10px 6px -4px #0a3e8b;
 }
 .menu .dropdown-menu{
     font-size: .7em;
@@ -25,34 +25,28 @@ li.menu_li a {
     text-decoration: none;
 }
 li.menu_li a:hover {
-    background: #1565c0;
+    background: #0d47a1;
     color:#fdb61c;
+}
+.btn-primary{
+    background-color: #0d47a1;
+    border-color: #1565c0;
 }
 /*PEQUEÑA BARRA QUE APARECE DEBAJO DE CADA LISTA DEL MENU, PARA INDICARNOS DONDE ESTAMOS*/
 .subdiv{
     height: 2px;
     background-color: #fdb61c;
 }
-/* #opciones-l{
-    height: 100%;
-    background-image: linear-gradient(-90deg,#1565c0,white);
-}
-#opciones-r{
-    background-image: linear-gradient(-90deg,white,#1565c0);
-} */
-#test{
-    padding-top: 2%;
+#cabecera{
+    margin: 0px;
     background-color: #1565c0;
-    /* background-image: linear-gradient(to right,#f6f7f8 20%,#1565c0   33%,#1565c0   66%,#f6f7f8 80% ) */
-    /* background-image: linear-gradient(to bottom,#1565c0,#2773ca,#2775cf,#418de4,rgb(107, 163, 228),rgb(157, 197, 243),rgb(206, 226, 250)); */
 }
 /* DIV QUE CONTIENE EL TEXTO QUE NOS MUESTRA DONDE ESTAMOS*/
 .msg{
-    padding-top: 20px;
+    margin: 30px 0px 10px;
     color: rgb(240, 240, 240);
-    height: 4.5rem;
+    height: 3rem;
     font-size: 1.7em;
-    margin-bottom: 0px;
 }
 .clear{
     clear: both;
@@ -64,10 +58,9 @@ tbody tr td input[type="text"], tbody tr td span,select{
 .selectReg{
     width: 80px;
 }
-.boton{
+.boton,.col-3 button{
     font-size: 1.2em;
 }
-
 #conf{
     width: auto;
 }
@@ -76,17 +69,14 @@ tbody tr td input[type="text"], tbody tr td span,select{
     margin-bottom: 1rem;
     margin-left: 50%;
 }
-/* .input_s{
-    width: 100px;
-} */
 
 /* SELECTORES ESPECIFICOS PARA LAS PAGINAS */
 td input:enabled, td select:enabled{
 	background-color: #DFFFDE;
 }
-.table-responsive{
+/* .table-responsive{
 	overflow-x: visible;
-}
+} */
 #grupo_actualizar_borrar_btns,#opciones {
     float: right;
 }

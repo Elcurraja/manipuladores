@@ -16,14 +16,14 @@
         include("php/naves_f.php");
     ?>
 
-    <div class="row align-items-end" id="test">
-        <div class="col-3" id="opciones-l">
+    <div class="row align-items-end" id="cabecera">
+        <div class="col-3">
             <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalNave"><i class="far fa-plus-square"></i> Añadir Nueva</button>
         </div>
         <div class="col-6">
             <h3 class="msg text-center">Naves</h3>
         </div>
-        <div class="col-3" id="opciones-r">
+        <div class="col-3">
             <div class="btn-group" role="group" id="opciones" >
             <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="guardarCampos();">Guardar <i class="far fa-save"></i></button>
         <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>

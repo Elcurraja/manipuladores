@@ -122,21 +122,21 @@ function addAusencia(){
     if ($("#hora_inicio").datetimepicker('date')==null && $("#hora_fin").datetimepicker('date')==null){
         var datos = {
             "op": "add",
-            "idmanipulador":$("#manipulador").val(),
-            "fecha":$("#fecha").datetimepicker('date').format('L'),
-            "esdiacompleto":$("#esdiacompleto").val(),
-            "observaciones":$("#observaciones").val()
+            "idmanipulador":$("#addAusencia #manipulador").val(),
+            "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
+            "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
+            "observaciones":$("#addAusencia #observaciones").val()
         }
     }
     else {
         var datos = {
             "op": "add",
-            "idmanipulador":$("#manipulador").val(),
-            "fecha":$("#fecha").datetimepicker('date').format('L'),
-            "esdiacompleto":$("#esdiacompleto").val(),
-            "horainicio":$("#hora_inicio").datetimepicker('date').format('LT'),
-            "horafin":$("#hora_fin").datetimepicker('date').format('LT'),
-            "observaciones":$("#observaciones").val()
+            "idmanipulador":$("#addAusencia #manipulador").val(),
+            "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
+            "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
+            "horainicio":$("#addAusencia #hora_inicio").datetimepicker('date').format('LT'),
+            "horafin":$("#addAusencia #hora_fin").datetimepicker('date').format('LT'),
+            "observaciones":$("#addAusencia #observaciones").val()
         }
     }
     $.ajax({
@@ -167,13 +167,14 @@ function updateAusencias(){
              else{
                 var datos = {
                     "idausencia": $(this).find("td:nth-child(2) span").text(),
-                    "fecha": $(this).find("td:nth-child(4) > div").datetimepicker('date').format('L'),
-                    "diacompleto": $(this).find("td:nth-child(5) input").val(),     
-                    "horainicio": $(this).find("td:nth-child(6) > div").datetimepicker('date').format('LT'),
-                    "horafin": $(this).find("td:nth-child(7) > div").datetimepicker('date').format('LT'),
-                    "observaciones": $(this).find("td:nth-child(8) input").val()     
+                    "fecha": $(this).find("td:nth-child(5) > div").datetimepicker('date').format('L'),
+                    "diacompleto": $(this).find("td:nth-child(6) select").val(),     
+                    "horainicio": $(this).find("td:nth-child(7) > div").datetimepicker('date').format('LT'),
+                    "horafin": $(this).find("td:nth-child(8) > div").datetimepicker('date').format('LT'),
+                    "observaciones": $(this).find("td:nth-child(9) input").val()     
                 }
              }
+      
             arrayDatos.push(datos);
         }
     })
