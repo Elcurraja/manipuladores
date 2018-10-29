@@ -13,15 +13,25 @@
 <body>
     <?php
         include("html/menu.php");
+        include("php/lineas_f.php");
     ?>
-        <h3 class="msg text-center">Lineas</h3>
-    </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal" data-focus="true"><i class="far fa-plus-square"></i> Añadir Nueva</button>
-    <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
-     
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
-    </div>
+
+    <div class="row align-items-end" id="test">
+        <div class="col-3" id="opciones-l">
+            <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalLineas"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+        </div>
+        <div class="col-6">
+            <h3 class="msg text-center">Lineas</h3>
+        </div>
+        <div class="col-3" id="opciones-r">
+            <div class="btn-group" role="group" id="opciones" >
+            <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="guardarCampos();">Guardar <i class="far fa-save"></i></button>
+        <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>   
+</div>
+        
     <div id="table-responsive">
         <table class="table table-striped table-bordered" id="tabla_datos"> 
             <thead class="thead-dark">
@@ -39,20 +49,16 @@
                 </tr>
             </thead>
                 <tbody id="tabla_datos">
-                <?php
-                     include("php/lineas_f.php");
-                ?>
-            
             </tbody>
         </table>
     </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalLineas" tabindex="-1" role="dialog" aria-labelledby="modalLineasLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Linea</h5>
+        <h5 class="modal-title" id="modalLineasLabel">Añadir Linea</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -68,15 +74,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="idnave">IDnave: </label>
+                        <label for="idnave">Nave: </label>
                     </td>
                     <td>
                         <select id="idnave" class="form-control">
                         <?php
                             $conn=mysql_manipuladores();
-                            $resultQuery =$conn->query("SELECT idnave from naves");
+                            $resultQuery =$conn->query("SELECT idnave,designacion from naves");
                             while ($fila = $resultQuery->fetch_assoc()) {
-                                echo '<option value="'.$fila['idnave'].'">'.$fila['idnave'].'</option>';
+                                echo '<option value="'.$fila['idnave'].'">'.$fila['designacion'].'</option>';
                             }
                         ?>
                         </select>
@@ -84,15 +90,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="idtipolinea">IDtipolinea: </label>
+                        <label for="idtipolinea">Tipo Linea: </label>
                     </td>
                     <td>
                         <select id="idtipolinea" class="form-control">
                         <?php
                             $conn=mysql_manipuladores();
-                            $resultQuery =$conn->query("SELECT idtipolinea from tipo_linea");
+                            $resultQuery =$conn->query("SELECT idtipolinea,nombre from tipo_linea");
                             while ($fila = $resultQuery->fetch_assoc()) {
-                                echo '<option value="'.$fila['idtipolinea'].'">'.$fila['idtipolinea'].'</option>';
+                                echo '<option value="'.$fila['idtipolinea'].'">'.$fila['nombre'].'</option>';
                             }
                         ?>
                         </select>

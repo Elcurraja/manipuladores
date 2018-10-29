@@ -19,9 +19,21 @@ include("mysqlConexion.php");
 
 function showAusencias(){
     $conn=mysql_manipuladores();
-    $query= "SELECT * from ausencias";
+    $query= "SELECT
+            a.idausencia,
+            a.idmanipulador,
+            a.fecha,
+            a.esdiacompleto,
+            a.hora_inicio,
+            a.hora_fin,
+            a.observaciones,
+            concat( m.nombre, ' ', m.apellidos ) AS nombre 
+            FROM
+                ausencias AS a,
+                manipuladores AS m 
+            WHERE
+                m.idmanipulador = a.idmanipulador";
     $resultQuery =$conn->query($query);
-    //$i=1;
     if (!$resultQuery) {
         $response['error'] = 1;
         $response['mensaje'] = "Error en la consulta: " + $conexion->error;
@@ -32,6 +44,7 @@ function showAusencias(){
             $fila = array(
                 'idausencia' => $fila['idausencia'],
                 'idmanipulador' => $fila['idmanipulador'],
+                'nombre' => $fila['nombre'],
                 'fecha'=>$fila['fecha'],
                 'esdiacompleto' => $fila['esdiacompleto'],
                 'hora_inicio' => $fila['hora_inicio'],

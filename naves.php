@@ -13,16 +13,27 @@
 <body>
     <?php
         include("html/menu.php");
+        include("php/naves_f.php");
     ?>
-        <h3 class="msg text-center">Naves</h3>
-    </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="far fa-plus-square"></i> Añadir Nueva</button>
-    <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
-    </div>
+
+    <div class="row align-items-end" id="test">
+        <div class="col-3" id="opciones-l">
+            <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalNave"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+        </div>
+        <div class="col-6">
+            <h3 class="msg text-center">Naves</h3>
+        </div>
+        <div class="col-3" id="opciones-r">
+            <div class="btn-group" role="group" id="opciones" >
+            <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="guardarCampos();">Guardar <i class="far fa-save"></i></button>
+        <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>   
+</div>
+
     <div id="tabla">
-        <table class="table table-striped table-bordered"> 
+        <table class="table table-striped table-bordered"  id="tabla_naves"> 
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -30,22 +41,17 @@
                     <th scope="col">Designacion</th>
                 </tr>
             </thead>
-                <tbody>
-                <?php
-                    include("php/naves_f.php");
-                    mostrarNaves();
-                ?>
-            
+                <tbody>            
             </tbody>
         </table>
     </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalNave" tabindex="-1" role="dialog" aria-labelledby="modalNaveLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Nave</h5>
+        <h5 class="modal-title" id="modalNaveLabel">Añadir Nave</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
@@ -56,7 +62,7 @@
                         <label for="designacion">Designacion: </label>
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="designacion" id="designacion" />
+                        <input type="text" class="form-control" name="modal_designacion" id="modal_designacion" />
                     </td>
                 </tr>
                 

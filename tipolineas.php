@@ -13,16 +13,25 @@
 <body>
 <?php
     include("html/menu.php");
+    include("php/tipo_lineas_f.php");
 ?>
-        <h3 class="msg text-center">Tipo Lineas</h3>
-    </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="far fa-plus-square"></i> Añadir Nuevo</button>
-    <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="guardarCampos();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
-    </div>
+    <div class="row align-items-end" id="test">
+        <div class="col-3" id="opciones-l">
+            <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalTipoLinea"><i class="far fa-plus-square"></i> Añadir Nuevo</button>
+        </div>
+        <div class="col-6">
+            <h3 class="msg text-center">Tipo Lineas</h3>
+        </div>
+        <div class="col-3" id="opciones-r">
+            <div class="btn-group" role="group" id="opciones" >
+            <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="guardarCampos();">Guardar <i class="far fa-save"></i></button>
+        <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>   
+</div>
     <div id="tabla">
-        <table class="table table-striped table-bordered"> 
+        <table class="table table-striped table-bordered" id="tabla_tipo_lineas"> 
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
@@ -31,23 +40,17 @@
                 </tr>
             </thead>
                 <tbody>
-                <?php 
-                if(!$_POST){
-                    include("php/tipo_lineas_f.php");
-                    mostrarTipoLineas();
-                }
-                ?>
-            
+           
             </tbody>
         </table>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalTipoLinea" tabindex="-1" role="dialog" aria-labelledby="modalTipoLineaLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Añadir Linea</h5>
+            <h5 class="modal-title" id="modalTipoLineaLabel">Añadir Linea</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

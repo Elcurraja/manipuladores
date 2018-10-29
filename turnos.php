@@ -22,16 +22,23 @@
 	<?php 
         include("html/menu.php");
     ?>
-        <h3 class="msg text-center">Turnos</h3>
+
+    <div class="row align-items-end" id="test">
+            <div class="col-3" id="opciones-l">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_turno" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
+            </div>
+            <div class="col-6">
+                <h3 class="msg text-center">Turnos</h3>
+            </div>
+            <div class="col-3" id="opciones-r">
+                <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns" >
+                    <button type="button" class="btn btn-primary" id="guardar_cambios_btn"   ><i class="far fa-save"></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" id="aviso_borrar_btn"  data-toggle="modal" data-target="#modal_confirm_borrar_turnos"  ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+                </div>
+            </div>
+        </div>   
     </div>
-    <div class="container-fluid">
-        
-        <div id="tabla_mostrar_turnos">
-            <button type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" ><i class="far fa-plus-square"></i> Añadir nuevo</button>
-            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <button type="button" class="btn btn-primary" id="guardar_cambios_btn" disabled ><i class="far fa-save"></i> Guardar cambios</button>
-                <button type="button" class="btn btn-warning" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" disabled ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
-        </div>
+
         <h4 class="text-center" id="mensaje_turnos"></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="mostrar_turnos">

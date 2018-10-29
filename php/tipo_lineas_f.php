@@ -2,6 +2,9 @@
 require("mysqlConexion.php");
 if(isset($_POST['op'])){
     switch($_POST['op']){
+        case 'show':
+            showTipoLineas();
+            break;
         case 'add':
             addTipoLinea();
             break;
@@ -13,19 +16,26 @@ if(isset($_POST['op'])){
             break;
     }
 }
-function mostrarTipoLineas(){
+function showTipoLineas(){
     $conn=mysql_manipuladores();
     $query= "SELECT * from tipo_linea";
     $resultQuery =$conn->query($query);
-    while ($fila = $resultQuery->fetch_assoc()){
-    ?>
-    <tr class="fila">
-        <td><input type="checkbox" name="edit" class="checkedit"></td>
-        <td><span><?=$fila['idtipolinea']?></span></td>
-        <td><input type="text" name="nombre" class="form-control" value="<?=$fila['nombre']?>" disabled="disable"></td>
-    </tr>
-    <?php 
+    if (!$resultQuery) {
+        $response['error'] = 1;
+        $response['mensaje'] = "Error en la consulta: " + $conexion->error;
+    } else {
+        $response['error'] = 0;
+        $response['datosTipoLinea'] = array();
+        while ($fila = $resultQuery->fetch_assoc()){
+            $fila = array(
+                'idtipolinea' => $fila['idtipolinea'],
+                'nombre' => $fila['nombre']
+            );
+            array_push($response['datosTipoLinea'], $fila);
+        }
     }
+    $conn->close();
+    echo json_encode($response);
 }
 
 function editarTipoLineas(){

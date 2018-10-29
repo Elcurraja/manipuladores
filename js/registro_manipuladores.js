@@ -14,7 +14,7 @@ $(document).ready(function() {
         }
     })
     //MOSTRAMOS U OCULTAMOS EL MENU PARA GUARDAR O BORRAR
-    $("#tabla_registro div input").on("change", ".checkedit", function(){
+    $("#tabla_registro").on("change", "div .checkedit", function(){
         var countchecked = false;
         $(this).each(function(){
             if($(this).is(":checked")){
@@ -23,12 +23,10 @@ $(document).ready(function() {
             }
         });
         if(countchecked){
-            // $("#opciones").css("display","block");
-            $("#opciones .boton").prop("disabled",false);
+            $("#opciones .boton").css("display","block");
         }
         else{
-            // $("#opciones").css("display","none");
-            $("#opciones .boton").prop("disabled",true);
+            $("#opciones .boton").css("display","none");
         }     
     })
     
@@ -70,7 +68,7 @@ function showReg(){
                 for (let index = 0; index < response.datosReg.length; index++){
                     $("tbody").append(
                         "<tr class='fila'>"+
-                        "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
+                        "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
                         "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
                         "<input type='hidden' class='form-control' name='idmanipulador' id='idmanipulador'value='"+ response.datosReg[index].idmanipulador+"'/>"+
                         "<td><span>"+ response.datosReg[index].nombre+"</span></td>"+

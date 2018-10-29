@@ -32,7 +32,7 @@ $(document).ready(function() {
         }
     })
     //MOSTRAMOS U OCULTAMOS EL MENU PARA GUARDAR O BORRAR
-    $("#tabla_ausencia").on("change", ".checkedit", function(){
+    $("#tabla_ausencia").on("change", "div .checkedit", function(){
         var countchecked = false;
         $(".checkedit").each(function(){
             if($(this).is(":checked")){
@@ -41,10 +41,10 @@ $(document).ready(function() {
             }
         });
         if(countchecked){
-            $("#opciones .boton").prop("disabled",false);
+            $("#opciones .boton").css("display","block");
         }
         else{
-            $("#opciones .boton").prop("disabled",true);
+            $("#opciones .boton").css("display","none");
         } 
     })
 
@@ -72,9 +72,9 @@ function showAusencias(){
         success:function(response){
             $("#tabla_ausencia tbody").empty();
                 for (let index = 0; index < response.datosAusencia.length; index++){
-                    $("tbody").append(
+                    $("#tabla_ausencia tbody").append(
                         "<tr class='fila'>"+
-                        "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck1'><label class='custom-control-label' for='customCheck1'></label></div></td>'"+
+                        "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
                         "<td><span>"+ response.datosAusencia[index].idausencia +"</span></td>"+
                         "<input type='hidden' class='form-control' name='idmanipulador' id='idmanipulador'value='"+ response.datosAusencia[index].idmanipulador+"'disabled='disable'/>"+
                         "<td><span>"+ response.datosAusencia[index].nombre+"</span></td>"+
@@ -113,7 +113,7 @@ function showAusencias(){
         },
         error:function(jqXHR, textStatus, errorThrown){
             //console.log(datos)
-            console.log("Error en la peticion AJAX para mostrar los registros: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+            console.log("Error en la peticion AJAX para mostrar los registros de ausencias: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
     })
 }

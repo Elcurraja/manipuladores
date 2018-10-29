@@ -3,6 +3,9 @@ include("mysqlConexion.php");
 
 if(isset($_POST['op'])){
     switch($_POST['op']){
+        case 'show':
+            showNaves();
+            break;
         case 'add':
             addNave();
             break;
@@ -14,19 +17,26 @@ if(isset($_POST['op'])){
             break;
     }
 }
-function mostrarNaves(){
+function showNaves(){
     $conn=mysql_manipuladores();
     $query= "SELECT * from naves";
     $resultQuery =$conn->query($query);
-    while ($fila = $resultQuery->fetch_assoc()){
-    ?>
-    <tr class="fila">
-        <td><input type="checkbox" name="edit" class="checkedit"></td>
-        <td><span><?=$fila['idnave']?></span></td>
-        <td><input type="text" name="designacion" class="form-control" value="<?=$fila['designacion']?>" disabled="disable"></td>
-    </tr>
-    <?php 
+    if (!$resultQuery) {
+        $response['error'] = 1;
+        $response['mensaje'] = "Error en la consulta: " + $conexion->error;
+    } else {
+        $response['error'] = 0;
+        $response['datosNaves'] = array();
+        while ($fila = $resultQuery->fetch_assoc()){
+            $fila = array(
+                'idnave' => $fila['idnave'],
+                'designacion' => $fila['designacion']
+            );
+            array_push($response['datosNaves'], $fila);
+        }
     }
+    $conn->close();
+    echo json_encode($response);
 }
 
 function editarNaves(){

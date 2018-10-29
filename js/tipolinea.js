@@ -1,6 +1,6 @@
 $(document).ready(function() {
     //DESHABILITAMOS O HABILITAMOS LA FILA DE INPUTS SI ESTA MARCADO EL CHECKBOX
-    $("td").change(function(){
+    $("#tabla_tipo_lineas").on("change", "td", function(){
         var elementos = $(this).parent()[0];
         if($(elementos).find("input:checked").val()){
             var hijos =$(elementos).find("input[type=text]").prop("disabled",false);
@@ -12,7 +12,7 @@ $(document).ready(function() {
         }
     })
     //MOSTRAMOS U OCULTAMOS EL MENU PARA GUARDAR O BORRAR
-    $(".checkedit").on("change",function(){
+    $("#tabla_tipo_lineas").on("change", "div .checkedit", function(){
         var countchecked = false;
         $(".checkedit").each(function(){
             if($(this).is(":checked")){
@@ -21,16 +21,38 @@ $(document).ready(function() {
             }
         });
         if(countchecked){
-            // $("#opciones").css("display","block");
-            $("#opciones .boton").prop("disabled",false);
+            $("#opciones .boton").css("display","block");
         }
         else{
-            // $("#opciones").css("display","none");
-            $("#opciones .boton").prop("disabled",true);
+            $("#opciones .boton").css("display","none");
         } 
     })
+    showTipoLinea()
 })
-
+function showTipoLinea(){
+    $.ajax({
+        url:"php/tipo_lineas_f.php",
+        type:"POST",
+        dataType: "json",
+        data: {
+            op:"show"
+        },
+        success:function(response){
+            $("#tabla_tipo_lineas tbody").empty();
+                for (let index = 0; index < response.datosTipoLinea.length; index++){
+                    $("#tabla_tipo_lineas tbody").append(
+                        "<tr class='fila'>"+
+                        "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
+                        "<td><span>"+ response.datosTipoLinea[index].idtipolinea +"</span></td>"+
+                        "<td><input type='text' class='form-control' name='designacion' id='nombre'value='"+ response.datosTipoLinea[index].nombre+"'disabled='disable'/></td>");
+                    }
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            //console.log(datos)
+            console.log("Error en la peticion AJAX para mostrar los registros de naves: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+        }
+    })
+}
 //RECORREMOS TODAS LAS FILAS, BUSCAMOS LAS QUE ESTEN CHECKEADAS Y GUARDAMOS SUS DATOS.
 //LOS ENVIAMOS MEDIANTE AJAX
 function guardarCampos(){
@@ -102,7 +124,7 @@ function addTipoLinea(){
         type:"POST",
         data:{
             "op": "add",
-            "nombre":$("#nombre").val()
+            "nombre":$("#modalTipoLinea #nombre").val()
         },
         success:function(respuesta){
             location.href ="tipolineas.php";

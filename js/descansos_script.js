@@ -134,9 +134,9 @@ $(function(){
 
     $("#mostrar_descansos").on("change", ".selec_descanso", function(){
         if ($(".selec_descanso:checked").length > 0) {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", false);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "block");
         } else {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
         }
         
         var isChecked = $(this).prop("checked");
@@ -168,7 +168,7 @@ $(function(){
                     for (let index = 0; index < respuesta.datos.length; index++){
                         $("#mostrar_descansos tbody").append(
                             "<tr>" +
-                            "<td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_descanso' /></div></td>" +
+                            "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_descanso custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
                             "<td><input type='text' class='form-control' value='" + respuesta.datos[index].iddescanso + "' readonly /></td>" +
                             "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].nombre + "' readonly /></td>" +
                             "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
@@ -201,7 +201,7 @@ $(function(){
                 console.log("Error en la peticion AJAX para mostrar los descansos: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function () {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            //$("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
         });
     }
 

@@ -42,39 +42,45 @@
     <?php 
         include("html/menu.php");
     ?>
-        <h3 class="msg text-center">Descansos</h3>
-    </div>
-    <div class="container-fluid">    
-       
-        <div id="tabla_mostrar_descansos">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_descanso" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
-            <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
-                <button type="button" class="btn btn-primary" id="guardar_cambios_btn" disabled ><i class="far fa-save"></i> Guardar cambios</button>
-                <button type="button" class="btn btn-warning" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" disabled ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
-            </div>
-            
-            <h4 class="text-center" id="mensaje_descansos"></h4>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="mostrar_descansos">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Selecciona</th>
-                            <th scope="col">Id</th>
-                            <th scope="col">Id Manipulador</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
-                            <th scope="col">DNI / Pasaporte</th>
-                            <th scope="col">Fecha de Inicio</th>
-                            <th scope="col">Fecha de Fin</th>
-                            <th scope="col">Tipo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
+        <div class="row align-items-end" id="test">
+            <div class="col-3" id="opciones-l">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_descanso" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
             </div>
+            <div class="col-6">
+                <h3 class="msg text-center">Descansos</h3>
+            </div>
+            <div class="col-3" id="opciones-r">
+                <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns" >
+                    <button type="button" class="btn btn-primary" id="guardar_cambios_btn"   ><i class="far fa-save"></i> Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" id="aviso_borrar_btn"  data-toggle="modal" data-target="#modal_confirm_borrar_descansos"  ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div id="tabla_mostrar_descansos">
+        <h4 class="text-center" id="mensaje_descansos"></h4>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="mostrar_descansos">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Id Manipulador</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">DNI / Pasaporte</th>
+                        <th scope="col">Fecha de Inicio</th>
+                        <th scope="col">Fecha de Fin</th>
+                        <th scope="col">Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
         <!-- MODAL DE AÑADIR DESCANSO -->
         <div class="modal fade" id="modal_anyadir_descanso" tabindex="-1" role="dialog" aria-labelledby="modal_anyadir_descanso" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">

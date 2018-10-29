@@ -1,6 +1,6 @@
 /* CSS PARA EL MENU*/
 .menu, .menu .dropdown-menu{
-    background-color: #1565c0; 
+    background-color: #0d47a1; 
 }
 .menu{
     box-shadow: 0px 10px 6px -4px rgba(0,0,0,0.61);
@@ -33,20 +33,29 @@ li.menu_li a:hover {
     height: 2px;
     background-color: #fdb61c;
 }
-
+/* #opciones-l{
+    height: 100%;
+    background-image: linear-gradient(-90deg,#1565c0,white);
+}
+#opciones-r{
+    background-image: linear-gradient(-90deg,white,#1565c0);
+} */
+#test{
+    padding-top: 2%;
+    background-color: #1565c0;
+    /* background-image: linear-gradient(to right,#f6f7f8 20%,#1565c0   33%,#1565c0   66%,#f6f7f8 80% ) */
+    /* background-image: linear-gradient(to bottom,#1565c0,#2773ca,#2775cf,#418de4,rgb(107, 163, 228),rgb(157, 197, 243),rgb(206, 226, 250)); */
+}
 /* DIV QUE CONTIENE EL TEXTO QUE NOS MUESTRA DONDE ESTAMOS*/
 .msg{
-    background-color: #1565c0;
     padding-top: 20px;
-    color: #C9E8FF;
-    height: 70px;
+    color: rgb(240, 240, 240);
+    height: 4.5rem;
     font-size: 1.7em;
+    margin-bottom: 0px;
 }
 .clear{
     clear: both;
-}
-#opciones{
-    float:right;
 }
 tbody tr td input[type="text"], tbody tr td span,select{
     font-weight: bold;
@@ -58,10 +67,7 @@ tbody tr td input[type="text"], tbody tr td span,select{
 .boton{
     font-size: 1.2em;
 }
-#botonVolver{
-    float: left;
-    margin-bottom: 20px;
-}
+
 #conf{
     width: auto;
 }
@@ -81,12 +87,16 @@ td input:enabled, td select:enabled{
 .table-responsive{
 	overflow-x: visible;
 }
-#grupo_actualizar_borrar_btns {
-	float: right;
+#grupo_actualizar_borrar_btns,#opciones {
+    float: right;
 }
+#guardar_cambios_btn,#aviso_borrar_btn{
+    display:none;
+}
+
 /* MANIPULADORES, DESCANSOS, TURNOS */
 #mensaje_manip, #mostrar_manip, #mensaje_descansos, #mostrar_descansos, #mensaje_turnos, #mostrar_turnos {
-            display: none;
+    display: none;
 }
 .bootstrap-datetimepicker-widget {
     z-index: 1021;
@@ -95,16 +105,19 @@ td input:enabled, td select:enabled{
 /* REGISTRO_MANIPULADORES Y REASIGNAR*/
 #busqueda_fecha{
     float: left;
-    width: 300px;
+    width: 200px;
 }
 #nombreB,#info,#fecha input,#mostrarTodos,#buscarReg{
     margin-left: 20px;
+}
+#nombreB{
+    margin-top: 30px;
 }
 #tabla_registro select {
     width: 190px;
 }
 /*REASIGNAR LINEA MANIPULADOR*/
-#nombreB,#nombreInfo,#fechaInfo{
+#nombreB,#nombreInfo,#fechaInfo,#busqueda_fecha,#botonVolver{
     float:left; 
 }
 #nombreInfo,#fechaInfo,#nombreInfo input,#fechaInfo input{

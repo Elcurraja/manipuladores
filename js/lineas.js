@@ -22,13 +22,13 @@ $(document).ready(function() {
             }
         });
         if(countchecked){
-            // $("#opciones").css("display","block");
-            $("#opciones .boton").prop("disabled",false);
+            $("#opciones .boton").css("display","block");
+            // $("#opciones .boton").prop("disabled",false);
         }
         else{
-            // $("#opciones").css("display","none");
-            $("#opciones .boton").prop("disabled",true);
-        } 
+            $("#opciones .boton").css("display","none");
+            // $("#opciones .boton").prop("disabled",true);
+        }  
     })
     showLineas()
 });
@@ -48,7 +48,7 @@ function showLineas(){
                     
                     $("tbody#tabla_datos").append(
                         "<tr class='fila'>"+
-                        "<td><input type='checkbox' name='edit' class='checkedit'></td>"+
+                        "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
                         "<td><span>"+ response.lineas[index].idlinea +"</span></td>"+
                         "<td><input type='text' name='nombre' value='" + response.lineas[index].nombre + "' class='input_s form-control' disabled='disable'></td>"+
                         "<td><select class='form-control selectFont' id='idnave"+index+"' disabled=disable></select>"+
@@ -164,14 +164,14 @@ function addlinea(){
         type:"POST",
         data:{
             "op": "add",
-            "nombre":$("#nombre").val(),
-            "idnave":$("#idnave").val(),
-            "idtipolinea":$("#idtipolinea").val(),
-            "disponible":$("#disponible").val(),
-            "puestosmax":$("#puestosmax").val(),
-            "fiabilidad":$("#fiabilidad").val(),
-            "velocidad":$("#velocidad").val(),
-            "disponibilidad":$("#disponibilidad").val()
+            "nombre":$("#modalLineas #nombre").val(),
+            "idnave":$("#modalLineas #idnave").val(),
+            "idtipolinea":$("#modalLineas #idtipolinea").val(),
+            "disponible":$("#modalLineas #disponible").val(),
+            "puestosmax":$("#modalLineas #puestosmax").val(),
+            "fiabilidad":$("#modalLineas #fiabilidad").val(),
+            "velocidad":$("#modalLineas #velocidad").val(),
+            "disponibilidad":$("#modalLineas #disponibilidad").val()
         },
         success:function(response){
         location.href ="./lineas.php";

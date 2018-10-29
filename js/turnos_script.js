@@ -142,9 +142,9 @@ $(function(){
        EL EVENTO SE FIJA AL PADRE ESTATICO MAS CERCANO PERO APUNTA A LA CLASE DEL CHECKBOX */
     $("#mostrar_turnos").on("change", ".selec_turno", function(){
         if ($(".selec_turno:checked").length > 0) {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", false);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "block");
         } else {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
         }
         
         var isChecked = $(this).prop("checked");
@@ -203,7 +203,7 @@ $(function(){
                     for (let index = 0; index < respuesta.datos.length; index++) {
                         $("#mostrar_turnos tbody").append(
                             "<tr>" +
-                            "<td scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_turno' /></div></td>" +
+                            "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_turno custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
                             "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idturno + "' readonly /></td>" +
                             "<td><input type='text' class='form-control' value='" + respuesta.datos[index].franja + "' readonly /></td>" +
                             "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
@@ -236,7 +236,7 @@ $(function(){
                 console.log("Error en la peticion AJAX para mostrar los turnos: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function(){
-            $("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            //$("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
         });
     }
 

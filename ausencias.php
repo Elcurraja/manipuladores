@@ -41,14 +41,24 @@
 <body>
     <?php
         include("html/menu.php");
+        include("php/ausencias_f.php");
     ?>
-        <h3 class="msg text-center">Ausencias</h3>
-    </div>
-    <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalAddAusencia"><i class="far fa-plus-square"></i> Añadir Nueva</button>
-    <div class="btn-group" id="opciones">
-        <button type="button" class="btn boton btn-primary" onclick ="updateAusencias();" disabled="disabled">Guardar <i class="far fa-save"></i></button>
-        <button type="button" class="btn boton btn-warning" data-toggle="modal" data-target="#modal_confirm_borrar" disabled="disabled">Borrar <i class="far fa-trash-alt"></i></button>
-    </div>
+
+    <div class="row align-items-end" id="test">
+        <div class="col-3" id="opciones-l">
+            <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalAddAusencia"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+        </div>
+        <div class="col-6">
+            <h3 class="msg text-center">Ausencias</h3>
+        </div>
+        <div class="col-3" id="opciones-r">
+            <div class="btn-group" role="group" id="opciones" >
+                <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="updateAusencias();">Guardar <i class="far fa-save"></i></button>
+                <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>   
+</div>
     <div id="tabla">
         <table class="table table-striped table-bordered" id="tabla_ausencia"> 
             <thead class="thead-dark">
@@ -63,17 +73,12 @@
                     <th scope="col">Observaciones</th>
                 </tr>
             </thead>
-                <tbody>
-                <?php 
-                if(!$_POST){
-                    include("php/ausencias_f.php");
-                    //mostrarAusencias();
-                }
-                ?>
-            
+            <tbody>
+
             </tbody>
         </table>
     </div>
+</div>
     
     
 

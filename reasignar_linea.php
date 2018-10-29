@@ -39,11 +39,17 @@
     <?php
         include("html/menu.php");
     ?>
-     <h3 class="msg text-center">Reasignar Linea Manipulador</h3>
-    </div>
-    <button type="button" id="botonVolver" class="btn btn-primary" onclick ="window.location.href='./registro_manipuladores.php'">Volver a registro</button>
-    <div class="clear"></div>
-    
+
+    <div class="row align-items-end" id="test">
+        <div class="col-3" id="opciones-l">
+            <button type="button" id="botonVolver" class="btn btn-primary" onclick ="window.location.href='./registro_manipuladores.php'"><i class="fas fa-arrow-alt-circle-left"></i> Volver a registro</button>
+        </div>
+        <div class="col-6">
+            <h3 class="msg text-center">Reasignar Linea Manipulador</h3>
+        </div>
+    </div>   
+</div>
+  
 
     <div id="nombreB">
         <label for="busqueda_manipulador">Búsqueda por: <strong>Documento Identificativo</strong>,<strong>Nombre</strong> o <strong>Apellidos</strong>: </label>
