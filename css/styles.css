@@ -1,3 +1,4 @@
+
 /* CSS PARA EL MENU*/
 .menu, .menu .dropdown-menu{
     background-color: #0d47a1; 
@@ -55,11 +56,14 @@ tbody tr td input[type="text"], tbody tr td span,select{
     font-weight: bold;
     text-align: center;
 }
+.table-responsive .table input{
+    width: inherit;
+}
 .selectReg{
     width: 80px;
 }
 .boton,.col-3 button{
-    font-size: 1.2em;
+    font-size: 1.15em;
 }
 #conf{
     width: auto;
@@ -74,7 +78,7 @@ tbody tr td input[type="text"], tbody tr td span,select{
 td input:enabled, td select:enabled{
 	background-color: #DFFFDE;
 }
-/* .table-responsive{
+/* .d-responsive{
 	overflow-x: visible;
 } */
 #grupo_actualizar_borrar_btns,#opciones {

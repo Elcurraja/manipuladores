@@ -1,8 +1,12 @@
 $(document).ready(function() {
 
-      /* INICIADO DEL PLUGIN TEMPUS DOMINUS PARA LOS INPUT "HORA INICIO, FIN Y DATE"
-    EN EL MOMENTO DE AÑADIR UNA AUSENCIA
-       https://tempusdominus.github.io/bootstrap-4/Usage/#time-only */
+    $('#busqueda_fecha').datetimepicker({
+        locale: 'es',
+        format: 'L'
+     });
+
+    /* INICIADO DEL PLUGIN TEMPUS DOMINUS PARA LOS INPUT "HORA INICIO, FIN Y DATE"
+    EN EL MOMENTO DE AÑADIR UNA AUSENCIA */
     $('#modalAddAusencia #hora_fin').datetimepicker({
        locale: 'es',
        format: 'LT',
@@ -59,17 +63,32 @@ $(document).ready(function() {
             $('.hora').css("display","table-row")
         }
     })
+    $('#mostrarTodos').click(function(){
+        $("#busqueda_fecha").datetimepicker('clear')
+        showAusencias()
+    })
+
     showAusencias()
 });
 function showAusencias(){
+    if ($("#busqueda_fecha").datetimepicker('date')==null){
+        var datos ={
+            op:"show",
+            fecha:"todos"
+        }
+    }
+    else {
+        var datos={
+            op:"show",
+            fecha:$("#busqueda_fecha").datetimepicker('date').format('L'),
+        }
+    }
     $.ajax({
         url:"php/ausencias_f.php",
         type:"POST",
         dataType: "json",
-        data: {
-            op:"show"
-        },
-        success:function(response){
+        data: datos
+        ,success:function(response){
             $("#tabla_ausencia tbody").empty();
                 for (let index = 0; index < response.datosAusencia.length; index++){
                     $("#tabla_ausencia tbody").append(

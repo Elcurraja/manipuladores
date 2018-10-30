@@ -3,7 +3,7 @@ include("mysqlConexion.php");
   if(isset($_POST['op'])){
     switch($_POST['op']){
         case 'show':
-            showAusencias();
+            showAusencias($_POST['fecha']);
             break;
         case 'add':
             addAusencia();
@@ -17,9 +17,9 @@ include("mysqlConexion.php");
     }
 }
 
-function showAusencias(){
+function showAusencias($fecha){
     $conn=mysql_manipuladores();
-    $query= "SELECT
+    $select= "SELECT
             a.idausencia,
             a.idmanipulador,
             a.fecha,
@@ -30,10 +30,16 @@ function showAusencias(){
             concat( m.nombre, ' ', m.apellidos ) AS nombre 
             FROM
                 ausencias AS a,
-                manipuladores AS m 
-            WHERE
-                m.idmanipulador = a.idmanipulador
-            ORDER BY a.fecha ASC ";
+                manipuladores AS m";
+    if($fecha=="todos"){
+        $query= "$select WHERE m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
+    }
+    else{
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
+        $query= "$select WHERE fecha='$fechaF' AND m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
+    }
+    
     $resultQuery =$conn->query($query);
     if (!$resultQuery) {
         $response['error'] = 1;

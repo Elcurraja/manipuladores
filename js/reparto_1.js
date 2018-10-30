@@ -40,12 +40,13 @@ $(function(){
     });
 
     $("#repartir").click(function(){
-        var texto = "";
         $("#mostrar_opciones_lineas tbody td:nth-child(7)").each(function(){
-            texto += "puestos maximos = " + $(this).prev().find("select").val() + "\n";
-            texto += "fiabilidad = " + $(this).find("div:nth-child(1) select").val() + ", velocidad = " + $(this).find("div:nth-child(2) select").val() + ", disponibilidad = " + $(this).find("div:nth-child(3) select").val() + "\n";
+            console.log("id linea = " + $(this).siblings("input").val() + "\n" +
+                        "puestos a cubrir = " + $(this).prev().find("select").val() + "\n" +
+                        "fiabilidad = " + $(this).find("div:nth-child(1) select").val() + "\n" +
+                        "velocidad = " + $(this).find("div:nth-child(2) select").val() + "\n" +
+                        "disponibilidad = " + $(this).find("div:nth-child(3) select").val() + "\n");
         });
-        console.log(texto);
     });
 
     function mostrarOpcionesLineas(){
@@ -59,15 +60,12 @@ $(function(){
             success: function(respuesta){
                 for (let index = 0; index < respuesta.datos.length; index++) {
                     $("#mostrar_opciones_lineas tbody").append( "<tr>" +
-                                                                    "<td class='align-middle' scope='row'><div class='form-check'><input type='checkbox' class='form-check-input selec_linea' /></div></td>" +
-                                                                    "<td class='align-middle'><input type='text' class='form-control' value='" + respuesta.datos[index].designacion + "' readonly /></td>" +
-                                                                    "<td class='align-middle'><input type='text' class='form-control' value='" + respuesta.datos[index].idlinea + "' readonly /></td>" +
-                                                                    "<td class='align-middle'><input type='text' class='form-control' value='" + respuesta.datos[index].nombre_de_linea + "' readonly /></td>" +
-                                                                    "<td class='align-middle'><input type='text' class='form-control' value='" + respuesta.datos[index].nombre_de_tipolinea + "' readonly /></td>" +
-                                                                    "<td class='align-middle'>" +
-                                                                        "<div class='form-group'>" +
-                                                                            "<label for='puestos_maximos_" + index + "'></label>" +
-                                                                        "</div>" +
+                                                                    "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_linea custom-control-input' id='customCheck" + index + "'><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
+                                                                    "<td class='align-middle'><span>" + respuesta.datos[index].designacion + "</span></td>" +
+                                                                    "<input type='hidden' value='" + respuesta.datos[index].idlinea + "' />" +
+                                                                    "<td class='align-middle'><span>" + respuesta.datos[index].nombre_de_linea + "</span></td>" +
+                                                                    "<td class='align-middle'><span>" + respuesta.datos[index].nombre_de_tipolinea + "</span></td>" +
+                                                                    "<td id='td_puestos_maximos_" + index + "' class='align-middle'></td>" +
                                                                     "<td class='align-middle'>" +
                                                                         "<div class='form-group'>" +
                                                                             "<label for='fiabilidad_" + index + "'>Preferencia de Fiabilidad: </label>" +
@@ -88,7 +86,7 @@ $(function(){
                     for (let i = 0; i <= respuesta.datos[index].puestos_maximos; i++) {
                         select_puestos_maximos.append("<option value='" + i + "'>" + i + "</option>");
                     }
-                    select_puestos_maximos.val(respuesta.datos[index].puestos_maximos).insertAfter("label[for='puestos_maximos_" + index + "']");
+                    select_puestos_maximos.val(respuesta.datos[index].puestos_maximos).appendTo("#td_puestos_maximos_" + index);
                     for (let i = 0; i <= 9; i++) {
                         select_fiabilidad.append("<option value='" + i + "'>" + i + "</option>");
                         select_velocidad.append("<option value='" + i + "'>" + i + "</option>");

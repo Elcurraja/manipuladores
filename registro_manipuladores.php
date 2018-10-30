@@ -28,8 +28,8 @@
                 </div>
                 <button type="button" class="btn btn-primary" onclick ="showReg();"><i class="fa fa-search"></i></button>
             </div>
-            <button type="button" id="mostrarTodos" class="btn btn-primary">Mostrar Todos</button>
-            <button type="button" class="btn btn-warning" onclick ="window.location.href='./reasignar_linea.php'">Reasignar Linea </button>
+            <button type="button" id="mostrarTodos" class="btn boton btn-primary">Mostrar Todos</button>
+            <button type="button" class="btn boton btn-warning" onclick ="window.location.href='./reasignar_linea.php'">Reasignar Linea </button>
         </div>
         <div class="col-3">
             <h3 class="msg text-center">Registro Manipuladores</h3>

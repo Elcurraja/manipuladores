@@ -45,13 +45,21 @@
     ?>
 
     <div class="row align-items-end" id="cabecera">
-        <div class="col-3">
-            <button type="button" class="btn boton btn-primary" data-toggle="modal" data-target="#modalAddAusencia"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+        <div class="col-5">
+            <button type="button" class="btn boton btn-primary float-left" data-toggle="modal" data-target="#modalAddAusencia" style="margin-right:10px;"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+            <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
+                <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick ="showAusencias();"><i class="fa fa-search"></i></button>
+            </div>
+            <button type="button" id="mostrarTodos" class="btn boton btn-primary">Mostrar Todos</button>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <h3 class="msg text-center">Ausencias</h3>
         </div>
-        <div class="col-3">
+        <div class="col-4">
             <div class="btn-group" role="group" id="opciones" >
                 <button type="button" class="btn boton btn-primary" id="guardar_cambios_btn" onclick ="updateAusencias();">Guardar <i class="far fa-save"></i></button>
                 <button type="button" class="btn boton btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar">Borrar <i class="far fa-trash-alt"></i></button>
@@ -59,6 +67,7 @@
         </div>
     </div>   
 </div>
+   
     <div id="tabla">
         <table class="table table-striped table-bordered" id="tabla_ausencia"> 
             <thead class="thead-dark">
@@ -200,7 +209,28 @@
 
                 }
             });
+
+            $("#busqueda_ausencia").ajaxlivesearch({
+                loaded_at: <?php echo time(); ?>,
+                token: <?php echo "'" . $handler->getToken() . "'"; ?>,
+                max_input: <?php echo Config::getConfig('maxInputLength'); ?>,
+                onResultClick: function(e, data) {
+                    // get the index 0 (first column) value
+                    var selectedOne = $(data.selected).find('td').eq('0').text();
+                    // set the input value
+                    $('#manipulador').val(selectedOne);
+
+                    // hide the result
+                    $("#busqueda_ausencia").trigger('ajaxlivesearch:hide_result');
+                },
+                onResultEnter: function(e, data) {
+                },
+                onAjaxComplete: function(e, data) {
+
+                }
+            });
         });
+
     </script>
     
 </body>

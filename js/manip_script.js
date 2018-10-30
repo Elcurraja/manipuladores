@@ -104,11 +104,18 @@ $(function(){
         var isChecked = $(this).prop("checked");
         $(this).closest("td").siblings().each(function(){
             if (isChecked){
-                // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
-                $(this).find("input").prop("readonly", false);
+                if ($(this).children().prop("tagName") === "INPUT") {
+                    $(this).children().prop("readonly", false);
+                } else {
+                    $(this).children().prop("disabled", false);
+                }
                 $(this).parent().css('background-color','#FFE189')    
             } else {
-                $(this).find("input").prop("readonly", true);
+                if ($(this).children().prop("tagName") === "INPUT") {
+                    $(this).children().prop("readonly", true);
+                } else {
+                    $(this).children().prop("disabled", true);
+                }
                 $(this).parent().css('background-color','')   
             }
         });
@@ -131,7 +138,7 @@ $(function(){
                             "<tr>" +
                                 "<td scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_manip custom-control-input' id='customCheck" + index + "'><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
                                 "<input type='hidden' value='" + respuesta.datos[index].idmanipulador + "' />" +
-                                "<td><input type='text' class='form-control' value='" +  respuesta.datos[index].nombre + "' readonly /></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].nombre + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].telefono + "' readonly /></td>" +
@@ -139,12 +146,35 @@ $(function(){
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dias_seguidos_trabajados + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].email + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tlf_familiar + "' readonly /></td>" +
-                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].fiabilidad + "' readonly /></td>" +
-                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].velocidad + "' readonly /></td>" +
-                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].disponibilidad + "' readonly /></td>" +
+                                "<td id='td_fiabilidad_" + index + "'></td>" +
+                                "<td id='td_velocidad_" + index + "'></td>" +
+                                "<td id='td_disponibilidad_" + index + "'></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td>" +
                             "</tr>"
                         );
+                        var select_fiabilidad = $("<select id='fiabilidad_" + index + "' class='form-control' disabled></select>");
+                        var select_velocidad = $("<select id='velocidad_" + index + "' class='form-control' disabled></select>");
+                        var select_disponibilidad = $("<select id='disponibilidad_" + index + "' class='form-control' disabled></select>");
+                        for (let i = 0; i <= 9; i++) {
+                            if (i == respuesta.datos[index].fiabilidad) {
+                                select_fiabilidad.append("<option value='" + i + "' selected>" + i + "</option");
+                            } else {
+                                select_fiabilidad.append("<option value='" + i + "'>" + i + "</option");
+                            }
+                            if (i == respuesta.datos[index].velocidad) {
+                                select_velocidad.append("<option value='" + i + "' selected>" + i + "</option");
+                            } else {
+                                select_velocidad.append("<option value='" + i + "'>" + i + "</option");
+                            }
+                            if (i == respuesta.datos[index].disponibilidad) {
+                                select_disponibilidad.append("<option value='" + i + "' selected>" + i + "</option");
+                            } else {
+                                select_disponibilidad.append("<option value='" + i + "'>" + i + "</option");
+                            }
+                        }
+                        select_fiabilidad.appendTo("#td_fiabilidad_" + index);
+                        select_velocidad.appendTo("#td_velocidad_" + index);
+                        select_disponibilidad.appendTo("#td_disponibilidad_" + index);
                     }
                     $("#mostrar_manip").css("display", "table");
                 } else {
@@ -156,25 +186,36 @@ $(function(){
             }
         }).done(function(){
             $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
+            $('#mostrar_manip').DataTable({
+                "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Buscar:",
+                    "sUrl":            "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
         });
     }
 
     function anyadirManipulador(){
-        if(!esNumerico($("#fiabilidad").val()) || $("#fiabilidad").val().length < 1){
-            var fiabilidad = 0;
-        } else {
-            var fiabilidad = $("#fiabilidad").val();
-        }
-        if(!esNumerico($("#velocidad").val()) || $("#velocidad").val().length > 1){
-            var velocidad = 0;
-        } else {
-            var velocidad = $("#velocidad").val();
-        }
-        if (!esNumerico($("#disponibilidad").val()) || $("#disponibilidad").val().length > 1) {
-            var disponibilidad = 0;
-        } else {
-            var disponibilidad = $("#disponibilidad").val()
-        }
         $.ajax({
             url: "php/manipuladores_ajax.php",
             type: "post",
@@ -189,9 +230,9 @@ $(function(){
                     direccion: $("#direccion").val(),
                     email: $("#email").val(),
                     tlf_familiar: $("#tlf_familiar").val(),
-                    fiabilidad: fiabilidad,
-                    velocidad: velocidad,
-                    disponibilidad: disponibilidad,
+                    fiabilidad: $("#fiabilidad").val(),
+                    velocidad: $("#velocidad").val(),
+                    disponibilidad: $("#disponibilidad").val(),
                     observaciones: $("#observaciones").val()
                 })
             },
@@ -212,21 +253,6 @@ $(function(){
     function editarManipuladores(){
         var array = [];
         $(".selec_manip:checked").closest("tr").each(function(){
-            if(!esNumerico($(this).find("td:nth-child(11) input").val()) || $(this).find("td:nth-child(11) input").val().length > 1){
-                var fiabilidad = 0;
-            } else {
-                var fiabilidad = $(this).find("td:nth-child(11) input").val();
-            }
-            if(!esNumerico($(this).find("td:nth-child(12) input").val()) || $(this).find("td:nth-child(12) input").val().length > 1){
-                var velocidad = 0;
-            } else {
-                var velocidad = $(this).find("td:nth-child(12) input").val();
-            }
-            if (!esNumerico($(this).find("td:nth-child(13) input").val()) || $(this).find("td:nth-child(13) input").val().length > 1) {
-                var disponibilidad = 0;
-            } else {
-                var disponibilidad = $(this).find("td:nth-child(13) input").val()
-            }
             var temp = {
                 "id": $(this).children("input").val(),
                 "nombre": $(this).find("td:nth-child(3) input").val(),
@@ -237,9 +263,9 @@ $(function(){
                 "dst": $(this).find("td:nth-child(8) input").val(),
                 "email": $(this).find("td:nth-child(9) input").val(),
                 "tlf_familiar": $(this).find("td:nth-child(10) input").val(),
-                'fiabilidad': fiabilidad,
-                'velocidad': velocidad,
-                'disponibilidad': disponibilidad,
+                'fiabilidad': $(this).find("td:nth-child(11) select").val(),
+                'velocidad': $(this).find("td:nth-child(12) select").val(),
+                'disponibilidad': $(this).find("td:nth-child(13) select").val(),
                 'observaciones': $(this).find("td:nth-child(14) input").val()
             };
             // https://stackoverflow.com/questions/43361864/how-to-push-json-object-in-to-array-using-javascript/43362428
@@ -270,7 +296,7 @@ $(function(){
         var array = [];
         $(".selec_manip:checked").closest("tr").each(function(){
             var temp = {
-                "id": $(this).find("td:nth-child(2) input").val()
+                "id": $(this).children("input").val()
             };
             array.push(temp);
         });

@@ -10,23 +10,29 @@
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/reparto_1.js"></script>
-    <title>Planificar Dia</title>
+    <title>Preferencias de Lineas</title>
 </head>
 <body>
     <?php 
         include("html/menu.php");
     ?>
-        <h3 class="msg text-center">Configuración Reparto</h3>
-    </div>
-    <div class="container-fluid">
+            <div class="row align-items-end" id="cabecera">
+                <div class="col-3">
+                    <button type="button" id="repartir" class="btn btn-primary"><i class="fas fa-users"></i> Hacer Reparto</button>
+                </div>
+                <div class="col-6">
+                    <h3 class="msg text-center">Configuración Reparto</h3>
+                </div>
+                <div class="col-3">
+                </div>
+            </div>
+        </div>
         <h4 class="text-center" id="mensaje_opciones_lineas"></h4>
-        <button type="button" id="repartir" class="btn btn-primary">Hacer Reparto</button>
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="mostrar_opciones_lineas" >
                 <thead class="thead-dark">
                     <th scope="col">Editar</th>
                     <th scope="col">Nave</th>
-                    <th scope="col">ID Línea</th>
                     <th scope="col">Nombre de la Línea</th>
                     <th scope="col">Tipo de Linea</th>
                     <th scope="col">Puestos a cubrir</th>

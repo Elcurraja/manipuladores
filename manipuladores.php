@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>
     <script type="text/javascript" src="js/manip_script.js"></script>
     <title>Acciones sobre Manipuladores</title>
 </head>
@@ -17,7 +19,7 @@
         include("html/menu.php");
     ?>
             
-            <div class="row align-items-end" id="test">
+            <div class="row align-items-end" id="cabecera">
                 <div class="col-3">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_manip" ><i class="far fa-address-card"></i> Añadir nuevo</button>
                 </div>
@@ -33,27 +35,31 @@
             </div>
         </div>
         <h4 class="text-center" id="mensaje_manip"></h4>
-        <table class="table table-responsive table-bordered table-hover" id="mostrar_manip">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Selecciona</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">DNI / Pasaporte</th>
-                    <th scope="col">Teléfono</th>
-                    <th scope="col">Dirección</th>
-                    <th scope="col">Dias Seguidos Trabajados</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Teléfono Familiar</th>
-                    <th scope="col">Fiabilidad</th>
-                    <th scope="col">Velocidad</th>
-                    <th scope="col">Disponibilidad</th>
-                    <th scope="col">Observaciones</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive">
+            <table class="table table-responsive table-bordered table-hover" id="mostrar_manip">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Selecciona</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">DNI / Pasaporte</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Dias Seguidos Trabajados</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Teléfono Familiar</th>
+                        <th scope="col">Fiabilidad</th>
+                        <th scope="col">Velocidad</th>
+                        <th scope="col">Disponibilidad</th>
+                        <th scope="col">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-            </tbody>
+                </tbody>
+            </table>
+        </div>
+        <table id="dt">
         </table>
         <!-- MODAL DE AÑADIR NUEVO MANIPULADOR 
              https://getbootstrap.com/docs/4.1/components/modal/ -->
@@ -133,7 +139,18 @@
                                         <label for="fiabilidad">Fiabilidad: </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="fiabilidad" id="fiabilidad" />   
+                                        <select name="fiabilidad" class="form-control" id="fiabilidad">
+                                            <option value="0" selected>0</option>
+                                            <option value="1">1</option>
+                                            <option value="0">2</option>
+                                            <option value="0">3</option>
+                                            <option value="0">4</option>
+                                            <option value="0">5</option>
+                                            <option value="0">6</option>
+                                            <option value="0">7</option>
+                                            <option value="0">8</option>
+                                            <option value="0">9</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -141,7 +158,18 @@
                                         <label for="velocidad">Velocidad: </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="velocidad" id="velocidad" />
+                                        <select name="velocidad" class="form-control" id="velocidad">
+                                            <option value="0" selected>0</option>
+                                            <option value="1">1</option>
+                                            <option value="0">2</option>
+                                            <option value="0">3</option>
+                                            <option value="0">4</option>
+                                            <option value="0">5</option>
+                                            <option value="0">6</option>
+                                            <option value="0">7</option>
+                                            <option value="0">8</option>
+                                            <option value="0">9</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -149,7 +177,18 @@
                                         <label for="disponibilidad">Disponibilidad: </label>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="disponibilidad" id="disponibilidad" />
+                                        <select name="disponibilidad" class="form-control" id="disponibilidad">
+                                            <option value="0" selected>0</option>
+                                            <option value="1">1</option>
+                                            <option value="0">2</option>
+                                            <option value="0">3</option>
+                                            <option value="0">4</option>
+                                            <option value="0">5</option>
+                                            <option value="0">6</option>
+                                            <option value="0">7</option>
+                                            <option value="0">8</option>
+                                            <option value="0">9</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
