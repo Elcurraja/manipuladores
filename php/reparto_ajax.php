@@ -72,6 +72,9 @@
         echo json_encode($respuesta);
     }
     function cargarManipuladores(){
-        $sql = " SELECT idmanipulador,nombre,fiabilidad,velocidad,disponibilidad FROM `manipuladores` ORDER BY velocidad DESC,disponibilidad DESC,fiabilidad DESC";
+        header('Content-Type: application/json; charset=utf-8');
+        $conexion = mysql_manipuladores();
+        $sql = "SELECT idmanipulador,nombre,fiabilidad,velocidad,disponibilidad FROM manipuladores";
+        $resultado = $conexion->query($sql);
     }
 ?>
