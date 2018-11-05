@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/reparto_1.js"></script>
-    <title>Preferencias de Lineas</title>
+    <title>Reparto</title>
 </head>
 <body>
     <?php 

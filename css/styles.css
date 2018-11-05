@@ -56,6 +56,9 @@ tbody tr td input[type="text"], tbody tr td span,select{
     font-weight: bold;
     text-align: center;
 }
+.table-responsive{
+    margin-top:2%;
+}
 .table-responsive .table input{
     width: inherit;
 }

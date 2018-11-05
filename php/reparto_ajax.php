@@ -10,8 +10,8 @@
             case 'cargarLineas':
                 cargarLineas();
                 break;
-            case '':
-                //cargarTurnos();
+            case 'cargarManipuladores':
+                cargarManipuladores();
                 break;
             case '':
                 //nuevoTurno();
@@ -70,5 +70,8 @@
             }
         }
         echo json_encode($respuesta);
+    }
+    function cargarManipuladores(){
+        $sql = " SELECT idmanipulador,nombre,fiabilidad,velocidad,disponibilidad FROM `manipuladores` ORDER BY velocidad DESC,disponibilidad DESC,fiabilidad DESC";
     }
 ?>

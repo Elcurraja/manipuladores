@@ -40,13 +40,23 @@ $(function(){
     });
 
     $("#repartir").click(function(){
+        var array = [];
         $("#mostrar_opciones_lineas tbody td:nth-child(7)").each(function(){
-            console.log("id linea = " + $(this).siblings("input").val() + "\n" +
-                        "puestos a cubrir = " + $(this).prev().find("select").val() + "\n" +
-                        "fiabilidad = " + $(this).find("div:nth-child(1) select").val() + "\n" +
-                        "velocidad = " + $(this).find("div:nth-child(2) select").val() + "\n" +
-                        "disponibilidad = " + $(this).find("div:nth-child(3) select").val() + "\n");
+            var temp = {
+                "id_linea": $(this).siblings("input").val(),
+                "puestos_max":$(this).prev().find("select").val(),
+                "fiabilidad":$(this).find("div:nth-child(1) select").val(),
+                "velocidad":$(this).find("div:nth-child(2) select").val(),
+                "disponibilidad":$(this).find("div:nth-child(3) select").val()
+            };
+            array.push(temp);
+            // console.log("id linea = " + $(this).siblings("input").val() + "\n" +
+            //             "puestos a cubrir = " + $(this).prev().find("select").val() + "\n" +
+            //             "fiabilidad = " + $(this).find("div:nth-child(1) select").val() + "\n" +
+            //             "velocidad = " + $(this).find("div:nth-child(2) select").val() + "\n" +
+            //             "disponibilidad = " + $(this).find("div:nth-child(3) select").val() + "\n");
         });
+        repartoLineas(array)
     });
 
     function mostrarOpcionesLineas(){
@@ -101,6 +111,31 @@ $(function(){
                 console.log("Error en la peticion AJAX para cargar las opciones de lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         });
+        
+    }
+    
+    function repartoLineas(array){
+        $.ajax({
+            url: "php/reparto_ajax.php",
+            type: "post",
+            dataType: "json",
+            data: {
+                accion: "cargarManipuladores"
+            },
+            success: function(respuesta){
+            
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("Error en la peticion AJAX para cargar las opciones de lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+            }
+        });
+        for(let i=0;i<array.length;i++){
+            for(let j=1;j<=array[i].puestos_max;j++){
+
+            }
+        }
+        console.log(array)
         
     }
 });

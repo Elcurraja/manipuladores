@@ -1,5 +1,5 @@
 $(function(){
-/* -------------------------------------------------- COMPRORBACIONES INICIALES --------------------------------------------------*/
+/* -------------------------------------------------- COMPROBACIONES INICIALES --------------------------------------------------*/
     /* COMPROBACION INICIAL EXISTENCIA DE DATOS EN 'manipuladores'.
        SI EXISTEN SE MUESTRA LA TABLA, SI NO, SE MUESTRA UN MENSAJE */
     $.ajax({
@@ -131,8 +131,15 @@ $(function(){
             },
             success: function(respuesta){
                 if (respuesta.error == 0) {
-                    // https://stackoverflow.com/questions/10782054/what-does-the-tilde-squiggle-twiddle-css-selector-mean
-                    $("#mostrar_manip tbody tr").remove();
+                    /* SI EXISTE UNA DATATABLE DE UNA EJECUCION ANTERIOR DE LA FUNCION "mostrarManipuladores" SE ELIMINA
+                    ESA DATATABLE, SI NO SE HACE SE MUESTRA UN ALERT CON UN MENSAJE DE ERROR AL CREARLA DE NUEVO
+                    https://datatables.net/manual/tech-notes/3 */
+                    if ($.fn.dataTable.isDataTable("#mostrar_manip")) {
+                        tabla.destroy();
+                        // DESASIGNACION DEL EVENTO "change" PARA LOS ELEMENTOS "input" Y "select"
+                        $("#mostrar_manip tbody td input, #mostrar_manip tbody td select").off("change");
+                    }
+                    $("#mostrar_manip tbody").empty();
                     for (let index = 0; index < respuesta.datos.length; index++) {
                         $("#mostrar_manip tbody").append(
                             "<tr>" +
@@ -186,8 +193,20 @@ $(function(){
             }
         }).done(function(){
             $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
-            $('#mostrar_manip').DataTable({
-                "language": {
+            /* CREACION DE LA DATATABLE UNA VEZ LA TABLA ESTA FORMADA. SE INICIA CON LAS OPCIONES DE NO ORDENAR POR
+               DEFECTO POR LA PRIMERA COLUMNA (SOLO CONTIENE CHECKBOXES) SINO LA TERCERA (APELLIDOS), CABECERA FIJA
+               CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
+               QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
+            tabla = $('#mostrar_manip').DataTable({
+                // https://datatables.net/reference/option/order
+                order: [[2, "asc"]],
+                // https://datatables.net/reference/option/fixedHeader
+                fixedHeader: {
+                    header: true,
+                    // https://datatables.net/forums/discussion/30576/how-to-reanchor-fixedheader-or-how-to-change-headeroffset
+                    headerOffset: $('.sticky-top').height(),
+                },
+                language: {
                     "sProcessing":     "Procesando...",
                     "sLengthMenu":     "Mostrar _MENU_ registros",
                     "sZeroRecords":    "No se encontraron resultados",
@@ -210,7 +229,34 @@ $(function(){
                         "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
-                }
+                },
+                columnDefs: [
+                    // https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column
+                    { "orderable": false, "targets": "no_ordenable" },
+                    // https://datatables.net/reference/option/columns.searchable
+                    { "searchable": false, "targets": 0 },
+                    // https://datatables.net/reference/option/columns.type
+                    { "type": "html-input", "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
+                ]
+            });
+            /* EVENTOS PARA ACTUALIZAR LOS ATRIBUTOS "value" Y "selected" DE LOS <input> Y <select> PARA QUE
+               AL CAMBIARSELE EL VALOR Y JUSTO DESPUES EFECTUAR UNA BUSQUEDA SE LEAN LOS NUEVOS VALORES 
+               https://stackoverflow.com/questions/27852497/jquery-datatables-search-within-input-and-select */
+            $("#mostrar_manip tbody td input").on('change', function() {
+                var td = $(this).parent();
+                td.find('input').attr('value', this.value);
+                tabla.cell(td).invalidate().draw();
+            });
+            $("#mostrar_manip tbody td select").on('change', function() {
+                var td = $(this).parent();
+                var value = this.value;
+                td.find('option').each(function(index, object) {
+                    $(object).removeAttr('selected');
+                    if ($(object).val() == value){
+                        $(object).attr('selected', true);
+                    }
+                });
+                tabla.cell(td).invalidate().draw();
             });
         });
     }
