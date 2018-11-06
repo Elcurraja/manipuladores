@@ -71,7 +71,7 @@ tbody tr td input[type="text"], tbody tr td span,select{
 #conf{
     width: auto;
 }
-.custom-control-label{
+td:first-child .custom-control-label{
     transform: scale(1.2);
     margin-bottom: 1rem;
     margin-left: 50%;

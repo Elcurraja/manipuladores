@@ -76,17 +76,24 @@ $(function(){
                                                                     "<td class='align-middle'><span>" + respuesta.datos[index].nombre_de_linea + "</span></td>" +
                                                                     "<td class='align-middle'><span>" + respuesta.datos[index].nombre_de_tipolinea + "</span></td>" +
                                                                     "<td id='td_puestos_maximos_" + index + "' class='align-middle'></td>" +
-                                                                    "<td class='align-middle'>" +
-                                                                        "<div class='form-group'>" +
-                                                                            "<label for='fiabilidad_" + index + "'>Preferencia de Fiabilidad: </label>" +
-                                                                        "</div>" +
-                                                                        "<div class='form-group'>" +
-                                                                            "<label for='velocidad_" + index + "'>Preferencia de Velocidad: </label>" +
-                                                                        "</div>" +
-                                                                        "<div class='form-group'>" +
-                                                                            "<label for='disponibilidad_" + index + "'>Preferencia de Disponibilidad: </label>" +
-                                                                        "</div>" +
-                                                                    "</td>" +
+                                                                    "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkFiabilidad" + index + "'><label class='custom-control-label' for='checkFiabilidad" + index + "'>Fiablidad</label></div>"+
+                                                                    "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkVelocidad" + index + "'><label class='custom-control-label' for='checkVelocidad" + index + "'>Velocidad</label></div>"+
+                                                                    "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkDisponibilidad" + index + "'><label class='custom-control-label' for='checkDisponibilidad" + index + "'>Disponibilidad</label></div></td>"+
+                                                                    "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkOrdenFiabilidad" + index + "'><label class='custom-control-label' for='checkOrdenFiabilidad" + index + "'>Fiablidad</label></div>"+
+                                                                    "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkOrdenVelocidad" + index + "'><label class='custom-control-label' for='checkOrdenVelocidad" + index + "'>Velocidad</label></div>"+
+                                                                    "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checOrdenkDisponibilidad" + index + "'><label class='custom-control-label' for='checkOrdenDisponibilidad" + index + "'>Disponibilidad</label></div></td>"+
+                                                                    
+                                                                    // "<td class='align-middle'>" +
+                                                                    //     "<div class='form-group'>" +
+                                                                    //         "<label for='fiabilidad_" + index + "'>Preferencia de Fiabilidad: </label>" +
+                                                                    //     "</div>" +
+                                                                    //     "<div class='form-group'>" +
+                                                                    //         "<label for='velocidad_" + index + "'>Preferencia de Velocidad: </label>" +
+                                                                    //     "</div>" +
+                                                                    //     "<div class='form-group'>" +
+                                                                    //         "<label for='disponibilidad_" + index + "'>Preferencia de Disponibilidad: </label>" +
+                                                                    //     "</div>" +
+                                                                    // "</td>" +
                                                                 "</tr>"
                     );
                     var select_puestos_maximos = $("<select id='puestos_maximos_" + index + "' class='form-control' disabled></select>");
@@ -115,27 +122,25 @@ $(function(){
     }
     
     function repartoLineas(array){
+        console.log(array)
         $.ajax({
             url: "php/reparto_ajax.php",
             type: "post",
             dataType: "json",
             data: {
+                datosLineas:array,
                 accion: "cargarManipuladores"
             },
-            success: function(respuesta){
-            
-                
+            success: function(response){
+                if (response.error==1){
+                    console.log("Codigo de error:"+response.error + " " + response.mensaje)
+                }                
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function(response,jqXHR, textStatus, errorThrown){
+                
+                console.log(response.responseText)
                 console.log("Error en la peticion AJAX para cargar las opciones de lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         });
-        for(let i=0;i<array.length;i++){
-            for(let j=1;j<=array[i].puestos_max;j++){
-
-            }
-        }
-        console.log(array)
-        
     }
 });

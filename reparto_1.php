@@ -29,7 +29,7 @@
         </div>
         <h4 class="text-center" id="mensaje_opciones_lineas"></h4>
         <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="mostrar_opciones_lineas" >
+            <table class="table table-bordered" id="mostrar_opciones_lineas" >
                 <thead class="thead-dark">
                     <th scope="col">Editar</th>
                     <th scope="col">Nave</th>
@@ -37,6 +37,7 @@
                     <th scope="col">Tipo de Linea</th>
                     <th scope="col">Puestos a cubrir</th>
                     <th scope="col">Establecer Opciones</th>
+                    <th scope="col">Orden</th>
                 </thead>
                 <tbody>
 
