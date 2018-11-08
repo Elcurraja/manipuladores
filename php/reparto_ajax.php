@@ -102,7 +102,35 @@
         }
         $conexion->commit();
 
-        // $parametrosLineas= $_POST['datosLineas'];
+        $parametrosLineas= $_POST['datosLineas'];
+        //var_dump($parametrosLineas);
+        $arrayLineasSP = array();
+        $arrayLineas = array();
+        $sqlOrderFiabilidad = "SELECT * FROM reparto ORDER BY fiabilidad ASC";
+        $sqlOrderVelocidad  = "SELECT * FROM reparto ORDER BY velocidad  ASC";
+
+        for($a=0;$a<count($parametrosLineas);$a++){
+            if($parametrosLineas[$a]['opFiablidad'] == 'false' && $parametrosLineas[$a]['opVelocidad'] =='false'){
+                $temp = array(
+                    'idlinea' => $parametrosLineas[$a]['id_linea'],
+                    'max_puestos' => $parametrosLineas[$a]['puestos_max'],
+                    'listaManipuladores' => array(),
+                );
+                array_push($arrayLineasSP,$temp);
+            }
+            else {
+                $temp = array(
+                    'idlinea' => $parametrosLineas[$a]['id_linea'],
+                    'max_puestos' => $parametrosLineas[$a]['puestos_max'],
+                    'listaManipuladores' => array(),
+                );
+                array_push($arrayLineas,$temp);
+            }
+        }
+        for($f=0; $f<count();$f++){
+
+        }
+        print_r($arrayLineasSP);
         // $response['sql']=array();
         // for($i=0;$i<count($parametrosLineas);$i++){
             

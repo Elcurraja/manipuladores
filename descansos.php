@@ -42,31 +42,27 @@
     <?php 
         include("html/menu.php");
     ?>
-
-        <div class="row align-items-end" id="test">
-            <div class="col-3" id="opciones-l">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_descanso" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
-            </div>
-            <div class="col-6">
-                <h3 class="msg text-center">Descansos</h3>
-            </div>
-            <div class="col-3" id="opciones-r">
-                <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns" >
-                    <button type="button" class="btn btn-primary" id="guardar_cambios_btn"   ><i class="far fa-save"></i> Guardar cambios</button>
-                    <button type="button" class="btn btn-danger" id="aviso_borrar_btn"  data-toggle="modal" data-target="#modal_confirm_borrar_descansos"  ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+            <div class="row align-items-end" id="cabecera">
+                <div class="col-3">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_descanso" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
+                </div>
+                <div class="col-6">
+                    <h3 class="msg text-center">Descansos</h3>
+                </div>
+                <div class="col-3">
+                    <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
+                        <button type="button" class="btn btn-warning" id="guardar_cambios_btn" ><i class="far fa-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_descansos" ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+                    </div>
                 </div>
             </div>
-        </div>   
-    </div>
-    <div id="tabla_mostrar_descansos">
+        </div>
         <h4 class="text-center" id="mensaje_descansos"></h4>
         <div class="table-responsive">
-            <table class="table table-bordered" id="mostrar_descansos">
+            <table class="table table-bordered table-hover" id="mostrar_descansos">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Id</th>
-                        <th scope="col">Id Manipulador</th>
+                        <th scope="col">Selecciona</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">DNI / Pasaporte</th>
@@ -76,11 +72,10 @@
                     </tr>
                 </thead>
                 <tbody>
+
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
         <!-- MODAL DE AÑADIR DESCANSO -->
         <div class="modal fade" id="modal_anyadir_descanso" tabindex="-1" role="dialog" aria-labelledby="modal_anyadir_descanso" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -104,7 +99,7 @@
                                         https://github.com/iranianpep/ajax-live-search -->
                                         <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong>, por <strong>Nombre</strong> o por <strong>Apellidos</strong>: </label>
                                         <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
-                                        <input type="text" class="form-control" name="idmanipulador" id="idmanipulador" readonly style="width:550px"/>
+                                        <input type="text" class="form-control" name="idmanipulador" id="idmanipulador" readonly />
                                         <!-- <small class="form-text text-muted">Campo obligatorio</small> -->
                                     </td>
                                 </tr>
@@ -150,7 +145,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <p id="mensaje_anyadir_descanso"></p>
+                        <h4 class="text-center" id="mensaje_anyadir_descanso"></h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="guardar_nuevo_descanso_btn" disabled>Guardar</button>

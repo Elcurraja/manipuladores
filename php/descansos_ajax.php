@@ -4,13 +4,13 @@
         $accion = $_POST['accion'];
         switch ($accion) {
             case 'exist_datos_descansos':
-                comprobarDescansos();
+            comprobarDescansos();
                 break;
             case 'mostrarDescansos':
-                cargarDescansos();
+            cargarDescansos();
                 break;
             case 'anyadirDescanso':
-                nuevoDescanso();
+            nuevoDescanso();
                 break;
             case 'editarDescansos':
                 actualizarDescansos();

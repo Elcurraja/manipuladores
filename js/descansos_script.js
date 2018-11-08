@@ -39,30 +39,48 @@ $(function(){
     });
 
     /* EVENTO PARA COMPROBAR SI TODOS LOS INPUTS DEL MODAL AÑADIR DESCANSO CONTIENEN UN DATO
-       EL SELECTOR APUNTA A LOS DOS INPUTS DE FECHA Y LOS DOS PRIMEROS EVENTOS SON DE TEMPUS DOMINUS
-       https://tempusdominus.github.io/bootstrap-4/Events/#hidedatetimepicker */
-       $("#fecha_inicio, #fecha_fin").on("hide.datetimepicker show.datetimepicker focusin focusout", function(){
-        if ($("#idmanipulador").val() && $("#tipo_descanso").val() && $("#fecha_inicio").datetimepicker('date') && $("#fecha_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_descanso_btn").prop("disabled", false);
-        } else {
-            $("#guardar_nuevo_descanso_btn").prop("disabled", true);
-        }
+       EL SELECTOR APUNTA A LOS DOS INPUTS DE FECHA Y LOS DOS EVENTOS SON DE TEMPUS DOMINUS
+       https://tempusdominus.github.io/bootstrap-4/Events/ */
+        $("#fecha_inicio, #fecha_fin").on("change.datetimepicker show.datetimepicker", function(){
+            try {
+                if ($("#idmanipulador").val() && $("#tipo_descanso").val() && $("#fecha_inicio").datetimepicker('date').format("YYYY-MM-DD") && $("#fecha_fin").datetimepicker('date').format("YYYY-MM-DD")) {
+                    $("#guardar_nuevo_descanso_btn").prop("disabled", false);
+                    $("#mensaje_anyadir_descanso").empty();
+                } else {
+                    $("#guardar_nuevo_descanso_btn").prop("disabled", true);
+                }
+            } catch (error) {
+                console.log("Error: " + error.message);
+                $("#guardar_nuevo_descanso_btn").prop("disabled", true);
+            }
     });
-    // EVENTO CAPTURADO DESDE UN LANZAMIENTO MANUAL EN EL CODIGO JAVASCRIPT DEL DOCUMENTO PHP
+    // EVENTO CAPTURADO DESDE UN LANZAMIENTO MANUAL (LINEA 213) EN EL CODIGO JAVASCRIPT DEL DOCUMENTO PHP
     $("#idmanipulador").change(function(){
-        if ($(this).val() && $("#tipo_descanso").val() && $("#fecha_inicio").datetimepicker('date') && $("#fecha_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_descanso_btn").prop("disabled", false);
-        } else {
+        try {
+            if ($(this).val() && $("#tipo_descanso").val() && $("#fecha_inicio").datetimepicker('date').format("YYYY-MM-DD") && $("#fecha_fin").datetimepicker('date').format("YYYY-MM-DD")) {
+                $("#guardar_nuevo_descanso_btn").prop("disabled", false);
+                $("#mensaje_anyadir_descanso").empty();
+            } else {
+                $("#guardar_nuevo_descanso_btn").prop("disabled", true);
+            }
+        } catch (error) {
+            console.log("Error: " + error.message);
             $("#guardar_nuevo_descanso_btn").prop("disabled", true);
         }
     });
 
     /* EVENTO PARA COMPROBAR SI TODOS LOS INPUTS DEL MODAL AÑADIR DESCANSO CONTIENEN UN DATO
        SE COMPRUEBA CADA VEZ QUE SE ESCRIBE ALGO EN EL CAMPO "Tipo de descanso" */
-       $("#tipo_descanso").on("keyup blur focus", function(){
-        if ($("#idmanipulador").val() && $(this).val() && $("#fecha_inicio").datetimepicker('date') && $("#fecha_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_descanso_btn").prop("disabled", false);
-        } else {
+       $("#tipo_descanso").on("keyup", function(){
+        try {
+            if ($("#idmanipulador").val().length != 0 && $(this).val() && $("#fecha_inicio").datetimepicker('date').format("YYYY-MM-DD") && $("#fecha_fin").datetimepicker('date').format("YYYY-MM-DD")) {
+                $("#guardar_nuevo_descanso_btn").prop("disabled", false);
+                $("#mensaje_anyadir_descanso").empty();
+            } else {
+                $("#guardar_nuevo_descanso_btn").prop("disabled", true);
+            }
+        } catch (error) {
+            console.log("Error: " + error.message);
             $("#guardar_nuevo_descanso_btn").prop("disabled", true);
         }
     });
@@ -86,9 +104,11 @@ $(function(){
             estaVacio = true;
         }
         if (!estaVacio) {
+            $("#mensaje_anyadir_descanso").empty();
             anyadirDescanso();
         } else {
             $("#guardar_nuevo_descanso_btn").prop("disabled", true);
+            $("#mensaje_anyadir_descanso").text("Todos los campos deben tener algún dato");
         }
     });
 
@@ -132,6 +152,8 @@ $(function(){
         eliminarDescansos();
     });
 
+    /* COMPROBACION PARA LOS CHECKBOXES PARA ACTIVAR LOS BOTONES DE EDICION Y BORRADO
+       EL EVENTO SE FIJA AL PADRE ESTATICO MAS CERCANO PERO APUNTA A LA CLASE DEL CHECKBOX */
     $("#mostrar_descansos").on("change", ".selec_descanso", function(){
         if ($(".selec_descanso:checked").length > 0) {
             $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "block");
@@ -140,7 +162,7 @@ $(function(){
         }
         
         var isChecked = $(this).prop("checked");
-        $(this).closest("td").siblings("td:gt(4)").each(function(){
+        $(this).closest("td").siblings("td:gt(2)").each(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
@@ -168,13 +190,15 @@ $(function(){
                     for (let index = 0; index < respuesta.datos.length; index++){
                         $("#mostrar_descansos tbody").append(
                             "<tr>" +
-                            "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_descanso custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
-                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].iddescanso + "' readonly /></td>" +
-                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idmanipulador + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].nombre + "' readonly /></td>" +
-                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td><td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
-                            "<td><div class='input-group date' id='fecha_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>" +
-                            "<td><div class='input-group date' id='fecha_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_fin_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>" +
-                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tipo + "' readonly /></td>" +
+                                "<td scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_descanso custom-control-input' id='customCheck" + index + "'><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
+                                "<input type='hidden' value='" + respuesta.datos[index].iddescanso + "' />" +
+                                "<input type='hidden' value='" + respuesta.datos[index].idmanipulador + "' />" +
+                                "<td><span>" + respuesta.datos[index].nombre + "</span></td>" +
+                                "<td><span>" + respuesta.datos[index].apellidos + "</span></td>" +
+                                "<td><span>" + respuesta.datos[index].dni + "</span></td>" +
+                                "<td><div class='input-group date' id='fecha_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>" +
+                                "<td><div class='input-group date' id='fecha_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_fin_" + index + "' readonly /><div class='input-group-append' data-target='#fecha_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].tipo + "' readonly /></td>" +
                             "</tr>"
                         );
                         $('#fecha_inicio_' + index).datetimepicker({
@@ -201,7 +225,7 @@ $(function(){
                 console.log("Error en la peticion AJAX para mostrar los descansos: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function () {
-            //$("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
         });
     }
 
@@ -239,14 +263,15 @@ $(function(){
         var array = [];
         $(".selec_descanso:checked").closest("tr").each(function(){
             var temp = {
-                "iddescanso": $(this).find("td:nth-child(2) input").val(),
-                "idmanipulador": $(this).find("td:nth-child(3) input").val(),
+                "iddescanso": $(this).children("input:nth-child(2)").val(),
+                "idmanipulador": $(this).children("input:nth-child(3)").val(),
                 "fecha_inicio": $(this).find("td:nth-child(7) > div").datetimepicker('date').format('YYYY-MM-DD'),
                 "fecha_fin": $(this).find("td:nth-child(8) > div").datetimepicker('date').format('YYYY-MM-DD'),
                 "tipo": $(this).find("td:nth-child(9) input").val()
             };
             array.push(temp);
         });
+        console.log(array);
         $.ajax({
             url: "php/descansos_ajax.php",
             type: "post",
@@ -272,7 +297,7 @@ $(function(){
         var array = [];
         $(".selec_descanso:checked").closest("tr").each(function(){
             var temp = {
-                "iddescanso": $(this).find("td:nth-child(2) input").val()
+                "iddescanso": $(this).children("input:nth-child(2)").val()
             };
             array.push(temp);
         });

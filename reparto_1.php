@@ -37,7 +37,7 @@
                     <th scope="col">Tipo de Linea</th>
                     <th scope="col">Puestos a cubrir</th>
                     <th scope="col">Establecer Opciones</th>
-                    <th scope="col">Orden</th>
+                    <th scope="col">Prioridad</th>
                 </thead>
                 <tbody>
 

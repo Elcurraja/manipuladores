@@ -41,13 +41,35 @@ $(function(){
 
     $("#repartir").click(function(){
         var array = [];
-        $("#mostrar_opciones_lineas tbody td:nth-child(7)").each(function(){
+        var a = 0
+        $("#mostrar_opciones_lineas tbody tr").each(function(){
+            console.log(this)
+            //console.log($(this).find("td div input#checkFiabilidad"+ a+"").is(":checked"))
+            if($(this).find("td div input#switchFiabilidad"+ a+"").is(":checked")==true){
+                var ordenFiabilidad = "atras";
+            }
+            else 
+            var ordenFiabilidad= "delante"
+            if($(this).find("td div input#switchVelocidad"+ a+"").is(":checked")==true){
+                var ordenVelocidad = "atras";
+            }
+            else 
+                var ordenVelocidad= "delante"
+            if($(this).find("td div input#switchDisponibilidad"+ a+"").is(":checked")==true){
+                var ordenDisponibilidad = "atras";
+            }
+            else 
+                var ordenDisponibilidad= "delante"
+
             var temp = {
-                "id_linea": $(this).siblings("input").val(),
-                "puestos_max":$(this).prev().find("select").val(),
-                "fiabilidad":$(this).find("div:nth-child(1) select").val(),
-                "velocidad":$(this).find("div:nth-child(2) select").val(),
-                "disponibilidad":$(this).find("div:nth-child(3) select").val()
+                "id_linea": $(this).children("input").val(),
+                "puestos_max":$(this).find("select").val(),
+                "opFiablidad":$(this).find("td div input#checkFiabilidad"+ a+"").is(":checked"),
+                "opVelocidad":$(this).find("td div input#checkVelocidad"+ a+"").is(":checked"),
+                "opDisponibilidad":$(this).find("td div input#checkDisponibilidad"+ a+"").is(":checked"),
+                "ordenFiablidad":ordenFiabilidad,
+                "ordenVelocidad":ordenVelocidad,
+                "ordenDisponibilidad":ordenDisponibilidad,
             };
             array.push(temp);
             // console.log("id linea = " + $(this).siblings("input").val() + "\n" +
@@ -55,6 +77,7 @@ $(function(){
             //             "fiabilidad = " + $(this).find("div:nth-child(1) select").val() + "\n" +
             //             "velocidad = " + $(this).find("div:nth-child(2) select").val() + "\n" +
             //             "disponibilidad = " + $(this).find("div:nth-child(3) select").val() + "\n");
+            a++
         });
         repartoLineas(array)
     });
@@ -76,12 +99,17 @@ $(function(){
                                                                     "<td class='align-middle'><span>" + respuesta.datos[index].nombre_de_linea + "</span></td>" +
                                                                     "<td class='align-middle'><span>" + respuesta.datos[index].nombre_de_tipolinea + "</span></td>" +
                                                                     "<td id='td_puestos_maximos_" + index + "' class='align-middle'></td>" +
+                                                                    
                                                                     "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkFiabilidad" + index + "'><label class='custom-control-label' for='checkFiabilidad" + index + "'>Fiablidad</label></div>"+
                                                                     "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkVelocidad" + index + "'><label class='custom-control-label' for='checkVelocidad" + index + "'>Velocidad</label></div>"+
                                                                     "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkDisponibilidad" + index + "'><label class='custom-control-label' for='checkDisponibilidad" + index + "'>Disponibilidad</label></div></td>"+
-                                                                    "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkOrdenFiabilidad" + index + "'><label class='custom-control-label' for='checkOrdenFiabilidad" + index + "'>Fiablidad</label></div>"+
-                                                                    "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkOrdenVelocidad" + index + "'><label class='custom-control-label' for='checkOrdenVelocidad" + index + "'>Velocidad</label></div>"+
-                                                                    "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checOrdenkDisponibilidad" + index + "'><label class='custom-control-label' for='checkOrdenDisponibilidad" + index + "'>Disponibilidad</label></div></td>"+
+                                                                    
+                                                                    "<td><div><label class='labelcheck'>Mas fiables</label><span class='switch'>Delante <input type='checkbox' class='switch' id='switchFiabilidad"+ index +"'><label for='switchFiabilidad"+ index +"'> Atras</label></span>" +
+                                                                    "<div><label class='labelcheck'>Mas veloces</label><span class='switch'>Delante <input type='checkbox' class='switch' id='switchVelocidad"+ index +"'><label for='switchVelocidad"+ index +"'> Atras</label></span>"+
+                                                                    "<div><label class='labelcheck'>Mejor disponibilidad</label><span class='switch'>Delante <input type='checkbox' class='switch' id='switchDisponibilidad"+ index +"'><label for='switchDisponibilidad"+ index +"'> Atras</label></span></td>"+
+                                                                    // "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkOrdenFiabilidad" + index + "'><label class='custom-control-label' for='checkOrdenFiabilidad" + index + "'>Fiablidad</label></div>"+
+                                                                    // "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checkOrdenVelocidad" + index + "'><label class='custom-control-label' for='checkOrdenVelocidad" + index + "'>Velocidad</label></div>"+
+                                                                    // "<div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input custom-control-input' id='checOrdenkDisponibilidad" + index + "'><label class='custom-control-label' for='checkOrdenDisponibilidad" + index + "'>Disponibilidad</label></div></td>"+
                                                                     
                                                                     // "<td class='align-middle'>" +
                                                                     //     "<div class='form-group'>" +
@@ -96,6 +124,7 @@ $(function(){
                                                                     // "</td>" +
                                                                 "</tr>"
                     );
+                    console.log()
                     var select_puestos_maximos = $("<select id='puestos_maximos_" + index + "' class='form-control' disabled></select>");
                     var select_fiabilidad = $("<select id='fiabilidad_" + index + "' class='form-control form-control-sm' disabled></select>");
                     var select_velocidad = $("<select id='velocidad_" + index + "' class='form-control form-control-sm' disabled></select>");
@@ -122,7 +151,6 @@ $(function(){
     }
     
     function repartoLineas(array){
-        console.log(array)
         $.ajax({
             url: "php/reparto_ajax.php",
             type: "post",
