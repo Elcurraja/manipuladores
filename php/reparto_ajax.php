@@ -104,63 +104,81 @@
 
         $parametrosLineas= $_POST['datosLineas'];
         //var_dump($parametrosLineas);
-        $arrayLineasSP = array();
-        $arrayLineas = array();
-        $sqlOrderFiabilidad = "SELECT * FROM reparto ORDER BY fiabilidad ASC";
-        $sqlOrderVelocidad  = "SELECT * FROM reparto ORDER BY velocidad  ASC";
-
+        
+        $resultOrdenFiabilidad     = $conexion->query("SELECT * FROM reparto ORDER BY fiabilidad      ASC ");
+        $resultOrdenVelocidad      = $conexion->query("SELECT * FROM reparto ORDER BY velocidad       ASC ");
+        $resultOrdenDisponibildad  = $conexion->query("SELECT * FROM reparto ORDER BY disponibilidad  ASC ");
+        
+        $countPuestos= 0;
+        $arrayLineasSP = [];
+        $arrayLineas = [];
         for($a=0;$a<count($parametrosLineas);$a++){
-            if($parametrosLineas[$a]['opFiablidad'] == 'false' && $parametrosLineas[$a]['opVelocidad'] =='false'){
-                $temp = array(
-                    'idlinea' => $parametrosLineas[$a]['id_linea'],
-                    'max_puestos' => $parametrosLineas[$a]['puestos_max'],
-                    'listaManipuladores' => array(),
-                );
-                array_push($arrayLineasSP,$temp);
+            $countPuestos+=$parametrosLineas[$a]['puestos_max'];
+            if($parametrosLineas[$a]['Fiablidad'] == 'false' && $parametrosLineas[$a]['Velocidad'] =='false' && $parametrosLineas[$a]['Disponibilidad'] =='false'){
+                $temp = [
+                    'idlinea'=>$parametrosLineas[$a]['id_linea'],
+                    'max_puestos'=>$parametrosLineas[$a]['puestos_max'],
+                    'contador_puestos'=>$parametrosLineas[$a]['puestos_max'],
+                    'listaManipuladores'=>[]
+                ];
+                $arrayLineasSP[$parametrosLineas[$a]['id_linea']]=$temp;
             }
             else {
-                $temp = array(
-                    'idlinea' => $parametrosLineas[$a]['id_linea'],
-                    'max_puestos' => $parametrosLineas[$a]['puestos_max'],
-                    'listaManipuladores' => array(),
-                );
-                array_push($arrayLineas,$temp);
+                $temp = [
+                    'idlinea'=>$parametrosLineas[$a]['id_linea'],
+                    'max_puestos'=>$parametrosLineas[$a]['puestos_max'],
+                    'contador_puestos'=>$parametrosLineas[$a]['puestos_max'],
+                    'listaManipuladores'=>[]
+                ];
+                $arrayLineas[$parametrosLineas[$a]['id_linea']]=$temp;
             }
         }
-        for($f=0; $f<count();$f++){
 
+        //Mientras que la variable sea menor que el numero total de puestos 
+        for($totalPuestos=0; $totalPuestos<$countPuestos;$totalPuestos++){
+            //Recorremos cada fila
+            for($nlineas=0;$nlineas<count($parametrosLineas);$nlineas++){
+                echo(count($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores']) . " " );
+                while($arrayLineas[$parametrosLineas[$nlineas]]['contador_puestos'] < $arrayLineas[$parametrosLineas[$nlineas]]['max_puestos']){
+
+                    if($parametrosLineas[$nlineas]['Fiablidad'] == 'true'){
+                        while($row = $resultOrdenFiabilidad->fetch_assoc() ){
+                            $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+                            array_push($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores'],$manipulador);
+                            $id= $row["idmanipulador"];
+                            $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+                            $conexion->commit();
+                            --$arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']];
+                            break;
+                        }
+                    }
+                    else if($parametrosLineas[$nlineas]['Velocidad'] == 'true'){
+                        while($row = $resultOrdenVelocidad->fetch_assoc() ){
+                            $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+                            array_push($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores'],$manipulador);
+                            $id= $row["idmanipulador"];
+                            $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+                            $conexion->commit();
+                            --$arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']];
+                            break;
+                        }
+                    }
+                    else if($parametrosLineas[$nlineas]['Disponibilidad'] == 'true'){
+                        while($row = $resultOrdenDisponibildad->fetch_assoc() ){
+                            $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+                            array_push($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores'],$manipulador);
+                            $id= $row["idmanipulador"];
+                            $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+                            $conexion->commit();
+                            --$arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']];
+                            break;
+                        }
+                    }
+                }
+            }
         }
-        print_r($arrayLineasSP);
-        // $response['sql']=array();
-        // for($i=0;$i<count($parametrosLineas);$i++){
-            
-        //     if($parametrosLineas[$i]['fiabilidad']>=$parametrosLineas[$i]['velocidad'] && $parametrosLineas[$i]['velocidad']>=$parametrosLineas[$i]['disponibilidad']){
-        //         $sqlParam = "SELECT * FROM reparto ORDER BY fiabilidad ASC,velocidad ASC, disponibilidad ASC";
-        //         array_push($response['sql'],$sqlParam);
-        //     }
-        //     else if($parametrosLineas[$i]['fiabilidad']>=$parametrosLineas[$i]['disponibilidad'] && $parametrosLineas[$i]['disponibilidad']>=$parametrosLineas[$i]['velocidad']){
-        //         $sqlParam = "SELECT * FROM reparto ORDER BY fiabilidad ASC,disponibilidad ASC, velocidad ASC";
-        //         array_push($response['sql'],$sqlParam);
-        //     }
-        //     else if($parametrosLineas[$i]['velocidad']>=$parametrosLineas[$i]['fiabilidad'] && $parametrosLineas[$i]['fiabilidad']>=$parametrosLineas[$i]['disponibilidad']){
-        //         $sqlParam = "SELECT * FROM reparto ORDER BY velocidad ASC,fiabilidad ASC, disponibilidad ASC";
-        //         array_push($response['sql'],$sqlParam);
-        //     }   
-        //     else if($parametrosLineas[$i]['velocidad']>=$parametrosLineas[$i]['disponibilidad'] && $parametrosLineas[$i]['disponibilidad']>=$parametrosLineas[$i]['fiabilidad']){
-        //         $sqlParam = "SELECT * FROM reparto ORDER BY velocidad ASC,disponibilidad ASC, fiabilidad ASC";
-        //         array_push($response['sql'],$sqlParam);
-        //     }
-        //     else if($parametrosLineas[$i]['disponibilidad']>=$parametrosLineas[$i]['fiabilidad'] && $parametrosLineas[$i]['fiabilidad']>=$parametrosLineas[$i]['velocidad']){
-        //         $sqlParam = "SELECT * FROM reparto ORDER BY disponibilidad ASC,fiabilidad ASC, velocidad ASC";
-        //         array_push($response['sql'],$sqlParam);
-        //     }
-        //     else if($parametrosLineas[$i]['disponibilidad']>=$parametrosLineas[$i]['velocidad'] && $parametrosLineas[$i]['velocidad']>=$parametrosLineas[$i]['fiabilidad']){
-        //         $sqlParam = "SELECT * FROM reparto ORDER BY disponibilidad ASC,velocidad ASC, fiabilidad ASC";
-        //         array_push($response['sql'],$sqlParam);
-        //     }
-            
-           
-        // }
+       
+       print_r($arrayLineas);
         
         echo json_encode($response);
     }
