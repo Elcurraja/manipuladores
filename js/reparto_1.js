@@ -58,21 +58,14 @@ $(function(){
             var orden_fiabilidad = $("input[name='ordenacion_fiabilidad_" + idlinea + "']:checked").val();
             var orden_velocidad = $("input[name='ordenacion_velocidad_" + idlinea + "']:checked").val();
             var orden_disponibilidad = $("input[name='ordenacion_disponibilidad_" + idlinea + "']:checked").val();
-            // console.log(
-            //     "Id de línea: " + idlinea + "\n" +
-            //     "Puestos a Cubrir: " + puestos_cubrir + "\n" +
-            //     "Prefiere fiabilidad: " + fiabilidad + ", en orden: " + orden_fiabilidad + "\n" +
-            //     "Prefiere velocidad: " + velocidad + ", en orden: " + orden_velocidad + "\n" +
-            //     "Prefiere disponibilidad: " + disponibilidad + ", en orden: " + orden_disponibilidad + ".\n"
-            // );
 
             var temp = {
                 "id_linea": idlinea,
-                "puestos_max":puestos_cubrir,
-                "Fiablidad":fiabilidad,
+                "puestos_max":parseInt(puestos_cubrir),
+                "Fiabilidad":fiabilidad,
                 "Velocidad":velocidad,
                 "Disponibilidad":disponibilidad,
-                "ordenFiablidad":orden_fiabilidad,
+                "ordenFiabilidad":orden_fiabilidad,
                 "ordenVelocidad":orden_velocidad,
                 "ordenDisponibilidad":orden_disponibilidad,
             };
