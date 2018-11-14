@@ -23,10 +23,10 @@
     <!-- ES NECESARIO CARGAR LOS PLUGINS EN ESTE ORDEN, DE LO CONTRARIO PUEDEN NO FUNCIONAR CORRECTAMENTE -->
     <link rel="stylesheet" href="css/lib/bootstrap.min.css" />
     <link rel="stylesheet" href="css/lib/tempusdominus-bootstrap-4.min.css" />
-    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
@@ -34,6 +34,8 @@
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>
+    <script type="text/javascript" src="js/lib/datetime-moment.js"></script>
     <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
     <script type="text/javascript" src="js/descansos_script.js"></script>
     <title>Acciones sobre Descansos</title>
@@ -62,7 +64,7 @@
             <table class="table table-bordered table-hover" id="mostrar_descansos">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Selecciona</th>
+                        <th scope="col" class="no_ordenable">Selecciona</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">DNI / Pasaporte</th>

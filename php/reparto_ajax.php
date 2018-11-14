@@ -110,13 +110,14 @@
         // $resultOrdenVelocidad      = $conexion->query("SELECT * FROM reparto ORDER BY velocidad       ASC LIMIT 1");
         // $resultOrdenDisponibildad  = $conexion->query("SELECT * FROM reparto ORDER BY disponibilidad  ASC LIMIT 1");
         
-        $countPuestos= 0;
+        $countPuestosLineas= 0;
+        $countPuestosLineasSP = 0;
         $arrayLineasSP = [];
         $arrayLineas = [];
         
         for($a=0;$a<count($parametrosLineas);$a++){
-            $countPuestos+=$parametrosLineas[$a]['puestos_max'];
             if($parametrosLineas[$a]['Fiabilidad'] === 'false' && $parametrosLineas[$a]['Velocidad'] ==='false' && $parametrosLineas[$a]['Disponibilidad'] ==='false'){
+                $countPuestosLineasSP+=$parametrosLineas[$a]['puestos_max'];
                 $temp = [
                     'idlinea'=>$parametrosLineas[$a]['id_linea'],
                     'fiabilidad'=>$parametrosLineas[$a]['Fiabilidad'],
@@ -124,11 +125,15 @@
                     'disponibilidad'=>$parametrosLineas[$a]['Disponibilidad'],
                     'max_puestos'=>intval($parametrosLineas[$a]['puestos_max']),
                     'contador_puestos'=>intval($parametrosLineas[$a]['puestos_max']),
+                    'orden_fiabilidad'=>$parametrosLineas[$a]['Fiabilidad'],
+                    'orden_velocidad'=>$parametrosLineas[$a]['Velocidad'],
+                    'orden_disponibilidad'=>$parametrosLineas[$a]['Disponibilidad'],
                     'listaManipuladores'=>[]
                 ];
                 $arrayLineasSP[$parametrosLineas[$a]['id_linea']]=$temp;
             }
             else {
+                $countPuestosLineas+=$parametrosLineas[$a]['puestos_max'];
                 $temp = [
                     'idlinea'=>$parametrosLineas[$a]['id_linea'],
                     'fiabilidad'=>$parametrosLineas[$a]['Fiabilidad'],
@@ -136,6 +141,9 @@
                     'disponibilidad'=>$parametrosLineas[$a]['Disponibilidad'],
                     'max_puestos'=>intval($parametrosLineas[$a]['puestos_max']),
                     'contador_puestos'=>intval($parametrosLineas[$a]['puestos_max']),
+                    'orden_fiabilidad'=>$parametrosLineas[$a]['Fiabilidad'],
+                    'orden_velocidad'=>$parametrosLineas[$a]['Velocidad'],
+                    'orden_disponibilidad'=>$parametrosLineas[$a]['Disponibilidad'],
                     'listaManipuladores'=>[]
                 ];
                 $arrayLineas[$parametrosLineas[$a]['id_linea']]=$temp;
@@ -145,9 +153,9 @@
         // echo ($arrayLineas[11]['contador_puestos']);
         
         //Mientras que la variable sea menor que el numero total de puestos 
-       $a = 20;
-
-        for($totalPuestos=0; $totalPuestos<$countPuestos;$totalPuestos++){
+     
+        echo $countPuestosLineas . " " . $countPuestosLineasSP;
+        for($totalPuestos=0; $totalPuestos<$countPuestosLineas;$totalPuestos++){
             //Recorremos cada fila
             foreach ($arrayLineas as $index => $item){
                 if($item['contador_puestos']>0){
@@ -184,8 +192,25 @@
                             $arrayLineas[$index]['contador_puestos']--;            
                         }
                     }
-                }                
+                }                         
             }
+            // if($totalPuestos=$countPuestosLineas-1){
+            //     foreach ($arrayLineasSP as $index => $item){
+            //         if($item['contador_puestos']>0){
+            //             $puestos = $item['max_puestos'];
+            //             echo ("SELECT * FROM reparto LIMIT $puestos");
+            //             $result = $conexion->query("SELECT * FROM reparto LIMIT $puestos");
+            //             while($row = $result->fetch_assoc()){
+            //                 $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+            //                 array_push($arrayLineasSP[$index]['listaManipuladores'],$manipulador);
+            //                 $id= $row["idmanipulador"];
+            //                 $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+            //                 $conexion->commit();
+            //                 $arrayLineasSP[$index]['contador_puestos']-$puestos;
+            //             }
+            //         }
+            //     }
+            // }
                 // while($arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']] < $arrayLineas[$parametrosLineas[$nlineas]]['max_puestos']){
 
                     // if($parametrosLineas[$nlineas]['Fiablidad'] == 'true'){
@@ -223,7 +248,24 @@
                     // }
                 // }
         }
+        for($totalPuestosB=0; $totalPuestosB<$countPuestosLineasSP;$totalPuestosB++){
+            foreach ($arrayLineasSP as $index => $item){
+                if($item['contador_puestos']>0){
+                    $result = $conexion->query("SELECT * FROM reparto LIMIT 1");
+                    while($row = $result->fetch_assoc()){
+                        $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+                        array_push($arrayLineasSP[$index]['listaManipuladores'],$manipulador);
+                        $id= $row["idmanipulador"];
+                        $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+                        $conexion->commit();
+                        $arrayLineasSP[$index]['contador_puestos']--;
+                    }
+                }
+            }
+        }
+        
        var_dump($arrayLineas);
+       var_dump($arrayLineasSP);
         
         echo json_encode($response);
     }

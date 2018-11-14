@@ -1,4 +1,11 @@
 $(function(){
+    /* A PESAR DE QUE DATATABLES TIENE UN METODO (SUPUESTAMENTE) INTELIGENTE PARA ADIVINAR QUE CONTENIDO HTML HAY
+       DENTRO DE LAS CELDAS Y PODER ASI EXTRAER LOS DATOS PARA LA BUSQUEDA DE DATATABLE, ES RECOMENDABLE ESTABLECERLO
+       MANUALMENTE SI SE SABE QUE CONTENIDO VA A TENER. AQUI SE ESTABLECE EL TIPO "type" DE COLUMNA A "html-input"
+       PARA QUE PUEDA LEER LOS DATOS DE <input> y <select> DE LAS COLUMNAS ESPECIFICADAS EN EL INICIO DE DATATABLE */
+    /* $.fn.dataTableExt.ofnSearch['html-input'] = function(value) {
+        return $(value).val();
+    }; */
 /* -------------------------------------------------- COMPROBACIONES INICIALES --------------------------------------------------*/
     /* COMPROBACION INICIAL EXISTENCIA DE DATOS EN 'manipuladores'.
        SI EXISTEN SE MUESTRA LA TABLA, SI NO, SE MUESTRA UN MENSAJE */
@@ -200,12 +207,15 @@ $(function(){
             tabla = $('#mostrar_manip').DataTable({
                 // https://datatables.net/reference/option/order
                 order: [[2, "asc"]],
-                // https://datatables.net/reference/option/fixedHeader
-                fixedHeader: {
-                    header: true,
-                    // https://datatables.net/forums/discussion/30576/how-to-reanchor-fixedheader-or-how-to-change-headeroffset
-                    headerOffset: $('.sticky-top').height(),
-                },
+                /* EL CODIGO PARA ESTABLECER LA CABECERA DE TABLA FIJA ESTA COMENTADO HASTA QUE SOLUCIONEN EL PROBLEMA
+                   DE INCOMPATIBILIDAD CON EL SCROLLING EN UNA NUEVA VERSION DE LA EXTENSION "FixedHeader".
+                   INFO SOBRE LA INCOMPATIBILIDAD: https://datatables.net/download/compatibility
+                   INFO SOBRE LA EXTENSION: https://datatables.net/reference/option/fixedHeader */
+                    /* fixedHeader: {
+                        header: true,
+                        // https://datatables.net/forums/discussion/30576/how-to-reanchor-fixedheader-or-how-to-change-headeroffset
+                        headerOffset: $('.sticky-top').height(),
+                    }, */
                 language: {
                     "sProcessing":     "Procesando...",
                     "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -231,12 +241,29 @@ $(function(){
                     }
                 },
                 columnDefs: [
-                    // https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column
+                    /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE COMO ORDENABLE
+                       https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column */
                     { "orderable": false, "targets": "no_ordenable" },
-                    // https://datatables.net/reference/option/columns.searchable
+                    /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE PARA LAS BUSQUEDAS DE DATATABLE
+                       https://datatables.net/reference/option/columns.searchable */
                     { "searchable": false, "targets": 0 },
-                    // https://datatables.net/reference/option/columns.type
-                    { "type": "html-input", "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
+                    /* CONFIGURACION PARA QUE AL ORDENAR Y BUSCAR LOS DATOS PUEDA LEERLOS DENTRO DE LOS INPUTS Y SELECTS DE LAS CELDAS
+                       https://stackoverflow.com/questions/40238819/jquery-datatables-sorting-a-select-inside-a-column */
+                    {
+                        targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 
+                        render: function(data, type, full, meta){
+                                    if(type === 'filter' || type === 'sort'){
+                                        var api = new $.fn.dataTable.Api(meta.settings);
+                                        var td = api.cell({row: meta.row, column: meta.col}).node();
+                                        data = $('select, input', td).val();
+                                        /* if (esNumerico(data)) {
+                                            return parseFloat(data);
+                                        } */
+                                    }
+                                    return data;
+                                }
+                    }
+                    
                 ]
             });
             /* EVENTOS PARA ACTUALIZAR LOS ATRIBUTOS "value" Y "selected" DE LOS <input> Y <select> PARA QUE
