@@ -102,6 +102,7 @@
         }
         $conexion->commit();
 
+   
         $parametrosLineas= $_POST['datosLineas'];
         //var_dump($parametrosLineas);
         
@@ -145,22 +146,42 @@
         
         //Mientras que la variable sea menor que el numero total de puestos 
        $a = 20;
+
         for($totalPuestos=0; $totalPuestos<$countPuestos;$totalPuestos++){
             //Recorremos cada fila
-            foreach ($arrayLineas as $clave => $LineaArray){
-                $contador = $LineaArray['contador_puestos'];
-                echo $contador . " ";
-                if($contador>0){
-                    if($LineaArray['fiabilidad'] === 'true'){
+            foreach ($arrayLineas as $index => $item){
+                if($item['contador_puestos']>0){
+                    if($item['fiabilidad'] === 'true'){
                         $resultOrdenFiabilidad = $conexion->query("SELECT * FROM reparto ORDER BY fiabilidad ASC LIMIT 1");
                         while($row = $resultOrdenFiabilidad->fetch_assoc() ){
                             $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
-                            array_push($arrayLineas[$clave]['listaManipuladores'],$manipulador);
+                            array_push($arrayLineas[$index]['listaManipuladores'],$manipulador);
                             $id= $row["idmanipulador"];
                             $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
                             $conexion->commit();
-                            $contador--;
-                            $LineaArray['contador_puestos']==$contador;                  
+                            $arrayLineas[$index]['contador_puestos']--;            
+                        }
+                    }
+                    if($item['velocidad'] === 'true'){
+                        $resultOrdenVelocidad = $conexion->query("SELECT * FROM reparto ORDER BY velocidad ASC LIMIT 1");
+                        while($row = $resultOrdenVelocidad->fetch_assoc() ){
+                            $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+                            array_push($arrayLineas[$index]['listaManipuladores'],$manipulador);
+                            $id= $row["idmanipulador"];
+                            $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+                            $conexion->commit();
+                            $arrayLineas[$index]['contador_puestos']--;            
+                        }
+                    }
+                    if($item['disponibilidad'] === 'true'){
+                        $resultOrdenDisponibilidad = $conexion->query("SELECT * FROM reparto ORDER BY disponibilidad ASC LIMIT 1");
+                        while($row = $resultOrdenDisponibilidad->fetch_assoc() ){
+                            $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
+                            array_push($arrayLineas[$index]['listaManipuladores'],$manipulador);
+                            $id= $row["idmanipulador"];
+                            $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
+                            $conexion->commit();
+                            $arrayLineas[$index]['contador_puestos']--;            
                         }
                     }
                 }                
@@ -202,7 +223,7 @@
                     // }
                 // }
         }
-        // var_dump($arrayLineas);
+       var_dump($arrayLineas);
         
         echo json_encode($response);
     }
