@@ -1,17 +1,4 @@
 $(function(){
-    /* A PESAR DE QUE DATATABLES TIENE UN METODO (SUPUESTAMENTE) INTELIGENTE PARA ADIVINAR QUE CONTENIDO HTML HAY
-       DENTRO DE LAS CELDAS Y PODER ASI EXTRAER LOS DATOS PARA LA BUSQUEDA DE DATATABLE, ES RECOMENDABLE ESTABLECERLO
-       MANUALMENTE SI SE SABE QUE CONTENIDO VA A TENER. SE ESTABLECE EL TIPO "type" DE COLUMNA A "html-input"
-       PARA QUE PUEDA LEER LOS DATOS DE LOS <input> DE LA COLUMNA ESPECIFICADA AL INICIAR DATATABLE */
-    /* TIPO "tempusdominus-date" PARA PODER HACER BUSQUEDAS POR FECHAS. SI SE USA EL PROPIO ELEMENTO PARA OBTENER
-       EL VALOR DE LA FECHA DA ERROR ("Cannot read property 'format' of null") PERO USANDOLO POR SU ID NO */
-    $.fn.dataTableExt.ofnSearch['tempusdominus-date'] = function(value) {
-        var id = $(value).attr("id");
-        var data = $("#" + id).datetimepicker('date').format("DD-MM-YYYY");
-        return data;
-    };
-    $.fn.dataTable.moment( 'DD-MM-YYYY' );
-    /* -------------------------------------------------- COMPROBACIONES INICIALES --------------------------------------------------*/
     $.ajax({
         url: "php/descansos_ajax.php",
         type: "post",
@@ -35,7 +22,7 @@ $(function(){
             console.log("Error en la peticion AJAX para mostrar los descansos: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
     });
-    /* ----------------------------------------------------------- EVENTOS ------------------------------------------------------------- */
+    /* ----------------------------------------------------------------------------------------------------------- */
 
     /* INICIADO DEL PLUGIN TEMPUS DOMINUS PARA EL INPUT "FECHA INICIO"
        https://tempusdominus.github.io/bootstrap-4/Usage/#date-only */
@@ -159,7 +146,6 @@ $(function(){
         }
     });
 
-    // BORRADO DE COLUMNA/S
     $("#borrar_descansos_btn").click(function(){
         $("#modal_confirm_borrar_descansos").modal('hide');
         $("#mensaje_confirm_borrar_descansos").empty();
@@ -188,7 +174,7 @@ $(function(){
         });
     });
 
-    /* ---------------------------------------------------------------- FUNCIONES ------------------------------------------------------------ */
+    /* --------------------------------------------------------------------------------------------------------------------------- */
 
     function mostrarDescansos(){
         $.ajax({
@@ -200,14 +186,6 @@ $(function(){
             },
             success: function(respuesta){
                 if (respuesta.error == 0) {
-                    /* SI EXISTE UNA DATATABLE DE UNA EJECUCION ANTERIOR DE LA FUNCION "mostrarManipuladores" SE ELIMINA
-                    ESA DATATABLE, SI NO SE HACE SE MUESTRA UN ALERT CON UN MENSAJE DE ERROR AL CREARLA DE NUEVO
-                    https://datatables.net/manual/tech-notes/3 */
-                    if ($.fn.dataTable.isDataTable("#mostrar_descansos")) {
-                        tabla.destroy();
-                        // DESASIGNACION DEL EVENTO "change" PARA LOS "<input>"
-                        $("#mostrar_descansos tbody td:nth-child(9) input").off("change");
-                    }
                     $("#mostrar_descansos tbody").empty();
                     for (let index = 0; index < respuesta.datos.length; index++){
                         $("#mostrar_descansos tbody").append(
@@ -248,75 +226,6 @@ $(function(){
             }
         }).done(function () {
             $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
-            //console.log($("#mostrar_descansos tbody tr:nth-child(1) td:nth-child(7) > div").datetimepicker('date').format('DD-MM-YYYY'));
-            /* CREACION DE LA DATATABLE UNA VEZ LA TABLA ESTA FORMADA. SE INICIA CON LAS OPCIONES DE NO ORDENAR POR
-               DEFECTO POR LA PRIMERA COLUMNA (SOLO CONTIENE CHECKBOXES) SINO LA TERCERA (APELLIDOS), CABECERA FIJA
-               CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
-               QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
-            tabla = $('#mostrar_descansos').DataTable({
-                // https://datatables.net/reference/option/order
-                order: [[2, "asc"]],
-                /* CODIGO PARA ESTABLECER LA CABECERA DE TABLA FIJA COMENTADO HASTA QUE SOLUCIONEN EL PROBLEMA
-                   DE INCOMPATIBILIDAD CON EL SCROLLING EN UNA NUEVA VERSION DE LA EXTENSION "FixedHeader".
-                   INFO SOBRE LA INCOMPATIBILIDAD: https://datatables.net/download/compatibility
-                   INFO SOBRE LA EXTENSION: https://datatables.net/reference/option/fixedHeader */
-                    /* fixedHeader: {
-                        header: true,
-                        // https://datatables.net/forums/discussion/30576/how-to-reanchor-fixedheader-or-how-to-change-headeroffset
-                        headerOffset: $('.sticky-top').height(),
-                    }, */
-                language: {
-                    "sProcessing":     "Procesando...",
-                    "sLengthMenu":     "Mostrar _MENU_ registros",
-                    "sZeroRecords":    "No se encontraron resultados",
-                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix":    "",
-                    "sSearch":         "Buscar:",
-                    "sUrl":            "",
-                    "sInfoThousands":  ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst":    "Primero",
-                        "sLast":     "Último",
-                        "sNext":     "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
-                },
-                columnDefs: [
-                    // https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column
-                    { "orderable": false, "targets": "no_ordenable" },
-                    // https://datatables.net/reference/option/columns.searchable
-                    { "searchable": false, "targets": 0 },
-                    // https://datatables.net/reference/option/columns.type
-                    //{ "type": "tempusdominus-date", "targets": [4, 5]},
-                    {
-                        targets: [6], 
-                        render: function(data, type, full, meta){
-                                    if(type === 'filter' || type === 'sort'){
-                                        var api = new $.fn.dataTable.Api(meta.settings);
-                                        var td = api.cell({row: meta.row, column: meta.col}).node();
-                                        data = $('input', td).val();
-                                    }
-                                    return data;
-                                }
-                    }
-                ]
-            });
-            /* EVENTOS PARA ACTUALIZAR LOS ATRIBUTOS "value" DE LOS <input> PARA QUE AL CAMBIARSELE
-               EL VALOR Y JUSTO DESPUES EFECTUAR UNA BUSQUEDA SE LEAN LOS NUEVOS VALORES 
-               https://stackoverflow.com/questions/27852497/jquery-datatables-search-within-input-and-select */
-               $("#mostrar_descansos tbody td:nth-child(9) input").on('change', function() {
-                var td = $(this).parent();
-                td.find('input').attr('value', this.value);
-                tabla.cell(td).invalidate().draw();
-            });
         });
     }
 
