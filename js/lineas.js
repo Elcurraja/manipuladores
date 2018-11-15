@@ -2,7 +2,7 @@ $(document).ready(function() {
     $.fn.dataTableExt.ofnSearch['html-input'] = function(value) {
         return $(value).val();
     }; 
-    $.fn.dataTableExt.order['html-select'] = function  ( settings, col )
+    $.fn.dataTable.ext.order['dom-select'] = function  ( settings, col )
     {
         return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
             return $('select', td).val();
@@ -180,7 +180,7 @@ function showLineas(){
                     "targets": [1]
                 },
                 { 
-                    "orderDataType": "html-select",
+                    "orderDataType": "dom-select",
                     "targets": [2, 3, 4]
                 },
                 // {
