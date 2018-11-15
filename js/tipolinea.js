@@ -43,7 +43,7 @@ function showTipoLinea(){
                     $("#tabla_tipo_lineas tbody").append(
                         "<tr class='fila'>"+
                         "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
-                        "<td><span>"+ response.datosTipoLinea[index].idtipolinea +"</span></td>"+
+                        "<input type='hidden' value='" + response.datosTipoLinea[index].idtipolinea + "' />" +
                         "<td><input type='text' class='form-control' name='designacion' id='nombre'value='"+ response.datosTipoLinea[index].nombre+"'disabled='disable'/></td>");
                     }
         },
@@ -60,7 +60,7 @@ function guardarCampos(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
             var datos = {
-                "idtipolinea": $(this).find("td:nth-child(2) span").text(),
+                "idtipolinea": $(this).find("> input").val(),
                 "nombre": $(this).find("td:nth-child(3) input").val()           
             };
             arrayDatos.push(datos);
@@ -94,7 +94,7 @@ function borrarCampos(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
             var datos = {
-                "idtipolinea": $(this).find("td:nth-child(2) span").text()               
+                "idtipolinea": $(this).find("> input").val()               
             };
             arrayDatos.push(datos);
         }

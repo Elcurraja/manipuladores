@@ -37,7 +37,6 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">IDnave</th>
                     <th scope="col">Designacion</th>
                 </tr>
             </thead>

@@ -83,8 +83,6 @@
     <table class="table table-striped table-bordered" id="tabla_reasignar"> 
         <thead class="thead-dark">
             <tr>
-                <th scope="col">IDRegistro</th>
-                <th scope="col">IDTurno</th>
                 <th scope="col">Hora inicio</th>
                 <th scope="col">Hora Fin</th>
                 <th scope="col">IDLinea</th>

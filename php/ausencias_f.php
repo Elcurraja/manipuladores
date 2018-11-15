@@ -27,7 +27,8 @@ function showAusencias($fecha){
             a.hora_inicio,
             a.hora_fin,
             a.observaciones,
-            concat( m.nombre, ' ', m.apellidos ) AS nombre 
+            m.nombre,
+            m.apellidos
             FROM
                 ausencias AS a,
                 manipuladores AS m";
@@ -52,6 +53,7 @@ function showAusencias($fecha){
                 'idausencia' => $fila['idausencia'],
                 'idmanipulador' => $fila['idmanipulador'],
                 'nombre' => $fila['nombre'],
+                'apellidos' => $fila['apellidos'],
                 'fecha'=>$fila['fecha'],
                 'esdiacompleto' => $fila['esdiacompleto'],
                 'hora_inicio' => $fila['hora_inicio'],

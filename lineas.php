@@ -7,8 +7,10 @@
     <title>Lineas</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/lib/jquery-3.3.1.min.js"></script>
+    
 </head>
 <body>
     <?php
@@ -33,11 +35,10 @@
 </div>
         
     <div id="table-responsive">
-        <table class="table table-striped table-bordered" id="tabla_datos"> 
+        <table class="table table-striped table-bordered" id="tabla_lineas"> 
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Nave</th>
                     <th scope="col">Tipo linea</th>
@@ -162,6 +163,7 @@
 ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="js/lib/bootstrap.min.js"></script>    
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>
     <script src="js/lineas.js"></script>
 </body>
 </html>

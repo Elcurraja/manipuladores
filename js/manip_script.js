@@ -3,9 +3,9 @@ $(function(){
        DENTRO DE LAS CELDAS Y PODER ASI EXTRAER LOS DATOS PARA LA BUSQUEDA DE DATATABLE, ES RECOMENDABLE ESTABLECERLO
        MANUALMENTE SI SE SABE QUE CONTENIDO VA A TENER. AQUI SE ESTABLECE EL TIPO "type" DE COLUMNA A "html-input"
        PARA QUE PUEDA LEER LOS DATOS DE <input> y <select> DE LAS COLUMNAS ESPECIFICADAS EN EL INICIO DE DATATABLE */
-    /* $.fn.dataTableExt.ofnSearch['html-input'] = function(value) {
-        return $(value).val();
-    }; */
+    $.fn.dataTableExt.ofnSearch['html-input'] = function(object) {
+        return $(object).val();
+    };
 /* -------------------------------------------------- COMPROBACIONES INICIALES --------------------------------------------------*/
     /* COMPROBACION INICIAL EXISTENCIA DE DATOS EN 'manipuladores'.
        SI EXISTEN SE MUESTRA LA TABLA, SI NO, SE MUESTRA UN MENSAJE */
@@ -243,22 +243,34 @@ $(function(){
                 columnDefs: [
                     /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE COMO ORDENABLE
                        https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column */
-                    { "orderable": false, "targets": "no_ordenable" },
+                    {
+                        "orderable": false, 
+                        "targets": "no_ordenable"
+                    },
                     /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE PARA LAS BUSQUEDAS DE DATATABLE
                        https://datatables.net/reference/option/columns.searchable */
-                    { "searchable": false, "targets": 0 },
-                    /* CONFIGURACION PARA QUE AL ORDENAR Y BUSCAR LOS DATOS PUEDA LEERLOS DENTRO DE LOS INPUTS Y SELECTS DE LAS CELDAS
+                    {
+                        "searchable": false,
+                        "targets": 0
+                    },
+                    /* CONFIGURACION PARA QUE AL ORDENAR LOS DATOS PUEDA LEERLOS DENTRO DE LOS INPUTS Y SELECTS DE LAS CELDAS (ORDENA SOLO LOS STRINGS)
+                       https://stackoverflow.com/questions/27852497/jquery-datatables-search-within-input-and-select/27860934#27860934 */
+                    {
+                        "type": "html-input",
+                        "targets": [1, 2, 3, 4, 5, 7, 8, 12]
+                    },
+                    /* CONFIGURACION PARA QUE AL ORDENAR LOS DATOS PUEDA LEERLOS DENTRO DE LOS INPUTS Y SELECTS DE LAS CELDAS (ORDENA SOLO LOS NUMERICOS)
                        https://stackoverflow.com/questions/40238819/jquery-datatables-sorting-a-select-inside-a-column */
                     {
-                        targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 
+                        targets: [6, 9, 10, 11], 
                         render: function(data, type, full, meta){
                                     if(type === 'filter' || type === 'sort'){
                                         var api = new $.fn.dataTable.Api(meta.settings);
                                         var td = api.cell({row: meta.row, column: meta.col}).node();
                                         data = $('select, input', td).val();
-                                        /* if (esNumerico(data)) {
-                                            return parseFloat(data);
-                                        } */
+                                        if (data === null) {
+                                            console.log(data);
+                                        }
                                     }
                                     return data;
                                 }

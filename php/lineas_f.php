@@ -73,8 +73,8 @@ function editarLineas(){
         $sql= "UPDATE lineas 
         SET nombre='$nombre',idnave=$idnave,idtipolinea=$idtipolinea,estadisponible=$disponible,
             puestos_maximos=$puestosmax,fiabilidad=$fiabilidad,velocidad=$velocidad,disponibilidad=$disponibilidad
-            where idlinea=$id";
-        echo $sql;
+            where idlinea=$id ";
+        var_dump($sql);
         $resultQuery = $conn->query($sql);
         $conn->commit();
     }
@@ -103,7 +103,6 @@ function addlinea(){
     $sql="INSERT INTO lineas (nombre,idnave,idtipolinea,estadisponible,puestos_maximos,fiabilidad,velocidad,disponibilidad) 
             VALUES ('$nombre',$idnave,$idtipolinea,$disponible,$puestosmax,$fiabilidad,$velocidad,$disponibilidad)";
     $resultQuery = $conn->query($sql);
-    echo $sql;
     $conn->commit();
 
 }

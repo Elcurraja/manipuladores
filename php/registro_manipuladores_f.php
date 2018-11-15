@@ -23,7 +23,7 @@ if(isset($_POST['op'])){
 function mostrarRegistros($fecha,$id=0){
     $conn=mysql_manipuladores();
     //QUERY GENERAL CON LOS CAMPOS REQUERIDOS Y LAS TABLAS DONDE LOS SACAREMOS
-    $query1 = "SELECT r.idregistro_manipulador,r.idmanipulador,concat(m.nombre, ' ', m.apellidos)as nombre,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea FROM registro_manipuladores as r,manipuladores as m ";
+    $query1 = "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea FROM registro_manipuladores as r,manipuladores as m ";
     
     //BUSQUEDA POR ID_MANIPULADOR
     if($id!=0){
@@ -42,7 +42,7 @@ function mostrarRegistros($fecha,$id=0){
             $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador = m.idmanipulador";
         }
     }
-    // echo $query;
+    // var_dump($query);
     $resultQuery =$conn->query($query);
     $response['datosReg'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
@@ -50,6 +50,7 @@ function mostrarRegistros($fecha,$id=0){
             'idregistro' => $fila['idregistro_manipulador'],
             'idmanipulador' => $fila['idmanipulador'],
             'nombre'=>$fila['nombre'],
+            'apellidos'=>$fila['apellidos'],
             //'idpuesto' => $fila['idpuesto'],
             'idturno' => $fila['idturno'],
             'fecha' => $fila['fecha'],

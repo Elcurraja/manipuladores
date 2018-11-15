@@ -17,7 +17,7 @@ function buscarReg(){
             fecha: $("#fechaB").datetimepicker('date').format('L'),
         }
     
-    //console.log(datos)
+    console.log(datos)
     $.ajax({
         url:"php/registro_manipuladores_f.php",
         type:"POST",
@@ -28,13 +28,13 @@ function buscarReg(){
                 for (let index = 0; index < response.datosReg.length; index++){
                     $("tbody#tablalineas").append(
                         "<tr class='fila' id='fila"+ index +"'>"+
-                        "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
-                        "<td><input type='text' name='idturno' value='" + response.datosReg[index].idturno + "' class='input_s form-control' readonly></td>"+
+                        "<input type='hidden' value='" + response.datosReg[index].idregistro + "' />" +
+                        "<input type='hidden' value='" + response.datosReg[index].idturno + "' id='idturno'/>" +
                         "<td><div class='input-group date' id='horai_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horai_" + index +"' readonly><div class='input-group-append' data-target='#horai_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
                         "<td><div class='input-group date' id='horaf_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horaf_" + index +"' readonly><div class='input-group-append' data-target='#horaf_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
                         "<td><input type='text' name='idlinea' value='" + response.datosReg[index].idlinea + "' class='input_s form-control' readonly></td>"
                         );
-
+                        //Comprobamos si es el ultimo registro para insertarle el boton de "Reasignar"
                         if(index == (response.datosReg.length-1)){
                             $("tr.fila:last-child").append("<td><button type='button' id='reasignarLinea' class='btn btn-primary' onclick ='modalReasignarLinea();'>Reasignar</button></td>")
                         }
@@ -42,6 +42,7 @@ function buscarReg(){
                             $("#fila"+index).append("<td></td>")
                         }
                         
+                        //Inicializamos las horas
                         $('#horai_'+ index).datetimepicker({
                             locale: 'es',
                             format: 'LT',
@@ -63,8 +64,8 @@ function buscarReg(){
 //RECOGEMOS LOS DATOS DEL REGISTRO CON EL BOTON PARA REASIGNAR Y SE LOS MANDAMOS AL MODAL
 function modalReasignarLinea(){
     //ASIGNAMOS LOS VALORES EN LOS INPUTS DEL MODAL
-    $("#modalReasignarLinea #idregistro").val($("tr.fila:last-child").find("td:nth-child(1) > span").text())
-    $("#modalReasignarLinea #idturno").val($("tr.fila:last-child").find("td:nth-child(2) > input").val())
+    $("#modalReasignarLinea #idregistro").val($("tr.fila:last-child").find(":nth-child(1) > input").val())
+    $("#modalReasignarLinea #idturno").val($("tr.fila:last-child").find("#idturno").val())
     $("#modalReasignarLinea #idlinea").val($("tr.fila:last-child").find("td:nth-child(5) > input").val())
     $("#modalReasignarLinea #idmanipulador").val($("#manipulador").val())
     $("#modalReasignarLinea #fecha").val($("#fechaB").datetimepicker('date').format('L'))

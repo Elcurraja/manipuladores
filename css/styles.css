@@ -62,9 +62,9 @@ tbody tr td input[type="text"], tbody tr td span,select{
 .table-responsive .table input{
     width: inherit;
 }
-.selectReg{
+/* .selectReg{
     width: 80px;
-}
+} */
 .boton,.col-3 button{
     font-size: 1.15em;
 }

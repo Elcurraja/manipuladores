@@ -35,7 +35,6 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">IDTipoLinea</th>
                     <th scope="col">Nombre</th>
                 </tr>
             </thead>

@@ -69,10 +69,10 @@ function showReg(){
                     $("tbody").append(
                         "<tr class='fila'>"+
                         "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
-                        "<td><span>"+ response.datosReg[index].idregistro +"</span></td>"+
+                        "<input type='hidden' value='" + response.datosReg[index].idregistro + "' />" +
                         "<input type='hidden' class='form-control' name='idmanipulador' id='idmanipulador'value='"+ response.datosReg[index].idmanipulador+"'/>"+
                         "<td><span>"+ response.datosReg[index].nombre+"</span></td>"+
-                        //"<td><input type='text' name='idpuesto' value='" + response.datosReg[index].idpuesto + "' class='input_s form-control' disabled='disable'></td>"+
+                        "<td><span>"+ response.datosReg[index].apellidos+"</span></td>"+
                         "<td><select class='form-control selectReg' id='idturno_"+index+"' disabled=disable></select></td>"+
                         "<td><div class='input-group date' id='fecha_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#fecha_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>"+
                         "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
@@ -126,7 +126,7 @@ function updateReg(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
                 var data = {
-                    "idregistro": $(this).find("td:nth-child(2) span").text(),
+                    "idregistro": $(this).find("> input").val(),
                     //"idpuesto": $(this).find("td:nth-child(4) > input").val(),
                     "idturno": $(this).find("td:nth-child(5) .selectReg").val(),     
                     "fecha": $(this).find("td:nth-child(6) > div").datetimepicker('date').format('L'),
@@ -161,7 +161,7 @@ function borrarCampos(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
             var datos = {
-                "idRegistroManipulador": $(this).find("td:nth-child(2) span").text()               
+                "idRegistroManipulador": $(this).find("> input").val()               
             };
             arrayDatos.push(datos);
         }

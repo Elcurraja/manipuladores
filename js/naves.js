@@ -47,7 +47,7 @@ function showNaves(){
                     $("#tabla_naves tbody").append(
                         "<tr class='fila'>"+
                         "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
-                        "<td><span>"+ response.datosNaves[index].idnave +"</span></td>"+
+                        "<input type='hidden' value='" + response.datosNaves[index].idnave + "' />" +
                         "<td><input type='text' class='form-control' name='designacion' id='designacion'value='"+ response.datosNaves[index].designacion+"'disabled='disable'/></td>");
                     }
         },
@@ -64,7 +64,7 @@ function guardarCampos(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
             var datos = {
-                "idnave": $(this).find("td:nth-child(2) span").text(),
+                "idnave": $(this).find("> input").val(),
                 "designacion": $(this).find("td:nth-child(3) input").val()            
             };
             arrayDatos.push(datos);
@@ -94,7 +94,7 @@ function borrarCampos(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
             var datos = {
-                "idnave": $(this).find("td:nth-child(2) span").text()               
+                "idnave": $(this).find("> input").val()               
             };
             arrayDatos.push(datos);
         }

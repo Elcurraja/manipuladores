@@ -73,8 +73,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Apellidos</th>
                     <th scope="col">fecha</th>
                     <th scope="col">Dia Completo</th>
                     <th scope="col">Hora Inicio</th>

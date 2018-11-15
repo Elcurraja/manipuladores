@@ -94,9 +94,10 @@ function showAusencias(){
                     $("#tabla_ausencia tbody").append(
                         "<tr class='fila'>"+
                         "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
-                        "<td><span>"+ response.datosAusencia[index].idausencia +"</span></td>"+
+                        "<input type='hidden' value='" + response.datosAusencia[index].idausencia + "' />" +
                         "<input type='hidden' class='form-control' name='idmanipulador' id='idmanipulador'value='"+ response.datosAusencia[index].idmanipulador+"'disabled='disable'/>"+
                         "<td><span>"+ response.datosAusencia[index].nombre+"</span></td>"+
+                        "<td><span>"+ response.datosAusencia[index].apellidos+"</span></td>"+
                         "<td><div class='input-group date' id='fecha_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#fecha_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#fecha_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-calendar-alt'></i></div></div></div></td>"+
                         "<td><select class='form-control selectReg' id='esdiacompleto"+index+"' disabled=disable></select></td>"+
                         "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' disabled='disable' /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
@@ -177,7 +178,7 @@ function updateAusencias(){
         if($(this).find("input:checked").is(":checked")){
             if ($(this).find("td:nth-child(6) > div").datetimepicker('date')==null && $(this).find("td:nth-child(7) > div").datetimepicker('date')==null){
                 var datos = {
-                    "idausencia": $(this).find("td:nth-child(2) span").text(),
+                    "idausencia": $(this).find("> input").val(),
                     "fecha": $(this).find("td:nth-child(4) > div").datetimepicker('date').format('L'),
                     "diacompleto": $(this).find("td:nth-child(5) input").val(),     
                     "observaciones": $(this).find("td:nth-child(8) input").val()     
@@ -185,7 +186,7 @@ function updateAusencias(){
             }
              else{
                 var datos = {
-                    "idausencia": $(this).find("td:nth-child(2) span").text(),
+                    "idausencia": $(this).find("> input").val(),
                     "fecha": $(this).find("td:nth-child(5) > div").datetimepicker('date').format('L'),
                     "diacompleto": $(this).find("td:nth-child(6) select").val(),     
                     "horainicio": $(this).find("td:nth-child(7) > div").datetimepicker('date').format('LT'),
@@ -218,7 +219,7 @@ function borrarCampos(){
     $(".fila").each(function(){
         if($(this).find("input:checked").is(":checked")){
             var datos = {
-                "idausencia": $(this).find("td:nth-child(2) span").text()               
+                "idausencia": $(this).find("> input").val()               
             };
             arrayDatos.push(datos);
         }
