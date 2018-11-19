@@ -34,7 +34,7 @@
     </div>   
 </div>
         
-    <div id="table-responsive">
+    <div class="table-responsive">
         <table class="table table-striped table-bordered" id="tabla_lineas"> 
             <thead class="thead-dark">
                 <tr>
@@ -161,9 +161,9 @@
 <?php 
     include("html/confirBorrar.html");
 ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>    
     <script type="text/javascript" src="js/lib/datatables.min.js"></script>
-    <script src="js/lineas.js"></script>
+    <script type="text/javascript" src="js/lineas.js"></script>
 </body>
 </html>

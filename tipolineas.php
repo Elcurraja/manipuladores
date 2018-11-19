@@ -7,6 +7,7 @@
     <title>Tipo Lineas</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/lib/jquery-3.3.1.min.js"></script>
 </head>
@@ -30,7 +31,7 @@
         </div>
     </div>   
 </div>
-    <div id="tabla">
+    <div class="table-responsive">
         <table class="table table-striped table-bordered" id="tabla_tipo_lineas"> 
             <thead class="thead-dark">
                 <tr>
@@ -38,7 +39,7 @@
                     <th scope="col">Nombre</th>
                 </tr>
             </thead>
-                <tbody>
+                <tbody id="tabla_datos">
            
             </tbody>
         </table>
@@ -79,8 +80,9 @@
 <?php 
     include("html/confirBorrar.html");
 ?>
-    
-    <script src="js/lib/bootstrap.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>    
     <script src="js/tipolinea.js"></script>
 </body>
 </html>

@@ -36,7 +36,7 @@ function showLineas(){
         );
         array_push($response['lineas'], $fila);
     }
-    $query= "SELECT idnave,designacion FROM naves";
+    $query= "SELECT idnave,designacion FROM naves ORDER BY designacion";
     $resultQuery =$conn->query($query);
     $response['nave'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
@@ -45,7 +45,7 @@ function showLineas(){
             array_push($response['nave'],$fila);
     }
 
-    $query= "SELECT idtipolinea,nombre FROM tipo_linea";
+    $query= "SELECT idtipolinea,nombre FROM tipo_linea ORDER BY nombre";
     $resultQuery =$conn->query($query);
     $response['tipolinea'] = array();
     while ($fila = $resultQuery->fetch_assoc()){

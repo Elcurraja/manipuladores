@@ -9,11 +9,14 @@
     <link rel="stylesheet" href="css/lib/tempusdominus-bootstrap-4.min.css" />
     <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>
+    <script type="text/javascript" src="js/lib/datetime-moment.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/turnos_script.js"></script>
     <title>Acciones sobre Turnos</title>
@@ -22,30 +25,30 @@
 	<?php 
         include("html/menu.php");
     ?>
-
-    <div class="row align-items-end" id="test">
-            <div class="col-3" id="opciones-l">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_anyadir_turno" ><i class="far fa-plus-square"></i> Añadir Nuevo</button>
-            </div>
-            <div class="col-6">
-                <h3 class="msg text-center">Turnos</h3>
-            </div>
-            <div class="col-3" id="opciones-r">
-                <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns" >
-                    <button type="button" class="btn btn-primary" id="guardar_cambios_btn"   ><i class="far fa-save"></i> Guardar cambios</button>
-                    <button type="button" class="btn btn-danger" id="aviso_borrar_btn"  data-toggle="modal" data-target="#modal_confirm_borrar_turnos"  ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+            <div class="row align-items-end" id="cabecera">
+                <div class="col-3">
+                    <button type="button" class="btn btn-primary" value="Añadir Nuevo" data-toggle="modal" data-target="#modal_anyadir_turno" ><i class="far fa-plus-square"></i> Añadir nuevo</button>
+                </div>
+                <div class="col-6">
+                    <h3 class="msg text-center">Turnos</h3>
+                </div>
+                <div class="col-3">
+                    <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
+                        <button type="button" class="btn btn-warning" id="guardar_cambios_btn" ><i class="far fa-save"></i> Guardar cambios</button>
+                        <button type="button" class="btn btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_turnos" ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+                    </div>
                 </div>
             </div>
-        </div>   
-    </div>
-
+        </div>
+        
+        
+        
         <h4 class="text-center" id="mensaje_turnos"></h4>
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="mostrar_turnos">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Selecciona</th>
-                        <th scope="col">Id</th>
                         <th scope="col">Franja</th>
                         <th scope="col">Hora de Inicio</th>
                         <th scope="col">Hora de Fin</th>
@@ -112,7 +115,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <p id="mensaje_anyadir_turno"></p>
+                        <h4 class="text-center" id="mensaje_anyadir_turno"></h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="guardar_nuevo_turno_btn" disabled>Guardar</button>

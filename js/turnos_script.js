@@ -1,5 +1,23 @@
 $(function(){
-    // $(".table-responsive").css("overflowY", "visible");
+    $.fn.dataTable.moment("LT", "es");
+    $.fn.dataTableExt.ofnSearch['html-input'] = function(object) {
+        return $(object).val();
+    };
+    /* TIPO "tempusdominus-hour" PARA PODER HACER BUSQUEDAS POR HORAS. SI SE USA EL PROPIO ELEMENTO PARA OBTENER
+       EL VALOR DE LA FECHA DA ERROR ("Cannot read property 'format' of null") PERO USANDOLO POR SU ID NO */
+    $.fn.dataTableExt.ofnSearch['tempusdominus-hour'] = function(object) {
+        var id = $(object).attr("id");
+        return $("#" + id).datetimepicker('date').format("LT");
+    };
+    /* DECLARACION DE TIPO DE DATO PARA LA ORDENACION DE DATATABLES 
+       https://stackoverflow.com/questions/11376469/can-datatables-sort-a-column-with-an-input-field */
+    $.fn.dataTable.ext.order['tempusdominus-date-ordering'] = function (settings, col) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            var div = $('div', td);
+            var id = div.attr("id");
+            return $("#" + id).datetimepicker("date");
+        });
+    }
     /* --------------------------------------------------- COMPROBACIONES INICIALES ---------------------------------------------- */
 
     /* COMPROBACION INICIAL EXISTENCIA DE DATOS EN 'turnos'.
@@ -48,10 +66,16 @@ $(function(){
     /* EVENTO PARA COMPROBAR SI TODOS LOS INPUTS DEL MODAL AÑADIR TURNO CONTIENEN UN DATO
        EL SELECTOR APUNTA A LOS DOS INPUTS DE FECHA Y LOS DOS PRIMEROS EVENTOS SON DE TEMPUS DOMINUS
        https://tempusdominus.github.io/bootstrap-4/Events/#hidedatetimepicker */
-    $("#hora_inicio, #hora_fin").on("hide.datetimepicker show.datetimepicker focusin focusout", function(){
-        if ($("#franja").val() && $("#hora_inicio").datetimepicker('date') && $("#hora_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_turno_btn").prop("disabled", false);
-        } else {
+    $("#hora_inicio, #hora_fin").on("change.datetimepicker show.datetimepicker", function(){
+        try {
+            if ($("#franja").val() && $("#hora_inicio").datetimepicker('date').format("LT") && $("#hora_fin").datetimepicker('date').format("LT")) {
+                $("#guardar_nuevo_turno_btn").prop("disabled", false);
+                $("#mensaje_anyadir_turno").empty();
+            } else {
+                $("#guardar_nuevo_turno_btn").prop("disabled", true);
+            }
+        } catch (error) {
+            console.log("Error: " + error.message);
             $("#guardar_nuevo_turno_btn").prop("disabled", true);
         }
     });
@@ -69,9 +93,15 @@ $(function(){
     /* EVENTO PARA COMPROBAR SI TODOS LOS INPUTS DEL MODAL AÑADIR TURNO CONTIENEN UN DATO
        SE COMPRUEBA CADA VEZ QUE SE ESCRIBE ALGO EN EL CAMPO "FRANJA" */
     $("#franja").on("keyup blur focus", function(){
-        if ($(this).val() && $("#hora_inicio").datetimepicker('date') && $("#hora_fin").datetimepicker('date')) {
-            $("#guardar_nuevo_turno_btn").prop("disabled", false);
-        } else {
+        try {
+            if ($(this).val() && $("#hora_inicio").datetimepicker('date').format("LT") && $("#hora_fin").datetimepicker('date').format("LT")) {
+                $("#guardar_nuevo_turno_btn").prop("disabled", false);
+                $("#mensaje_anyadir_turno").empty();
+            } else {
+                $("#guardar_nuevo_turno_btn").prop("disabled", true);
+            }
+        } catch (error) {
+            console.log("Error: " + error.message);
             $("#guardar_nuevo_turno_btn").prop("disabled", true);
         }
     });
@@ -89,10 +119,11 @@ $(function(){
             estaVacio = true;
         }
         if (!estaVacio) {
+            $("#mensaje_anyadir_turno").empty();
             anyadirTurno();
         } else {
             $("#guardar_nuevo_turno_btn").prop("disabled", true);
-            $("#mensaje_anyadir_turno").text("Todos los campos han de tener datos válidos");
+            $("#mensaje_anyadir_turno").text("Todos los campos deben tener algún dato");
         }
     });
 
@@ -131,10 +162,10 @@ $(function(){
         if (elementos.length > 1) {
             $("#mensaje_confirm_borrar_turnos").html("<p>¿Realmente desea borrar estos " + elementos.length + " turnos?: </p>");
             elementos.each(function(){
-                $("#mensaje_confirm_borrar_turnos").append("<p>" + $(this).find("td:nth-child(3) input").val() + " " + $(this).find("td:nth-child(4) > div").datetimepicker('date').format('LT') + " " + $(this).find("td:nth-child(5) > div").datetimepicker('date').format('LT') + "</p>") ;
+                $("#mensaje_confirm_borrar_turnos").append("<p>" + $(this).find("td:nth-child(3) input").val() + " de " + $(this).find("td:nth-child(4) > div").datetimepicker('date').format('LT') + " hasta " + $(this).find("td:nth-child(5) > div").datetimepicker('date').format('LT') + "</p>") ;
             });
         } else {
-            $("#mensaje_confirm_borrar_turnos").text("¿Realmente desea borrar " + elementos.find("td:nth-child(3) input").val() + " " + elementos.find("td:nth-child(4) > div").datetimepicker('date').format('LT') + " " + elementos.find("td:nth-child(5) > div").datetimepicker('date').format('LT') + "?");
+            $("#mensaje_confirm_borrar_turnos").text("¿Realmente desea borrar " + elementos.find("td:nth-child(3) input").val() + " de " + elementos.find("td:nth-child(4) > div").datetimepicker('date').format('LT') + " hasta " + elementos.find("td:nth-child(5) > div").datetimepicker('date').format('LT') + "?");
         }
     });
 
@@ -148,7 +179,7 @@ $(function(){
         }
         
         var isChecked = $(this).prop("checked");
-        $(this).closest("td").siblings("td:gt(0)").each(function(){
+        $(this).closest("td").siblings("td").each(function(){
             if (isChecked){
                 // https://stackoverflow.com/questions/1306708/how-to-add-a-readonly-attribute-to-an-input
                 $(this).find("input").prop("readonly", false);
@@ -199,15 +230,21 @@ $(function(){
             },
             success: function(respuesta){
                 if (respuesta.error == 0) {
-                    $("#mostrar_turnos tbody tr").remove();
+                    /* SI EXISTE UNA DATATABLE DE UNA EJECUCION ANTERIOR DE LA FUNCION "mostrarManipuladores" SE ELIMINA
+                    ESA DATATABLE, SI NO SE HACE SE MUESTRA UN ALERT CON UN MENSAJE DE ERROR AL CREARLA DE NUEVO
+                    https://datatables.net/manual/tech-notes/3 */
+                    if ($.fn.dataTable.isDataTable("#mostrar_turnos")) {
+                        tabla.destroy();
+                    }
+                    $("#mostrar_turnos tbody").empty();
                     for (let index = 0; index < respuesta.datos.length; index++) {
                         $("#mostrar_turnos tbody").append(
                             "<tr>" +
-                            "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_turno custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
-                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].idturno + "' readonly /></td>" +
-                            "<td><input type='text' class='form-control' value='" + respuesta.datos[index].franja + "' readonly /></td>" +
-                            "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
-                            "<td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' readonly /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
+                                "<td scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_turno custom-control-input' id='customCheck" + index + "'><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
+                                "<input type='hidden' value='" + respuesta.datos[index].idturno + "' />" +
+                                "<td><input type='text' class='form-control' value='" + respuesta.datos[index].franja + "' readonly /></td>" +
+                                "<td><div class='input-group date' id='hora_inicio_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_inicio_" + index + "' readonly /><div class='input-group-append' data-target='#hora_inicio_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
+                                "<td><div class='input-group date' id='hora_fin_" + index + "' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#hora_fin_" + index + "' readonly /><div class='input-group-append' data-target='#hora_fin_" + index + "' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>" +
                             "</tr>"
                         );
                         $('#hora_inicio_' + index).datetimepicker({
@@ -236,7 +273,79 @@ $(function(){
                 console.log("Error en la peticion AJAX para mostrar los turnos: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function(){
-            //$("#guardar_cambios_btn, #aviso_borrar_btn").prop("disabled", true);
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
+            tabla = $('#mostrar_turnos').DataTable({
+                // https://datatables.net/reference/option/order
+                order: [[1, "asc"]],
+                /* CODIGO PARA ESTABLECER LA CABECERA DE TABLA FIJA COMENTADO HASTA QUE SOLUCIONEN EL PROBLEMA
+                   DE INCOMPATIBILIDAD CON EL SCROLLING EN UNA NUEVA VERSION DE LA EXTENSION "FixedHeader".
+                   INFO SOBRE LA INCOMPATIBILIDAD: https://datatables.net/download/compatibility
+                   INFO SOBRE LA EXTENSION: https://datatables.net/reference/option/fixedHeader */
+                    /* fixedHeader: {
+                        header: true,
+                        // https://datatables.net/forums/discussion/30576/how-to-reanchor-fixedheader-or-how-to-change-headeroffset
+                        headerOffset: $('.sticky-top').height(),
+                    }, */
+                language: {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Buscar:",
+                    "sUrl":            "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                columnDefs: [
+                    // https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column
+                    {
+                        "orderable": false,
+                        "targets": "no_ordenable"
+                    },
+                    // https://datatables.net/reference/option/columns.searchable
+                    {
+                        "searchable": false,
+                        "targets": 0
+                    },
+                    // https://datatables.net/reference/option/columns.type
+                    {
+                        "type": "tempusdominus-hour",
+                        "targets": [2, 3]
+                    },
+                    {
+                        "type": "html-input",
+                        "targets": 1
+                    },
+                    {
+                        /* ESPECIFICA QUE FUNCION DE ORDENACION PARA DATATABLES DEBE USAR PARA LAS COLUMNAS "targets" ESPECIFICADAS
+                           https://stackoverflow.com/questions/11376469/can-datatables-sort-a-column-with-an-input-field */
+                        "orderDataType": "tempusdominus-date-ordering",
+                        "targets": [2, 3]
+                    }
+                ]
+            });
+            /* EVENTOS PARA ACTUALIZAR LOS ATRIBUTOS "value" DE LOS <input> PARA QUE AL CAMBIARSELE
+               EL VALOR Y JUSTO DESPUES EFECTUAR UNA BUSQUEDA SE LEAN LOS NUEVOS VALORES 
+               https://stackoverflow.com/questions/27852497/jquery-datatables-search-within-input-and-select */
+            $("#mostrar_descansos tbody td:nth-child(9) input").on('change', function() {
+                var td = $(this).parent();
+                td.find('input').attr('value', this.value);
+                tabla.cell(td).invalidate().draw();
+            });
         });
     }
 
@@ -244,7 +353,7 @@ $(function(){
         var array = [];
         $(".selec_turno:checked").closest("tr").each(function(){
             var temp = {
-                "idturno": $(this).find("td:nth-child(2) input").val(),
+                "idturno": $(this).children("input").val(),
                 "franja": $(this).find("td:nth-child(3) input").val(),
                 "hora_inicio": $(this).find("td:nth-child(4) > div").datetimepicker('date').format('LT'),
                 "hora_fin": $(this).find("td:nth-child(5) > div").datetimepicker('date').format('LT')
@@ -276,7 +385,7 @@ $(function(){
         var array = [];
         $(".selec_turno:checked").closest("tr").each(function(){
             var temp = {
-                "idturno": $(this).find("td:nth-child(2) input").val()
+                "idturno": $(this).children("input").val()
             };
             array.push(temp);
         });

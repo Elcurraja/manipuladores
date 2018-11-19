@@ -2,12 +2,6 @@ $(document).ready(function() {
     $.fn.dataTableExt.ofnSearch['html-input'] = function(value) {
         return $(value).val();
     }; 
-    $.fn.dataTable.ext.order['dom-select'] = function  ( settings, col )
-    {
-        return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
-            return $('select', td).val();
-        } );
-    } 
 
     //DESHABILITAMOS O HABILITAMOS LA FILA DE INPUTS SI ESTA MARCADO EL CHECKBOX
     $("#tabla_lineas").on("change","td",function(){
@@ -179,14 +173,25 @@ function showLineas(){
                     "type": "html-input",
                     "targets": [1]
                 },
-                { 
-                    "orderDataType": "dom-select",
-                    "targets": [2, 3, 4]
+                /*Configuracion para ordenar los select de la tabla, hay que tener en cuenta que cada option tiene un value numerico, 
+                  y lo que el usuario ve es el texto, asi que hay que extraer el dato del option:Select con .text() 
+                  https://stackoverflow.com/questions/40238819/jquery-datatables-sorting-a-select-inside-a-column*/
+                {
+                    targets: [2,3,4], 
+                    render: function(data, type, full, meta){
+                        if(type === 'filter' || type === 'sort'){
+                            var api = new $.fn.dataTable.Api(meta.settings);
+                            var td = api.cell({row: meta.row, column: meta.col}).node();
+                            var $input = $('select, input', td);
+                            if($input.length && $input.is('select')){
+                            data = $('option:selected', $input).text();
+                            } else {                   
+                            data = $input.text();
+                            }
+                        }
+                        return data;
+                    }
                 },
-                // {
-                //     "type": "dom-select",
-                //     "targets": [2, 3, 4]
-                // },
                 {
                     targets: [5,6,7,8], 
                     render: function(data, type, full, meta){
@@ -194,13 +199,10 @@ function showLineas(){
                             var api = new $.fn.dataTable.Api(meta.settings);
                             var td = api.cell({row: meta.row, column: meta.col}).node();
                             data = $('select, input', td).val();
-                            /* if (esNumerico(data)) {
-                                return parseFloat(data);
-                            } */
                         }
                         return data;
                     }
-                }
+                },
             ]
         });
     });

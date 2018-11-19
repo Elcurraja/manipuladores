@@ -7,6 +7,7 @@
     <title>Registro Manipuladores</title>
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/lib/tempusdominus-bootstrap-4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
@@ -21,14 +22,6 @@
 
     <div class="row align-items-end" id="cabecera">
         <div class="col-5">
-            <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
-                <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                </div>
-                <button type="button" class="btn btn-primary" onclick ="showReg();"><i class="fa fa-search"></i></button>
-            </div>
-            <button type="button" id="mostrarTodos" class="btn boton btn-primary">Mostrar Todos</button>
             <button type="button" class="btn boton btn-warning" onclick ="window.location.href='./reasignar_linea.php'">Reasignar Linea </button>
         </div>
         <div class="col-3">
@@ -42,7 +35,7 @@
         </div>
     </div>   
 </div>
-    <div id="table-responsive">
+    <div class="table-responsive">
         <table class="table table-striped table-bordered" id="tabla_registro"> 
             <thead class="thead-dark">
                 <tr>
@@ -56,8 +49,8 @@
                     <th scope="col">Linea</th>
                 </tr>
             </thead>
-            <tbody>                
-            </tbody>
+            <tbody id="tabla_datos">                
+            </tbody >
         </table>
     </div>
 </div>
@@ -97,7 +90,8 @@
     include("html/confirBorrar.html");
 ?>
 
-    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>    
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>    
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>

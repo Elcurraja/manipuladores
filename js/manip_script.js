@@ -264,16 +264,16 @@ $(function(){
                     {
                         targets: [6, 9, 10, 11], 
                         render: function(data, type, full, meta){
-                                    if(type === 'filter' || type === 'sort'){
-                                        var api = new $.fn.dataTable.Api(meta.settings);
-                                        var td = api.cell({row: meta.row, column: meta.col}).node();
-                                        data = $('select, input', td).val();
-                                        if (data === null) {
-                                            console.log(data);
-                                        }
-                                    }
-                                    return data;
+                            if(type === 'filter' || type === 'sort'){
+                                var api = new $.fn.dataTable.Api(meta.settings);
+                                var td = api.cell({row: meta.row, column: meta.col}).node();
+                                data = $('select, input', td).val();
+                                if (data === null) {
+                                    console.log(data);
                                 }
+                            }
+                            return data;
+                        }
                     }
                     
                 ]

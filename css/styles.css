@@ -62,6 +62,9 @@ tbody tr td input[type="text"], tbody tr td span,select{
 .table-responsive .table input{
     width: inherit;
 }
+.table-responsive .table#tabla_naves input,.table-responsive .table#tabla_tipo_lineas input{
+    width: 100%;
+}
 /* .selectReg{
     width: 80px;
 } */
@@ -142,7 +145,7 @@ td input:enabled, td select:enabled{
 #buscadorReasignar{
     margin-bottom: 20px;
 }
-div .labelcheck{
+/* div .labelcheck{
     width: 9.5em;
 }
 .switch {
@@ -257,4 +260,4 @@ div .labelcheck{
   .switch + .switch {
     margin-left: 1rem;
   }
-  
+   */

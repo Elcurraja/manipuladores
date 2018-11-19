@@ -1,9 +1,38 @@
 $(document).ready(function() {
+    $.fn.dataTableExt.ofnSearch['html-span'] = function(value) {
+        return $(value).text();
+    };
+    $.fn.dataTableExt.ofnSearch['html-input'] = function(value) {
+        return $(value).val();
+    };
+    $.fn.dataTable.ext.order['tempusdominus-date-ordering'] = function (settings, col) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            var div = $('div', td);
+            var id = div.attr("id");
+            return $("#" + id).datetimepicker("date");
+        });
+    }
+    $.fn.dataTable.ext.order['tempusdominus-time-ordering'] = function (settings, col) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            var div = $('div', td);
+            var id = div.attr("id");
+            return $("#" + id).datetimepicker("date");
+        });
+    }
+    /* TIPO "tempusdominus-date" PARA PODER HACER BUSQUEDAS POR FECHAS. SI SE USA EL PROPIO ELEMENTO PARA OBTENER
+       EL VALOR DE LA FECHA DA ERROR ("Cannot read property 'format' of null") PERO USANDOLO POR SU ID NO */
+       $.fn.dataTableExt.ofnSearch['tempusdominus-date'] = function(object) {
+        var id = $(object).attr("id");
+        return $("#" + id).datetimepicker('date').format("L");
+    };
 
-    $('#busqueda_fecha').datetimepicker({
-        locale: 'es',
-        format: 'L'
-     });
+    $.fn.dataTableExt.ofnSearch['tempusdominus-time'] = function(object) {
+        var id = $(object).attr("id");
+        console.log($("#" + id).datetimepicker('date'))
+        return $("#" + id).datetimepicker('date');
+    };
+
+ 
 
     /* INICIADO DEL PLUGIN TEMPUS DOMINUS PARA LOS INPUT "HORA INICIO, FIN Y DATE"
     EN EL MOMENTO DE AÑADIR UNA AUSENCIA */
@@ -63,31 +92,19 @@ $(document).ready(function() {
             $('.hora').css("display","table-row")
         }
     })
-    $('#mostrarTodos').click(function(){
-        $("#busqueda_fecha").datetimepicker('clear')
-        showAusencias()
-    })
+  
 
     showAusencias()
 });
 function showAusencias(){
-    if ($("#busqueda_fecha").datetimepicker('date')==null){
-        var datos ={
-            op:"show",
-            fecha:"todos"
-        }
-    }
-    else {
-        var datos={
-            op:"show",
-            fecha:$("#busqueda_fecha").datetimepicker('date').format('L'),
-        }
-    }
+
     $.ajax({
         url:"php/ausencias_f.php",
         type:"POST",
         dataType: "json",
-        data: datos
+        data: {
+            op:"show"
+        }
         ,success:function(response){
             $("#tabla_ausencia tbody").empty();
                 for (let index = 0; index < response.datosAusencia.length; index++){
@@ -106,7 +123,7 @@ function showAusencias(){
                        
                         $('#fecha_'+ index).datetimepicker({
                             locale: 'es',
-                            format: 'DD-MM-YYYY',
+                            format: 'DD/MM/YYYY',
                             date: response.datosAusencia[index].fecha
                         });
                         $('#hora_inicio_' + index).datetimepicker({
@@ -132,10 +149,103 @@ function showAusencias(){
                     }
         },
         error:function(jqXHR, textStatus, errorThrown){
-            //console.log(datos)
             console.log("Error en la peticion AJAX para mostrar los registros de ausencias: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
-    })
+    }).done(function(){
+        $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
+        /* CREACION DE LA DATATABLE UNA VEZ LA TABLA ESTA FORMADA. SE INICIA CON LAS OPCIONES DE NO ORDENAR POR
+           DEFECTO POR LA PRIMERA COLUMNA (SOLO CONTIENE CHECKBOXES) SINO LA TERCERA (APELLIDOS), CABECERA FIJA
+           CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
+           QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
+        tabla = $('#tabla_ausencia').DataTable({
+            // https://datatables.net/reference/option/order
+            order: [[1, "asc"]],
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            columnDefs: [
+                /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE COMO ORDENABLE
+                   https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column */
+                { 
+                    "orderable": false, 
+                    "targets": 0 
+                },
+                /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE PARA LAS BUSQUEDAS DE DATATABLE
+                   https://datatables.net/reference/option/columns.searchable */
+                { 
+                    "searchable": false, 
+                    "targets": 0 
+                },
+                /* CONFIGURACION PARA QUE AL ORDENAR Y BUSCAR LOS DATOS PUEDA LEERLOS DENTRO DE LOS INPUTS Y SELECTS DE LAS CELDAS
+                   https://stackoverflow.com/questions/40238819/jquery-datatables-sorting-a-select-inside-a-column */
+                {
+                    "type": "html-span",
+                    "targets": [1,2]
+                },
+                {
+                    "type": "html-input",
+                    "targets": [7]
+                },
+                {
+                    "type": "tempusdominus-date",
+                    "targets": [3]
+                },
+                {
+                    /* 
+                       https://stackoverflow.com/questions/11376469/can-datatables-sort-a-column-with-an-input-field */
+                    "orderDataType": "tempusdominus-date-ordering",
+                    "targets": [3]
+                },
+                {
+                    "type": "tempusdominus-time",
+                    "targets": [5,6]
+                },
+                {
+                    /* 
+                        https://stackoverflow.com/questions/11376469/can-datatables-sort-a-column-with-an-input-field */
+                    "orderDataType": "tempusdominus-time-ordering",
+                    "targets": [5,6]
+                },
+                {
+                    targets: [4], 
+                    render: function(data, type, full, meta){
+                        if(type === 'filter' || type === 'sort'){
+                            var api = new $.fn.dataTable.Api(meta.settings);
+                            var td = api.cell({row: meta.row, column: meta.col}).node();
+                            var $input = $('select, input', td);
+                            if($input.length && $input.is('select')){
+                            data = $('option:selected', $input).text();
+                            } else {                   
+                            data = $input.text();
+                            }
+                        }
+                        return data;
+                    }
+                },
+            ]
+        });
+    });
 }
 function addAusencia(){
     

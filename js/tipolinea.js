@@ -38,9 +38,9 @@ function showTipoLinea(){
             op:"show"
         },
         success:function(response){
-            $("#tabla_tipo_lineas tbody").empty();
+            $("#tabla_tipo_lineas #tabla_datos").empty();
                 for (let index = 0; index < response.datosTipoLinea.length; index++){
-                    $("#tabla_tipo_lineas tbody").append(
+                    $("#tabla_tipo_lineas #tabla_datos").append(
                         "<tr class='fila'>"+
                         "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='checkedit custom-control-input' id='customCheck"+ index+"'><label class='custom-control-label' for='customCheck"+ index+"'></label></div></td>'"+
                         "<input type='hidden' value='" + response.datosTipoLinea[index].idtipolinea + "' />" +
@@ -51,7 +51,55 @@ function showTipoLinea(){
             //console.log(datos)
             console.log("Error en la peticion AJAX para mostrar los registros de naves: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
-    })
+    }).done(function(){
+        $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
+        /* CREACION DE LA DATATABLE UNA VEZ LA TABLA ESTA FORMADA. SE INICIA CON LAS OPCIONES DE NO ORDENAR POR
+           DEFECTO POR LA PRIMERA COLUMNA (SOLO CONTIENE CHECKBOXES) SINO LA TERCERA (APELLIDOS), CABECERA FIJA
+           CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
+           QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
+        tabla = $('#tabla_tipo_lineas').DataTable({
+            // https://datatables.net/reference/option/order
+            order: [[1, "asc"]],
+            language: {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            columnDefs: [
+                /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE COMO ORDENABLE
+                   https://datatables.net/forums/discussion/21164/disable-sorting-of-one-column */
+                { "orderable": false, "targets": 0 },
+                /* CONFIGURACION PARA QUE LA COLUMNA DE LOS CHECKBOXES NO COMPUTE PARA LAS BUSQUEDAS DE DATATABLE
+                   https://datatables.net/reference/option/columns.searchable */
+                { "searchable": false, "targets": 0 },
+                /* CONFIGURACION PARA QUE AL ORDENAR Y BUSCAR LOS DATOS PUEDA LEERLOS DENTRO DE LOS INPUTS Y SELECTS DE LAS CELDAS
+                   https://stackoverflow.com/questions/40238819/jquery-datatables-sorting-a-select-inside-a-column */
+                {
+                    "type": "html-input",
+                    "targets": [1]
+                }
+            ]
+        });
+    });
 }
 //RECORREMOS TODAS LAS FILAS, BUSCAMOS LAS QUE ESTEN CHECKEADAS Y GUARDAMOS SUS DATOS.
 //LOS ENVIAMOS MEDIANTE AJAX

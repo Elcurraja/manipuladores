@@ -3,7 +3,7 @@ require("mysqlConexion.php");
 if(isset($_POST['op'])){
     switch($_POST['op']){
         case "mostrarRegistros":
-            mostrarRegistros($_POST['fecha']);
+            mostrarRegistros();
             break;
         case 'update': 
             updateReg();
@@ -11,38 +11,18 @@ if(isset($_POST['op'])){
         case 'delete':
             deleteReg();
             break;
-        case 'buscarReg': 
-            mostrarRegistros($_POST['fecha'],$_POST['id']);
-            break;
+
         case 'reasignarLinea':
             reasignarLinea();
         break;
     }
 }
 
-function mostrarRegistros($fecha,$id=0){
+function mostrarRegistros(){
     $conn=mysql_manipuladores();
-    //QUERY GENERAL CON LOS CAMPOS REQUERIDOS Y LAS TABLAS DONDE LOS SACAREMOS
-    $query1 = "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea FROM registro_manipuladores as r,manipuladores as m ";
-    
-    //BUSQUEDA POR ID_MANIPULADOR
-    if($id!=0){
-        $var= str_replace("/","-",$fecha);
-        $fechaF=date("Y-m-d",strtotime($var));
-        $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador=$id AND  r.idmanipulador = m.idmanipulador ORDER BY hora_fin";
-    }
-    else{
-        //BUSQUEDA DE TODOS
-        if($fecha=="todos"){
-            $query= "$query1 WHERE r.idmanipulador = m.idmanipulador";
-        }
-        else{//BUSQUEDA POR UNA FECHA CONCRETA
-            $var= str_replace("/","-",$fecha);
-            $fechaF=date("Y-m-d",strtotime($var));
-            $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador = m.idmanipulador";
-        }
-    }
-    // var_dump($query);
+    $query= "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea 
+             FROM registro_manipuladores as r,manipuladores as m 
+             WHERE r.idmanipulador = m.idmanipulador";
     $resultQuery =$conn->query($query);
     $response['datosReg'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
@@ -62,26 +42,24 @@ function mostrarRegistros($fecha,$id=0){
     }
 
     //QUERY PARA SACAR LOS TURNOS Y MOSTRARLAS EN EL SELECT LUEGO
-    if($id==0){
-        $query= "SELECT idturno,franja FROM turnos";
-        $resultQuery =$conn->query($query);
-        $response['turnos'] = array();
-        while ($fila = $resultQuery->fetch_assoc()){
-            $fila=array('idturno'=> $fila['idturno'],
-                        'franja'=> $fila['franja']);
-            array_push($response['turnos'],$fila);
-        }
-        //QUERY PARA SACAR LAS LINEAS Y MOSTRARLAS EN EL SELECT LUEGO
-        $query= "SELECT idlinea,nombre FROM lineas";
-        $resultQuery =$conn->query($query);
-        $response['lineas'] = array();
-        while ($fila = $resultQuery->fetch_assoc()){
-            $fila=array('idlinea'=> $fila['idlinea'],
-                        'nombre'=> $fila['nombre']);
-            array_push($response['lineas'],$fila);
-        }
+ 
+    $query= "SELECT idturno,franja FROM turnos";
+    $resultQuery =$conn->query($query);
+    $response['turnos'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        $fila=array('idturno'=> $fila['idturno'],
+                    'franja'=> $fila['franja']);
+        array_push($response['turnos'],$fila);
     }
-
+    //QUERY PARA SACAR LAS LINEAS Y MOSTRARLAS EN EL SELECT LUEGO
+    $query= "SELECT idlinea,nombre FROM lineas";
+    $resultQuery =$conn->query($query);
+    $response['lineas'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        $fila=array('idlinea'=> $fila['idlinea'],
+                    'nombre'=> $fila['nombre']);
+        array_push($response['lineas'],$fila);
+    }
     $conn->close();
     echo json_encode($response);
 }

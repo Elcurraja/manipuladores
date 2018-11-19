@@ -24,17 +24,20 @@
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/lib/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
+
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>    
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/lib/moment.min.js"></script>
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>    
     <script type="text/javascript" src="js/ausencias.js"></script>
     
 </head>
@@ -47,14 +50,7 @@
     <div class="row align-items-end" id="cabecera">
         <div class="col-5">
             <button type="button" class="btn boton btn-primary float-left" data-toggle="modal" data-target="#modalAddAusencia" style="margin-right:10px;"><i class="far fa-plus-square"></i> Añadir Nueva</button>
-            <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
-                <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                </div>
-                <button type="button" class="btn btn-primary" onclick ="showAusencias();"><i class="fa fa-search"></i></button>
-            </div>
-            <button type="button" id="mostrarTodos" class="btn boton btn-primary">Mostrar Todos</button>
+            
         </div>
         <div class="col-3">
             <h3 class="msg text-center">Ausencias</h3>
@@ -68,7 +64,7 @@
     </div>   
 </div>
    
-    <div id="tabla">
+    <div class="table-responsive">
         <table class="table table-striped table-bordered" id="tabla_ausencia"> 
             <thead class="thead-dark">
                 <tr>
@@ -82,7 +78,7 @@
                     <th scope="col">Observaciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tabla_datos">
 
             </tbody>
         </table>

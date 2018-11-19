@@ -3,7 +3,7 @@ include("mysqlConexion.php");
   if(isset($_POST['op'])){
     switch($_POST['op']){
         case 'show':
-            showAusencias($_POST['fecha']);
+            showAusencias();
             break;
         case 'add':
             addAusencia();
@@ -17,9 +17,9 @@ include("mysqlConexion.php");
     }
 }
 
-function showAusencias($fecha){
+function showAusencias(){
     $conn=mysql_manipuladores();
-    $select= "SELECT
+    $query= "SELECT
             a.idausencia,
             a.idmanipulador,
             a.fecha,
@@ -31,15 +31,16 @@ function showAusencias($fecha){
             m.apellidos
             FROM
                 ausencias AS a,
-                manipuladores AS m";
-    if($fecha=="todos"){
-        $query= "$select WHERE m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
-    }
-    else{
-        $var= str_replace("/","-",$fecha);
-        $fechaF=date("Y-m-d",strtotime($var));
-        $query= "$select WHERE fecha='$fechaF' AND m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
-    }
+                manipuladores AS m
+            WHERE m.idmanipulador = a.idmanipulador";
+    // if($fecha=="todos"){
+    //     $query= "$select WHERE m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
+    // }
+    // else{
+    //     $var= str_replace("/","-",$fecha);
+    //     $fechaF=date("Y-m-d",strtotime($var));
+    //     $query= "$select WHERE fecha='$fechaF' AND m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
+    // }
     
     $resultQuery =$conn->query($query);
     if (!$resultQuery) {

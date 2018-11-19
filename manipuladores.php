@@ -36,7 +36,7 @@
         </div>
         <h4 class="text-center" id="mensaje_manip"></h4>
         <div class="table-responsive">
-            <table class="table table-responsive table-bordered table-hover" id="mostrar_manip">
+            <table class="table table-bordered table-hover" id="mostrar_manip">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="no_ordenable">Selecciona</th>
