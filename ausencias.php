@@ -1,4 +1,5 @@
 <?php
+
     $DS = DIRECTORY_SEPARATOR;
     file_exists(__DIR__ . $DS . 'core' . $DS . 'Handler.php') ? require_once __DIR__ . $DS . 'core' . $DS . 'Handler.php' : die('Handler.php not found');
     file_exists(__DIR__ . $DS . 'core' . $DS . 'Config.php') ? require_once __DIR__ . $DS . 'core' . $DS . 'Config.php' : die('Config.php not found');
@@ -13,7 +14,6 @@
     $handler = new Handler();
     $handler->getJavascriptAntiBot();
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,20 +25,13 @@
     <link rel="stylesheet" type="text/css" href="css/lib/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
-
     <link rel="stylesheet" href="css/lib/fontello.css" />
     <link rel="stylesheet" href="css/lib/animation.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/lib/moment.min.js"></script>
-    <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
-    <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
-    <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
-    <script type="text/javascript" src="js/lib/datatables.min.js"></script>    
-    <script type="text/javascript" src="js/ausencias.js"></script>
+  
     
 </head>
 <body>
@@ -182,50 +175,39 @@
     include("html/confirBorrar.html");
 ?>
 
-    
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/moment.min.js"></script>
+    <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
+    <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables.min.js"></script>    
+    <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
+    <script type="text/javascript" src="js/ausencias.js"></script>
     <script>
         $(function(){
 
-            $("#busqueda_manipulador").ajaxlivesearch({
-                loaded_at: <?php echo time(); ?>,
-                token: <?php echo "'" . $handler->getToken() . "'"; ?>,
-                max_input: <?php echo Config::getConfig('maxInputLength'); ?>,
-                onResultClick: function(e, data) {
-                    // get the index 0 (first column) value
-                    var selectedOne = $(data.selected).find('td').eq('0').text();
-                    // set the input value
-                    $('#manipulador').val(selectedOne);
+        $("#busqueda_manipulador").ajaxlivesearch({
+        loaded_at: <?php echo time(); ?>,
+        token: <?php echo "'" . $handler->getToken() . "'"; ?>,
+        max_input: <?php echo Config::getConfig('maxInputLength'); ?>,
+        onResultClick: function(e, data) {
+            // get the index 0 (first column) value
+            var selectedOne = $(data.selected).find('td').eq('0').text();
 
-                    // hide the result
-                    $("#busqueda_manipulador").trigger('ajaxlivesearch:hide_result');
-                },
-                onResultEnter: function(e, data) {
-                },
-                onAjaxComplete: function(e, data) {
+            // set the input value
+            $('#manipulador').val(selectedOne);
 
-                }
-            });
+            // hide the result
+            $("#busqueda_manipulador").trigger('ajaxlivesearch:hide_result');
+        },
+        onResultEnter: function(e, data) {
+            // do whatever you want
+            // jQuery("#ls_query").trigger('ajaxlivesearch:search', {query: 'test'});
+        },
+        onAjaxComplete: function(e, data) {
 
-            $("#busqueda_ausencia").ajaxlivesearch({
-                loaded_at: <?php echo time(); ?>,
-                token: <?php echo "'" . $handler->getToken() . "'"; ?>,
-                max_input: <?php echo Config::getConfig('maxInputLength'); ?>,
-                onResultClick: function(e, data) {
-                    // get the index 0 (first column) value
-                    var selectedOne = $(data.selected).find('td').eq('0').text();
-                    // set the input value
-                    $('#manipulador').val(selectedOne);
-
-                    // hide the result
-                    $("#busqueda_ausencia").trigger('ajaxlivesearch:hide_result');
-                },
-                onResultEnter: function(e, data) {
-                },
-                onAjaxComplete: function(e, data) {
-
-                }
-            });
-        });
+        }
+    });
+});
 
     </script>
     

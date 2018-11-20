@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="css/lib/datatables.min.css" />
     <link rel="stylesheet" href="css/lib/ajaxlivesearch.min.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/lib/moment.min.js"></script>

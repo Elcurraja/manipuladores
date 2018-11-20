@@ -28,7 +28,6 @@ $(document).ready(function() {
 
     $.fn.dataTableExt.ofnSearch['tempusdominus-time'] = function(object) {
         var id = $(object).attr("id");
-        console.log($("#" + id).datetimepicker('date'))
         return $("#" + id).datetimepicker('date');
     };
 
@@ -106,6 +105,9 @@ function showAusencias(){
             op:"show"
         }
         ,success:function(response){
+            if ($.fn.dataTable.isDataTable("#tabla_ausencia")) {
+                tabla.destroy();
+            }
             $("#tabla_ausencia tbody").empty();
                 for (let index = 0; index < response.datosAusencia.length; index++){
                     $("#tabla_ausencia tbody").append(

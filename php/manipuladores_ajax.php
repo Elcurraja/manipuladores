@@ -24,7 +24,36 @@
     function obtenerManipuladores(){
         header('Content-Type: application/json; charset=utf-8');
         $conexion = mysql_manipuladores();
-        $resultado = $conexion->query("SELECT * FROM manipuladores");
+        
+        $resultado = $conexion->query(  "SELECT idmanipulador, nombre, apellidos, dni, telefono, direccion, dias_seguidos_trabajados, email, tlf_familiar, fiabilidad, velocidad, disponibilidad, observaciones, 
+                                            (SELECT COUNT(r.idmanipulador) FROM registro_manipuladores r WHERE m.idmanipulador=r.idmanipulador) AS existe_en_registros, 
+                                            (SELECT COUNT(a.idmanipulador) FROM ausencias a WHERE m.idmanipulador=a.idmanipulador) AS existe_en_ausencias, 
+                                            (SELECT COUNT(d.idmanipulador) FROM descansos d WHERE m.idmanipulador=d.idmanipulador) AS existe_en_descansos 
+                                        FROM manipuladores m 
+                                        WHERE m.idmanipulador NOT IN 
+                                        (
+                                            SELECT d.idmanipulador 
+                                            FROM descansos d
+                                            WHERE CURDATE() 
+                                            BETWEEN DATE(d.fecha_inicio) 
+                                            AND DATE(d.fecha_fin)
+                                        ) 
+                                        AND m.idmanipulador NOT IN 
+                                        (
+                                            SELECT a.idmanipulador
+                                            FROM ausencias a 
+                                            WHERE (
+                                                    SELECT IF(a.esdiacompleto = 0, (
+                                                                                    SELECT CASE 
+                                                                                    WHEN a.hora_fin IS NULL 
+                                                                                    THEN CURDATE() = a.fecha AND CURTIME() > a.hora_inicio AND CURTIME() < MAKETIME(23,59,59) 
+                                                                                    ELSE CURDATE() = a.fecha AND CURTIME() BETWEEN TIME(a.hora_inicio) AND TIME(a.hora_fin) 
+                                                                                    END
+                                                                                    ), CURDATE() = a.fecha
+                                                            )
+                                                )
+                                        )"
+        );
             if (!$resultado) {
                 $respuesta['error'] = 1;
                 $respuesta['mensaje'] = "Error en la consulta de cargar manipuladores: " + $conexion->error;
@@ -45,7 +74,10 @@
                         'fiabilidad' => $row['fiabilidad'],
                         'velocidad' => $row['velocidad'],
                         'disponibilidad' => $row['disponibilidad'],
-                        'observaciones' => $row['observaciones']
+                        'observaciones' => $row['observaciones'],
+                        'existe_en_registros' => $row['existe_en_registros'],
+                        'existe_en_ausencias' => $row['existe_en_ausencias'],
+                        'existe_en_descansos' => $row['existe_en_descansos']
                     );
                     array_push($respuesta['datos'], $fila);
                 }

@@ -103,29 +103,47 @@ $(function(){
        EL EVENTO ES FIJADO MANUALMENTE A SU ELEMENTO ESTATICO PADRE MAS CERCANO: <table id="mostrar_manip">
        https://stackoverflow.com/questions/13418963/jquery-onchange-function-not-triggering-for-dynamically-created-inputs */
     $("#mostrar_manip").on("change", ".selec_manip", function(){
-        if ($(".selec_manip:checked").length > 0) {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "block");
-        } else {
-            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
-        }
         var isChecked = $(this).prop("checked");
-        $(this).closest("td").siblings().each(function(){
-            if (isChecked){
+        var thisRowInputHidden = $(this).closest("tr").find("input[type='hidden']");
+        if (isChecked) {
+            $("#guardar_cambios_btn").css("display", "block");
+            /* LA EXISTENCIA DE DATOS DE ESTE MANIPULADOR EN OTRAS TABLAS ESTA RECOGIDA EN EN INPUT OCULTO A TRAVES DE LA FUNCION "data" DE JQUERY
+                SI TIENE DATOS EN OTRAS TABLAS RELACIONADAS CON LOS MANIPULADORES (registro_manipuladores, ausencias, descansos) NO SE PERMITE EL BORRADO DE ESTE MANIPULADOR */
+                //console.log(thisRowInputHidden.data("existe_en_registros") + ", " + thisRowInputHidden.data("existe_en_ausencias") + ", " + thisRowInputHidden.data("existe_en_descansos"));
+            if (thisRowInputHidden.data("existe_en_registros") == 0 && thisRowInputHidden.data("existe_en_ausencias") == 0 && thisRowInputHidden.data("existe_en_descansos") == 0) {
+                $("#aviso_borrar_btn").css("display", "block");
+            }
+            // DESHABILITACION DEL RESTO DE CHECKBOXES PARA EDITAR O BORRAR SOLO DE UNO EN UNO
+            $(this).closest("tr").siblings().find("td:nth-child(1) input").each(function(){
+                $(this).prop("disabled", true);
+            });
+            // HABILITACION DE LOS INPUTS EN ESTA FILA
+            $(this).closest("td").siblings().each(function(){
                 if ($(this).children().prop("tagName") === "INPUT") {
                     $(this).children().prop("readonly", false);
                 } else {
                     $(this).children().prop("disabled", false);
                 }
-                $(this).parent().css('background-color','#FFE189')    
-            } else {
+            });
+            // COLOR DE FONDO PARA LA FILA
+            $(this).closest("tr").css('background-color','#FFE189');
+        } else {
+            $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
+            // REHABILITACION DEL RESTO DE CHECKBOXES PARA EDITAR O BORRAR
+            $(this).closest("tr").siblings().find("td:nth-child(1) input").each(function(){
+                $(this).prop("disabled", false);
+            });
+            // DESHABILITACION DE LOS INPUTS EN ESTA FILA
+            $(this).closest("td").siblings().each(function(){
                 if ($(this).children().prop("tagName") === "INPUT") {
                     $(this).children().prop("readonly", true);
                 } else {
                     $(this).children().prop("disabled", true);
                 }
-                $(this).parent().css('background-color','')   
-            }
-        });
+            });
+            // SE QUITA EL COLOR DE FONDO DE ESTA FILA
+            $(this).closest("tr").css('background-color','');
+        }
     });
 /* ---------------------------------------------------------------- FUNCIONES ------------------------------------------------------------ */
     function mostrarManipuladores(){
@@ -151,7 +169,7 @@ $(function(){
                         $("#mostrar_manip tbody").append(
                             "<tr>" +
                                 "<td scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_manip custom-control-input' id='customCheck" + index + "'><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
-                                "<input type='hidden' value='" + respuesta.datos[index].idmanipulador + "' />" +
+                                "<input id='hidden_" + index + "' type='hidden' value='" + respuesta.datos[index].idmanipulador + "' />" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].nombre + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].apellidos + "' readonly /></td>" +
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].dni + "' readonly /></td>" +
@@ -166,6 +184,12 @@ $(function(){
                                 "<td><input type='text' class='form-control' value='" + respuesta.datos[index].observaciones + "' readonly /></td>" +
                             "</tr>"
                         );
+                        $("#hidden_" + index).data({
+                            "existe_en_registros": respuesta.datos[index].existe_en_registros,
+                            "existe_en_descansos": respuesta.datos[index].existe_en_descansos,
+                            "existe_en_ausencias": respuesta.datos[index].existe_en_ausencias
+                        });
+                        
                         var select_fiabilidad = $("<select id='fiabilidad_" + index + "' class='form-control' disabled></select>");
                         var select_velocidad = $("<select id='velocidad_" + index + "' class='form-control' disabled></select>");
                         var select_disponibilidad = $("<select id='disponibilidad_" + index + "' class='form-control' disabled></select>");
@@ -205,6 +229,8 @@ $(function(){
                CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
                QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
             tabla = $('#mostrar_manip').DataTable({
+                // SIN LA PAGINACION DE DATATABLES
+                "paging": false,
                 // https://datatables.net/reference/option/order
                 order: [[2, "asc"]],
                 /* EL CODIGO PARA ESTABLECER LA CABECERA DE TABLA FIJA ESTA COMENTADO HASTA QUE SOLUCIONEN EL PROBLEMA
@@ -264,16 +290,16 @@ $(function(){
                     {
                         targets: [6, 9, 10, 11], 
                         render: function(data, type, full, meta){
-                            if(type === 'filter' || type === 'sort'){
-                                var api = new $.fn.dataTable.Api(meta.settings);
-                                var td = api.cell({row: meta.row, column: meta.col}).node();
-                                data = $('select, input', td).val();
-                                if (data === null) {
-                                    console.log(data);
+                                    if(type === 'filter' || type === 'sort'){
+                                        var api = new $.fn.dataTable.Api(meta.settings);
+                                        var td = api.cell({row: meta.row, column: meta.col}).node();
+                                        data = $('select, input', td).val();
+                                        if (data === null) {
+                                            console.log(data);
+                                        }
+                                    }
+                                    return data;
                                 }
-                            }
-                            return data;
-                        }
                     }
                     
                 ]
@@ -281,7 +307,7 @@ $(function(){
             /* EVENTOS PARA ACTUALIZAR LOS ATRIBUTOS "value" Y "selected" DE LOS <input> Y <select> PARA QUE
                AL CAMBIARSELE EL VALOR Y JUSTO DESPUES EFECTUAR UNA BUSQUEDA SE LEAN LOS NUEVOS VALORES 
                https://stackoverflow.com/questions/27852497/jquery-datatables-search-within-input-and-select */
-            $("#mostrar_manip tbody td input").on('change', function() {
+            $("#mostrar_manip tbody td input:not([type='checkbox'])").on('change', function() {
                 var td = $(this).parent();
                 td.find('input').attr('value', this.value);
                 tabla.cell(td).invalidate().draw();

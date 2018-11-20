@@ -45,7 +45,9 @@ function showLineas(){
             op:"showLineas"
         },
         success:function(response){
-           
+            if ($.fn.dataTable.isDataTable("#tabla_lineas")) {
+                tabla.destroy();
+            }
             $("tbody#tabla_datos").empty();
                 for (let index = 0; index < response.lineas.length; index++){
                     
@@ -135,7 +137,7 @@ function showLineas(){
            QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
         tabla = $('#tabla_lineas').DataTable({
             // https://datatables.net/reference/option/order
-            order: [[2, "asc"]],
+            order: [[1, "asc"]],
             language: {
                 "sProcessing":     "Procesando...",
                 "sLengthMenu":     "Mostrar _MENU_ registros",

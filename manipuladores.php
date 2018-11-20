@@ -29,7 +29,7 @@
                 <div class="col-3">
                     <div class="btn-group" role="group" id="grupo_actualizar_borrar_btns">
                         <button type="button" class="btn btn-warning" id="guardar_cambios_btn" ><i class="far fa-save"></i> Guardar cambios</button>
-                        <button type="button" class="btn btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" ><i class="far fa-trash-alt"></i> Borrar Seleccionados</button>
+                        <button type="button" class="btn btn-danger" id="aviso_borrar_btn" data-toggle="modal" data-target="#modal_confirm_borrar_manip" ><i class="far fa-trash-alt"></i> Borrar Seleccionado</button>
                     </div>
                 </div>
             </div>

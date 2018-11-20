@@ -58,25 +58,6 @@ class Config
                 ],
                 'type'               => 'mysql',
             ],
-            'busqueda_ausencia' => [
-                'host'               => '192.168.0.46',
-                'database'           => 'manipuladores',
-                'username'           => 'practica',
-                'pass'               => 'a.1234',
-                'table'              => 'ausencias',
-                'searchColumns'      => ['fecha'],
-                'orderBy'            => 'fecha',
-                'orderDirection'     => '',
-                'filterResult'       => ['idmanipulador','fecha'],
-                'comparisonOperator' => 'LIKE',
-                'searchPattern'      => '*q*',
-                'caseSensitive'      => false,
-                'displayHeader' => [
-                    'active' => false,
-                    'mapper' => []
-                ],
-                'type'               => 'mysql',
-            ],
             'mainMongo' => [
                 'server'       => 'your_server',
                 'database'     => 'local',
