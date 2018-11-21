@@ -265,6 +265,8 @@ $(function(){
                CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
                QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
             tabla = $('#mostrar_descansos').DataTable({
+                // SIN LA PAGINACION DE DATATABLES
+                "paging": false,
                 // https://datatables.net/reference/option/order
                 order: [[2, "asc"]],
                 /* CODIGO PARA ESTABLECER LA CABECERA DE TABLA FIJA COMENTADO HASTA QUE SOLUCIONEN EL PROBLEMA

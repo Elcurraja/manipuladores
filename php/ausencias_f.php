@@ -3,7 +3,7 @@ include("mysqlConexion.php");
   if(isset($_POST['op'])){
     switch($_POST['op']){
         case 'show':
-            showAusencias();
+            showAusencias($_POST['fecha']);
             break;
         case 'add':
             addAusencia();
@@ -17,9 +17,9 @@ include("mysqlConexion.php");
     }
 }
 
-function showAusencias(){
+function showAusencias($fecha){
     $conn=mysql_manipuladores();
-    $query= "SELECT
+    $select= "SELECT
             a.idausencia,
             a.idmanipulador,
             a.fecha,
@@ -31,16 +31,15 @@ function showAusencias(){
             m.apellidos
             FROM
                 ausencias AS a,
-                manipuladores AS m
-            WHERE m.idmanipulador = a.idmanipulador";
-    // if($fecha=="todos"){
-    //     $query= "$select WHERE m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
-    // }
-    // else{
-    //     $var= str_replace("/","-",$fecha);
-    //     $fechaF=date("Y-m-d",strtotime($var));
-    //     $query= "$select WHERE fecha='$fechaF' AND m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
-    // }
+                manipuladores AS m";
+    if($fecha=="todos"){
+        $query= "$select WHERE m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
+    }
+    else{
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
+        $query= "$select WHERE fecha='$fechaF' AND m.idmanipulador = a.idmanipulador ORDER BY a.fecha ASC";
+    }
     
     $resultQuery =$conn->query($query);
     if (!$resultQuery) {
@@ -77,13 +76,21 @@ function addAusencia(){
     $fecha =$fechaF[2]."-".$fechaF[1]."-".$fechaF[0];
     $esdiacompleto=$_POST['esdiacompleto'];
     $observaciones=$_POST['observaciones'];
+    //En el caso de que hora de inicio y hora fin existan (es porque no es dia completo)
     if(isset($_POST['horainicio'])&& isset($_POST['horafin'])){
         $horainicio=$_POST['horainicio'];
         $horafin=$_POST['horafin'];
         $sql="INSERT INTO ausencias (idmanipulador,fecha,esdiacompleto,hora_inicio,hora_fin,observaciones) 
             VALUES ($idmanipulador,'$fecha',$esdiacompleto,'$horainicio','$horafin','$observaciones')";
     }
-    else{
+    //No existe horafin
+    elseif (isset($_POST['horainicio']) && !isset($_POST['horafin'])){
+        $horainicio=$_POST['horainicio'];
+        $sql="INSERT INTO ausencias (idmanipulador,fecha,esdiacompleto,hora_inicio,observaciones) 
+        VALUES ($idmanipulador,'$fecha',$esdiacompleto,'$horainicio','$observaciones')";
+    }
+    //No existe ni hora de inicio ni hora de fin (porque es dia completo)
+    else {
         $sql="INSERT INTO ausencias (idmanipulador,fecha,esdiacompleto,observaciones) 
         VALUES ($idmanipulador,'$fecha',$esdiacompleto,'$observaciones')";
     }

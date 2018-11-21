@@ -3,7 +3,7 @@ require("mysqlConexion.php");
 if(isset($_POST['op'])){
     switch($_POST['op']){
         case "mostrarRegistros":
-            mostrarRegistros();
+            mostrarRegistros($_POST['fecha']);
             break;
         case 'update': 
             updateReg();
@@ -11,18 +11,39 @@ if(isset($_POST['op'])){
         case 'delete':
             deleteReg();
             break;
-
+        case 'buscarReg': 
+            mostrarRegistros($_POST['fecha'],$_POST['id']);
+            break;
         case 'reasignarLinea':
             reasignarLinea();
-        break;
+            break;
     }
 }
 
-function mostrarRegistros(){
+function mostrarRegistros($fecha,$id=0){
     $conn=mysql_manipuladores();
-    $query= "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea 
-             FROM registro_manipuladores as r,manipuladores as m 
-             WHERE r.idmanipulador = m.idmanipulador";
+    $query1 = "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea FROM registro_manipuladores as r,manipuladores as m ";
+    
+    //BUSQUEDA POR ID_MANIPULADOR
+    if($id!=0){
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
+        $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador=$id AND  r.idmanipulador = m.idmanipulador ORDER BY hora_fin";
+    }
+    else{
+        //BUSQUEDA DE TODOS
+        if($fecha=="todos"){
+            $query= "$query1 WHERE r.idmanipulador = m.idmanipulador";
+        }
+        else{//BUSQUEDA POR UNA FECHA CONCRETA
+            $var= str_replace("/","-",$fecha);
+            $fechaF=date("Y-m-d",strtotime($var));
+            $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador = m.idmanipulador";
+        }
+    }
+    // $query= "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea 
+    //          FROM registro_manipuladores as r,manipuladores as m 
+    //          WHERE r.idmanipulador = m.idmanipulador";
     $resultQuery =$conn->query($query);
     $response['datosReg'] = array();
     while ($fila = $resultQuery->fetch_assoc()){

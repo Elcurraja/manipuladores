@@ -80,6 +80,11 @@ $(document).ready(function() {
         } 
     })
 
+    $('#busqueda_fecha').datetimepicker({
+        locale: 'es',
+        format: 'L'
+     });
+
     //POR DEFECTO OCULTA EN EL MODAL DE AÑADIR AUSENCIA LOS INPUTS PARA LAS HORAS, 
     //AL CAMBIAR SI ES DIA COMPLETO A NO, LOS MOSTRAMOS
     $('.hora').css("display","none")
@@ -91,19 +96,30 @@ $(document).ready(function() {
             $('.hora').css("display","table-row")
         }
     })
-  
-
+    $('#mostrarTodos').click(function(){
+        $("#busqueda_fecha").datetimepicker('clear')
+        showAusencias()
+    })
     showAusencias()
 });
 function showAusencias(){
-
+    if ($("#busqueda_fecha").datetimepicker('date')==null){
+        var datos ={
+            op:"show",
+            fecha:"todos"
+        }
+    }
+    else {
+        var datos={
+            op:"show",
+            fecha:$("#busqueda_fecha").datetimepicker('date').format('L'),
+        }
+    }
     $.ajax({
         url:"php/ausencias_f.php",
         type:"POST",
         dataType: "json",
-        data: {
-            op:"show"
-        }
+        data: datos
         ,success:function(response){
             if ($.fn.dataTable.isDataTable("#tabla_ausencia")) {
                 tabla.destroy();
@@ -162,6 +178,7 @@ function showAusencias(){
         tabla = $('#tabla_ausencia').DataTable({
             // https://datatables.net/reference/option/order
             order: [[1, "asc"]],
+            paging: false,
             language: {
                 "sProcessing":     "Procesando...",
                 "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -260,6 +277,16 @@ function addAusencia(){
             "observaciones":$("#addAusencia #observaciones").val()
         }
     }
+    else if($("#hora_fin").datetimepicker('date')==null) {
+        var datos = {
+            "op": "add",
+            "idmanipulador":$("#addAusencia #manipulador").val(),
+            "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
+            "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
+            "horainicio":$("#addAusencia #hora_inicio").datetimepicker('date').format('LT'),
+            "observaciones":$("#addAusencia #observaciones").val()
+        }
+    }
     else {
         var datos = {
             "op": "add",
@@ -270,7 +297,7 @@ function addAusencia(){
             "horafin":$("#addAusencia #hora_fin").datetimepicker('date').format('LT'),
             "observaciones":$("#addAusencia #observaciones").val()
         }
-    }
+    } 
     $.ajax({
         url:"php/ausencias_f.php",
         type:"POST",

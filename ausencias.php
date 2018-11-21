@@ -42,7 +42,15 @@
 
     <div class="row align-items-end" id="cabecera">
         <div class="col-5">
-            <button type="button" class="btn boton btn-primary float-left" data-toggle="modal" data-target="#modalAddAusencia" style="margin-right:10px;"><i class="far fa-plus-square"></i> Añadir Nueva</button>
+            <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
+                <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick ="showAusencias();"><i class="fa fa-search"></i></button>
+            </div>
+            <button type="button" id="mostrarTodos" class="btn boton btn-primary float-left">Mostrar Todos</button>
+            <button type="button" class="btn boton btn-primary " data-toggle="modal" data-target="#modalAddAusencia" style="margin-right:10px;"><i class="far fa-plus-square"></i> Añadir Nueva</button>
             
         </div>
         <div class="col-3">
@@ -98,7 +106,8 @@
                     <td>
                         <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong> o por <strong>Apellidos</strong>: </label>
                         <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
-                        <input type="text" class="form-control" name="manipulador" id="manipulador" readonly style="width:550px"/>
+                        <input type="text" class="form-control" name="nombre" id="nombre" readonly style="width:550px"/>
+                        <input type="hidden" class="form-control" name="manipulador" id="manipulador"/>
                     
                     </td>
                 </tr>
@@ -191,10 +200,13 @@
         max_input: <?php echo Config::getConfig('maxInputLength'); ?>,
         onResultClick: function(e, data) {
             // get the index 0 (first column) value
-            var selectedOne = $(data.selected).find('td').eq('0').text();
-
+            var id = $(data.selected).find('td').eq('0').text();
+            var nombre = $(data.selected).find('td').eq('1').text();
+            var apellidos = $(data.selected).find('td').eq('2').text();
+            console.log(id)
             // set the input value
-            $('#manipulador').val(selectedOne);
+            $('#nombre').val(nombre + " " + apellidos);
+            $('#manipulador').val(id);
 
             // hide the result
             $("#busqueda_manipulador").trigger('ajaxlivesearch:hide_result');

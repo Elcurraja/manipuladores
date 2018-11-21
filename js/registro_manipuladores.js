@@ -20,7 +20,6 @@ $(document).ready(function() {
         });
     }
 
-   
     /* TIPO "tempusdominus-date" PARA PODER HACER BUSQUEDAS POR FECHAS. SI SE USA EL PROPIO ELEMENTO PARA OBTENER
        EL VALOR DE LA FECHA DA ERROR ("Cannot read property 'format' of null") PERO USANDOLO POR SU ID NO */
     $.fn.dataTableExt.ofnSearch['tempusdominus-date'] = function(object) {
@@ -62,20 +61,36 @@ $(document).ready(function() {
         }     
     })
     
-
-   
-
+    $('#busqueda_fecha').datetimepicker({
+        locale: 'es',
+        format: 'L',
+    });
+    //LIMPIAR EL INPUT DE DATE PARA MOSTRAR TODOS LOS REGISTOS DE NUEVO
+    $('#mostrarTodos').click(function(){
+        $("#busqueda_fecha").datetimepicker('clear')
+        showReg()
+    })
     showReg()
 })
 
 function showReg(){
+    if ($("#busqueda_fecha").datetimepicker('date')==null){
+        var datos ={
+            op:"mostrarRegistros",
+            fecha:"todos"
+        }
+    }
+    else {
+        var datos={
+            op:"mostrarRegistros",
+            fecha:$("#busqueda_fecha").datetimepicker('date').format('L'),
+        }
+    }
     $.ajax({
         url:"php/registro_manipuladores_f.php",
         type:"POST",
         dataType: "json",
-        data: {
-            op:"mostrarRegistros",
-        },
+        data: datos,
         success:function(response){
             if ($.fn.dataTable.isDataTable("#tabla_registro")) {
                 tabla.destroy();
@@ -142,6 +157,7 @@ function showReg(){
            QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
         tabla = $('#tabla_registro').DataTable({
             // https://datatables.net/reference/option/order
+            paging: false,
             order: [[1, "asc"]],
             language: {
                 "sProcessing":     "Procesando...",

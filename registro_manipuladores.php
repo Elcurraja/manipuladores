@@ -22,6 +22,14 @@
 
     <div class="row align-items-end" id="cabecera">
         <div class="col-5">
+            <div class="input-group date" id="busqueda_fecha" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#busqueda_fecha" >
+                <div class="input-group-append" data-target="#busqueda_fecha" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick ="showReg();"><i class="fa fa-search"></i></button>
+            </div>
+            <button type="button" id="mostrarTodos" class="btn boton btn-primary">Mostrar Todos</button>
             <button type="button" class="btn boton btn-warning" onclick ="window.location.href='./reasignar_linea.php'">Reasignar Linea </button>
         </div>
         <div class="col-3">
