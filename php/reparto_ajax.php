@@ -194,59 +194,6 @@
                     }
                 }                         
             }
-            // if($totalPuestos=$countPuestosLineas-1){
-            //     foreach ($arrayLineasSP as $index => $item){
-            //         if($item['contador_puestos']>0){
-            //             $puestos = $item['max_puestos'];
-            //             echo ("SELECT * FROM reparto LIMIT $puestos");
-            //             $result = $conexion->query("SELECT * FROM reparto LIMIT $puestos");
-            //             while($row = $result->fetch_assoc()){
-            //                 $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
-            //                 array_push($arrayLineasSP[$index]['listaManipuladores'],$manipulador);
-            //                 $id= $row["idmanipulador"];
-            //                 $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
-            //                 $conexion->commit();
-            //                 $arrayLineasSP[$index]['contador_puestos']-$puestos;
-            //             }
-            //         }
-            //     }
-            // }
-                // while($arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']] < $arrayLineas[$parametrosLineas[$nlineas]]['max_puestos']){
-
-                    // if($parametrosLineas[$nlineas]['Fiablidad'] == 'true'){
-                    //     while($row = $resultOrdenFiabilidad->fetch_assoc() ){
-                    //         $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
-                    //         array_push($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores'],$manipulador);
-                    //         $id= $row["idmanipulador"];
-                    //         $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
-                    //         $conexion->commit();
-                    //         // --$arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']];
-                    //         break;
-                    //     }
-                    // }
-                    // else if($parametrosLineas[$nlineas]['Velocidad'] == 'true'){
-                    //     while($row = $resultOrdenVelocidad->fetch_assoc() ){
-                    //         $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
-                    //         array_push($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores'],$manipulador);
-                    //         $id= $row["idmanipulador"];
-                    //         $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
-                    //         $conexion->commit();
-                    //         // --$arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']];
-                    //         break;
-                    //     }
-                    // }
-                    // else if($parametrosLineas[$nlineas]['Disponibilidad'] == 'true'){
-                    //     while($row = $resultOrdenDisponibildad->fetch_assoc() ){
-                    //         $manipulador  = (['idmanipulador'=>$row['idmanipulador'],'nombre'=>$row['nombre'],'apellidos'=>$row['apellidos']]);
-                    //         array_push($arrayLineas[$parametrosLineas[$nlineas]['id_linea']]['listaManipuladores'],$manipulador);
-                    //         $id= $row["idmanipulador"];
-                    //         $sqlExtraer = $conexion->query("DELETE FROM reparto WHERE idmanipulador=$id");
-                    //         $conexion->commit();
-                    //         // --$arrayLineas[$parametrosLineas[$nlineas]['contador_puestos']];
-                    //         break;
-                    //     }
-                    // }
-                // }
         }
         for($totalPuestosB=0; $totalPuestosB<$countPuestosLineasSP;$totalPuestosB++){
             foreach ($arrayLineasSP as $index => $item){
