@@ -101,6 +101,25 @@ $(document).ready(function() {
         showAusencias()
     })
     showAusencias()
+
+   
+    // $("#addAusencia").on("keyup","#busqueda_manipulador",function(){
+    //     var errorModalAdd
+    //     $("#addAusencia .error").css({"display":"block","color":"red"})
+    //     $("#addAusencia").on("change","#manipulador",function(){
+    //         if($("#addAusencia #manipulador").val()==""){
+    //             console.log("error")
+    //             $("#addAusencia .error").css({"display":"block","color":"red"})
+    //             errorModalAdd=1
+    //         }
+    //         else{
+    //             console.log("ok")
+    //             errorModalAdd=0
+    //             $("#addAusencia .error").css({"display":"none"})
+    //         }
+    //     })
+    // })
+    
 });
 function showAusencias(){
     if ($("#busqueda_fecha").datetimepicker('date')==null){
@@ -266,50 +285,56 @@ function showAusencias(){
         });
     });
 }
+
 function addAusencia(){
+  
+        if ($("#hora_inicio").datetimepicker('date')==null && $("#hora_fin").datetimepicker('date')==null){
+            var datos = {
+                "op": "add",
+                "idmanipulador":$("#addAusencia #manipulador").val(),
+                "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
+                "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
+                "observaciones":$("#addAusencia #observaciones").val()
+            }
+            $("#addAusencia #manipulador").val("")
+        }
+        else if($("#hora_fin").datetimepicker('date')==null) {
+            var datos = {
+                "op": "add",
+                "idmanipulador":$("#addAusencia #manipulador").val(),
+                "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
+                "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
+                "horainicio":$("#addAusencia #hora_inicio").datetimepicker('date').format('LT'),
+                "observaciones":$("#addAusencia #observaciones").val()
+            }
+            $("#addAusencia #manipulador").val("")
+        }
+        else {
+            var datos = {
+                "op": "add",
+                "idmanipulador":$("#addAusencia #manipulador").val(),
+                "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
+                "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
+                "horainicio":$("#addAusencia #hora_inicio").datetimepicker('date').format('LT'),
+                "horafin":$("#addAusencia #hora_fin").datetimepicker('date').format('LT'),
+                "observaciones":$("#addAusencia #observaciones").val()
+            }
+            $("#addAusencia #manipulador").val("")
+        }
+        console.log(datos)
+        $.ajax({
+            url:"php/ausencias_f.php",
+            type:"POST",
+            data: datos,
+            success:function(response){
+                // location.href ="ausencias.php";
+                //console.log('Linea insertada correctamente');
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
+            }
+        });
     
-    if ($("#hora_inicio").datetimepicker('date')==null && $("#hora_fin").datetimepicker('date')==null){
-        var datos = {
-            "op": "add",
-            "idmanipulador":$("#addAusencia #manipulador").val(),
-            "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
-            "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
-            "observaciones":$("#addAusencia #observaciones").val()
-        }
-    }
-    else if($("#hora_fin").datetimepicker('date')==null) {
-        var datos = {
-            "op": "add",
-            "idmanipulador":$("#addAusencia #manipulador").val(),
-            "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
-            "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
-            "horainicio":$("#addAusencia #hora_inicio").datetimepicker('date').format('LT'),
-            "observaciones":$("#addAusencia #observaciones").val()
-        }
-    }
-    else {
-        var datos = {
-            "op": "add",
-            "idmanipulador":$("#addAusencia #manipulador").val(),
-            "fecha":$("#addAusencia #fecha").datetimepicker('date').format('L'),
-            "esdiacompleto":$("#addAusencia #esdiacompleto").val(),
-            "horainicio":$("#addAusencia #hora_inicio").datetimepicker('date').format('LT'),
-            "horafin":$("#addAusencia #hora_fin").datetimepicker('date').format('LT'),
-            "observaciones":$("#addAusencia #observaciones").val()
-        }
-    } 
-    $.ajax({
-        url:"php/ausencias_f.php",
-        type:"POST",
-        data: datos,
-        success:function(response){
-            location.href ="ausencias.php";
-            //console.log('Linea insertada correctamente');
-        },
-        error:function(jqXHR, textStatus, errorThrown){
-            console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
-        }
-    });
 }
 function updateAusencias(){
     var arrayDatos=[];

@@ -106,7 +106,8 @@
                     <td>
                         <label for="busqueda_manipulador">Búsqueda por <strong>Documento Identificativo</strong> o por <strong>Apellidos</strong>: </label>
                         <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
-                        <input type="text" class="form-control" name="nombre" id="nombre" readonly style="width:550px"/>
+                        <span class="error" style="display:none">No has seleccionado un manipulador</span>
+                        <!-- <input type="text" class="form-control" name="nombre" id="nombre" readonly style="width:550px"/> -->
                         <input type="hidden" class="form-control" name="manipulador" id="manipulador"/>
                     
                     </td>
@@ -169,6 +170,9 @@
                         <input type="text" class="form-control" name="observaciones" id="observaciones" />
                     </td>
                 </tr>
+                <tr>
+                    <span class="error" style="display:none">No has seleccionado un manipulador</span>    
+                </tr>
             </tbody>
         </table>
       </div>
@@ -203,9 +207,8 @@
             var id = $(data.selected).find('td').eq('0').text();
             var nombre = $(data.selected).find('td').eq('1').text();
             var apellidos = $(data.selected).find('td').eq('2').text();
-            console.log(id)
             // set the input value
-            $('#nombre').val(nombre + " " + apellidos);
+            $('#busqueda_manipulador').val(nombre + " " + apellidos);
             $('#manipulador').val(id);
 
             // hide the result
