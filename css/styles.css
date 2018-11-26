@@ -65,6 +65,7 @@ tbody tr td input[type="text"], tbody tr td span,select{
 .table-responsive .table#tabla_naves input,.table-responsive .table#tabla_tipo_lineas input{
     width: 100%;
 }
+
 /* .selectReg{
     width: 80px;
 } */
