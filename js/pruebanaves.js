@@ -4,7 +4,7 @@ $(document).ready(function() {
     }; 
     showNaves()
 
-    var $tabs = $('#tabla1')
+    var $tabs = $('#linea1')
     $("tbody.t_sortable").sortable({
         connectWith: ".t_sortable",
         items: "> tr",
@@ -18,19 +18,20 @@ $(document).ready(function() {
         hoverClass: "ui-state-hover",
         drop: function( event, ui ) { return false; }
     });
-
-
 });
 function planificarDia(){
 
     var arrayLineas=[];
-    var totalLineas = 0;
-    $(".table").each(function(){
-        totalLineas++
-        var manipuladores = [{"nombre":"julio","apellidos":"gomez"},{"nombre":"andres","apellidos":"martin"},{"nombre":"pedro","apellidos":"diaz"}]
-        arrayLineas[$(this).attr('id')]=manipuladores
+    var linea = 0;
 
-        // for (let index = 0; index <= totalLineas; index++) {
+    $(".table").each(function(){
+        linea++
+        var datosLineas = [$(this).attr('id'),[]]
+        arrayLineas.push(datosLineas)
+        
+        // arrayLineas=manipuladores
+ 
+        //  for (let index = 0; index <= totalLineas; index++) {
         //     $("#tabla"+index+" .fila").each(function(){
         //         var datos = {
         //             "manipulador": $(this).find("span").text(),        
@@ -38,7 +39,7 @@ function planificarDia(){
                
         //         arrayManipuladoras[index].push(manipuladores,datos)
         //     })
-        // }
+        //  }
 
     //     for (let index = 0; index <= totalLineas; index++) {
             
@@ -52,33 +53,50 @@ function planificarDia(){
     //     }
     //     totalLineas++
     })
+    var manipuladores = []
+    $("tbody tr").each(function(){
+        var datosManipuladores = {
+            "idmanipulador":$(this).find("input").val(),
+            "nombre":$(this).find("span").text(),
+        }
+        manipuladores.push(datosManipuladores)
+        arrayLineas[linea].push(manipuladores)
+    })
+    // arrayLineas.push(manipuladores)
     console.log(arrayLineas)
 }
 function showNaves(){
-    var array1 = [{"nombre":"julio","apellidos":"gomez"},{"nombre":"andres","apellidos":"martin"},{"nombre":"pedro","apellidos":"diaz"},]
-    var array2 = [{"nombre":"julio","apellidos":"gomez"},{"nombre":"andres","apellidos":"martin"},{"nombre":"pedro","apellidos":"diaz"},]
-    var array3 = [{"nombre":"julio","apellidos":"gomez"},{"nombre":"andres","apellidos":"martin"},{"nombre":"pedro","apellidos":"diaz"},]
-
-    $("#tabla1 #tabla_datos,#tabla2 #tabla_datos,#tabla3 #tabla_datos").empty();
-    for (let index = 0; index < array1.length; index++){
-        $("#tabla1 .tabla_datos").append(
-            "<tr class='fila'>"+
-            // "<input type='hidden' value='" + array1[index].idnave + "' />" +
-            "<td><span>"+ array1[index].nombre + " " + array1[index].apellidos +"</span></td>");
+    
+    var manipuladores = [
+        ["linea1",[{"idmanipulador":1,"nombre":"julio","apellidos":"gomez"},{"idmanipulador":2,"nombre":"andres","apellidos":"martin"},{"idmanipulador":3,"nombre":"pedro","apellidos":"diaz"}]],
+        ["linea2",[{"idmanipulador":1,"nombre":"maria","apellidos":"gomez"},{"idmanipulador":2,"nombre":"jordi","apellidos":"martin"},{"idmanipulador":3,"nombre":"juan","apellidos":"diaz"}]],
+        ["linea3",[{"idmanipulador":1,"nombre":"rosario","apellidos":"gomez"},{"idmanipulador":2,"nombre":"saray","apellidos":"martin"},{"idmanipulador":3,"nombre":"gabriel","apellidos":"diaz"}]],
+    ]
+    //manipuladores[cadalinea][arraydemanipuladores]
+    // console.log(manipuladores[0][1][0].nombre)
+    for (let index = 0; index < manipuladores.length; index++) {
+        $(".table-responsive").append(
+            "<div class='col-3 float-left'>"+
+                "<h3>"+ manipuladores[index][0]+"</h3>"+
+                "<table class='table table-striped table-bordered'  id='"+ manipuladores[index][0]+"'>"+
+                    "<thead class='thead-dark'>"+
+                        "<tr><th scope='col'>Manipulador</th></tr>"+
+                    "</thead>"+
+                    "<tbody class='tabla_datos t_sortable'>"+
+                        
+                    "</tbody>"+
+                "</table>"+
+            "</div>")
+        
     }
-
-    for (let index = 0; index < array2.length; index++){
-        $("#tabla2 .tabla_datos").append(
-            "<tr class='fila'>"+
-            // "<input type='hidden' value='" + array2[index].idnave + "' />" +
-            "<td><span>"+ array1[index].nombre + " " + array1[index].apellidos +"</span></td>");            
-    }
-
-    for (let index = 0; index < array3.length; index++){
-        $("#tabla3 .tabla_datos").append(
-            "<tr class='fila'>"+
-            // "<input type='hidden' value='" + array3[index].idnave + "' />" +
-            "<td><span>"+ array1[index].nombre + " " + array1[index].apellidos +"</span></td>");
+     $("#tabla_datos").empty();
+    for (let index = 0; index < manipuladores.length; index++){
+        for (let indice = 0; indice < manipuladores[index][1].length; indice++){
+            $("#"+ manipuladores[index][0] +" .tabla_datos").append(
+                "<tr class='fila'>"+
+                "<input type='hidden' value='" + manipuladores[index][1][indice].idmanipulador + "' />" +
+                "<td><span>"+ manipuladores[index][1][indice].nombre + " " + manipuladores[index][1][indice].apellidos +"</span></td>");
+            }
     }
     
     // $.ajax({

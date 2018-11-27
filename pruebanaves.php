@@ -66,7 +66,7 @@
 </div>
 
     <div class="table-responsive ">
-        <div class="col-3 float-left">
+        <!-- <div class="col-3 float-left">
             <h3>Linea 1</h3>
             <table class="table table-striped table-bordered"  id="tabla1"> 
                 <thead class="thead-dark">
@@ -101,7 +101,7 @@
                 <tbody class="tabla_datos t_sortable">            
                 </tbody>
             </table>
-        </div>
+        </div> -->
     </div>
 
 <?php 
