@@ -65,44 +65,10 @@
     </div>   
 </div>
 
-    <div class="table-responsive ">
-        <!-- <div class="col-3 float-left">
-            <h3>Linea 1</h3>
-            <table class="table table-striped table-bordered"  id="tabla1"> 
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Manipulador</th>
-                    </tr>
-                </thead>
-                <tbody class="tabla_datos t_sortable">            
-                </tbody>
-            </table>
-        </div>
-        <div class="col-3 float-left">
-            <h3>Linea 2</h3>
-            <table class="table table-striped table-bordered"  id="tabla2"> 
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Manipulador</th>
-                    </tr>
-                </thead>
-                <tbody class="tabla_datos t_sortable">            
-                </tbody>
-            </table>
-        </div>
-        <div class="col-3 float-left">
-            <h3>Linea 3</h3>
-            <table class="table table-striped table-bordered"  id="tabla3"> 
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Manipulador</th>
-                    </tr>
-                </thead>
-                <tbody class="tabla_datos t_sortable">            
-                </tbody>
-            </table>
-        </div> -->
+    <div class="table-responsive">
+
     </div>
+    <div id="mensaje"></div>
 
 <?php 
     include("html/confirBorrar.html");
@@ -112,6 +78,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/lib/datatables.min.js"></script>
-    <script type="text/javascript" src="js/pruebanaves.js"></script>
+    <script type="text/javascript" src="js/repartoLineas.js"></script>
 </body>
 </html>
