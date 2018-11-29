@@ -12,22 +12,20 @@
     <script src="js/lib/jquery-3.3.1.min.js"></script>
 
     <style>
-        /* thead th{
-            width:100px;
-        } */
-         #tabla1 input,#tabla2 input,#tabla3 input {
-            width:100%;
+        .reparto_lineas{
+            width:90%;
+            margin-left:10%;
         }
-
-        .table ul li {
-            min-width: 200px;
+        .reparto_lineas .col-3{
+            padding:0px;
+            margin-right:5px;
+            max-width: 20%;
         }
-        .dragging li.ui-state-hover {
-            min-width: 240px;
+        div.col-3 h3 {
+            text-align:center;
         }
-        .dragging .ui-state-hover a {
-            color:green !important;
-            font-weight: bold;
+        div tbody.datos_reparto_lineas span{
+            font-size:.9em;
         }
         .table th,td {
             text-align: center;
@@ -37,35 +35,33 @@
         }
         .ui-sortable-helper{
             font-weight: bold;
-            background-color:#FFF3DB;
+            background-color:#FFD33C;
+            color:black;
             border:1px solid black;
         }
         .t_sortable tr:first-child {
             cursor: default;
         }
-        .ui-sortable-placeholder {
-            background: yellow;
-        }
+      
     </style>
 </head>
 <body>
     <?php
         include("html/menu.php");
-        include("php/naves_f.php");
     ?>
 
     <div class="row align-items-end" id="cabecera">
         <div class="col-3">
-        <button type="button" class="btn boton btn-primary" id="" onclick ="planificarDia();">Guardar <i class="far fa-save"></i></button>
+            <button type="button" class="btn boton btn-primary" id="" onclick ="planificarDia();">Guardar <i class="far fa-save"></i></button>
         </div>
         <div class="col-6">
-            <h3 class="msg text-center">Naves</h3>
+            <h3 class="msg text-center">Reparto Lineas</h3>
         </div>
         
     </div>   
 </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive reparto_lineas align-items-center">
 
     </div>
     <div id="mensaje"></div>
