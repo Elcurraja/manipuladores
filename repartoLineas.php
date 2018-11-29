@@ -13,7 +13,7 @@
 
     <style>
         .reparto_lineas{
-            width:90%;
+            width:95%;
             margin-left:10%;
         }
         .reparto_lineas .col-3{
@@ -25,7 +25,7 @@
             text-align:center;
         }
         div tbody.datos_reparto_lineas span{
-            font-size:.9em;
+            font-size:.8em;
         }
         .table th,td {
             text-align: center;
@@ -35,9 +35,11 @@
         }
         .ui-sortable-helper{
             font-weight: bold;
+            font-size:.8em;
             background-color:#FFD33C;
             color:black;
             border:1px solid black;
+            width:90px;
         }
         .t_sortable tr:first-child {
             cursor: default;

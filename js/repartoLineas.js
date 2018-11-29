@@ -1,13 +1,11 @@
 $(document).ready(function() {
-    // $.fn.dataTableExt.ofnSearch['html-input'] = function(value) {
-    //     return $(value).val();
-    // }; 
     showManipuladoresReparto()
 
     //https://codepen.io/anon/pen/oQQBwY
     var $tabs = $('.tablaindex')
     $("tbody.t_sortable").sortable({
         connectWith: ".t_sortable",
+        grid:[20,20],
         items: "> tr",
         appendTo: $tabs,
         helper:"clone",
@@ -102,7 +100,7 @@ function showManipuladoresReparto(){
         $(".table-responsive").append(
             "<div class='col-3 float-left'>"+
                 "<h3>Linea "+ manipuladores[index].id+"</h3>"+
-                "<table "+ (index == 0 ? 'class="table table-striped table-bordered tablaindex"': 'class="table table-striped table-bordered"') +" id='"+ id +"'>"+
+                "<table "+ (index == 0 ? 'class="table table-sm table-striped table-bordered tablaindex"': 'class="table table-sm table-striped table-bordered"') +" id='"+ id +"'>"+
                     "<thead class='thead-dark'>"+
                         "<tr><th scope='col'>Manipulador</th></tr>"+
                     "</thead>"+
