@@ -1,6 +1,6 @@
 <div class="container-fluid">
-    <div id="cont" class="sticky-top">
-    <nav class="menu navbar navbar-expand navbar-primary">
+    <div id="cont" class="sticky-top shadow-lg">
+    <nav class="menu navbar navbar-expand navbar-primary ">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="menu_li nav-item">
