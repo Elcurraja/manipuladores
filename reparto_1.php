@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/reparto_1.js"></script>
-    <title>Reparto</title>
+    <title>Preferencias de Lineas</title>
 </head>
 <body>
     <?php 
@@ -29,15 +29,15 @@
         </div>
         <h4 class="text-center" id="mensaje_opciones_lineas"></h4>
         <div class="table-responsive">
-            <table class="table table-bordered" id="mostrar_opciones_lineas" >
+            <table class="table table-bordered table-hover" id="mostrar_opciones_lineas" >
                 <thead class="thead-dark">
                     <th scope="col">Editar</th>
                     <th scope="col">Nave</th>
                     <th scope="col">Nombre de la Línea</th>
                     <th scope="col">Tipo de Linea</th>
                     <th scope="col">Puestos a cubrir</th>
-                    <th scope="col">Establecer Opciones</th>
-                    <th scope="col">Prioridad</th>
+                    <th scope="col">Preferencias para la línea</th>
+                    <th scope="col">Orden dentro de la línea</th>
                 </thead>
                 <tbody>
 

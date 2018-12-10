@@ -60,15 +60,8 @@ $(function(){
                 var orden_velocidad = $("input[name='ordenacion_velocidad_" + idlinea + "']:checked").val();
                 var orden_disponibilidad = $("input[name='ordenacion_disponibilidad_" + idlinea + "']:checked").val();
 
-                lineas.push([idlinea, fiabilidad, velocidad, disponibilidad, orden_fiabilidad, orden_velocidad, orden_disponibilidad, puestos_cubrir]);
+                lineas.push([parseInt(idlinea), fiabilidad, velocidad, disponibilidad, orden_fiabilidad, orden_velocidad, orden_disponibilidad, parseInt(puestos_cubrir)]);
             }
-            /* console.log(
-                "Id de línea: " + idlinea + "\n" +
-                "Puestos a Cubrir: " + puestos_cubrir + "\n" +
-                "Prefiere fiabilidad: " + fiabilidad + ", en orden: " + orden_fiabilidad + "\n" +
-                "Prefiere velocidad: " + velocidad + ", en orden: " + orden_velocidad + "\n" +
-                "Prefiere disponibilidad: " + disponibilidad + ", en orden: " + orden_disponibilidad + ".\n"
-            ); */
         });
         ordenar(lineas);
     });
@@ -161,9 +154,6 @@ $(function(){
                                                                     "</td>" +
                                                                 "</tr>"
                     );
-                    /*var select_fiabilidad = $("<select id='fiabilidad_" + index + "' class='form-control form-control-sm' disabled></select>");
-                    var select_velocidad = $("<select id='velocidad_" + index + "' class='form-control form-control-sm' disabled></select>");
-                    var select_disponibilidad = $("<select id='disponibilidad_" + index + "' class='form-control form-control-sm' disabled></select>");*/
 
                     var select_puestos_maximos = $("<select id='puestos_maximos_" + index + "' class='form-control' disabled></select>");
                     for (let i = 0; i <= respuesta.datos[index].puestos_maximos; i++) {
@@ -179,14 +169,6 @@ $(function(){
                     if (respuesta.datos[index].disponibilidad == 1) {
                         $("#disponibilidad_" + respuesta.datos[index].idlinea).prop("checked", true);
                     }
-                    /* for (let i = 0; i <= 9; i++) {
-                        select_fiabilidad.append("<option value='" + i + "'>" + i + "</option>");
-                        select_velocidad.append("<option value='" + i + "'>" + i + "</option>");
-                        select_disponibilidad.append("<option value='" + i + "'>" + i + "</option>");
-                    }
-                    select_fiabilidad.val(respuesta.datos[index].fiabilidad).insertAfter("label[for='fiabilidad_" + index + "']");
-                    select_velocidad.val(respuesta.datos[index].velocidad).insertAfter("label[for='velocidad_" + index + "']");
-                    select_disponibilidad.val(respuesta.datos[index].disponibilidad).insertAfter("label[for='disponibilidad_" + index + "']"); */
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
@@ -208,7 +190,7 @@ $(function(){
             success: function(respuesta){
                 if (respuesta.error == 0) {
                     for (let index = 0; index < respuesta.datos.length; index++) {
-                        var id = respuesta.datos[index].idmanipulador;
+                        var id = parseInt(respuesta.datos[index].idmanipulador);
                         var nombre = respuesta.datos[index].nombre;
                         var apellidos = respuesta.datos[index].apellidos;
                         var dni = respuesta.datos[index].dni;
@@ -311,7 +293,7 @@ $(function(){
                     for (let k = 0; k <= n; k++) {
                         for (let j = 0; j < manipuladores.length; j++) {
                             if (manipuladores_f_v_d.indexOf(manipuladores[j][0]) == -1) {
-                                if ( (manipuladores[j][4] == i || manipuladores[j][4] == i + k || manipuladores[j][4] == i - k) && (manipuladores[j][5] == i || manipuladores[j][5] == i + k || manipuladores[j][5] == i - k) && (manipuladores[j][6] == i || manipuladores[j][6] == i + k || manipuladores[j][6] == i - k) ){
+                                if ( (manipuladores[j][4] == i + k || manipuladores[j][4] == i || manipuladores[j][4] == i - k) && (manipuladores[j][5] == i + k || manipuladores[j][5] == i || manipuladores[j][5] == i - k) && (manipuladores[j][6] == i + k || manipuladores[j][6] == i || manipuladores[j][6] == i - k) ){
                                     manipuladores_f_v_d.push(manipuladores[j][0]);
                                 }
                             }
@@ -343,14 +325,15 @@ $(function(){
             if (existen_lineas_con_2_checkboxes) {
                 // COMPROBAR QUE 2 OPCIONES SON LAS PRESENTES Y CREACION DE LAS VARIABLES APROPIADAS
                 for (let index = 0; index < datosLineas.length; index++) {
-                    // SI EXISTE UNA LINEA CON CHECKBOXES EN FIABILIDAD Y VELOCIDAD (SOLO LO COMPRUEBA UNA VEZ)
+                    /* SI EXISTE UNA LINEA CON CHECKBOXES EN FIABILIDAD Y VELOCIDAD Y CREACION DE UNA VARIABLE
+                       QUE CONTIENE TODOS LOS MANIPULADORES ORDENADOS POR ESTE CRITERIO (SOLO LA CREA UNA VEZ) */
                     if (datosLineas[index][2] && datosLineas[index][3] && !datosLineas[index][4] && typeof manipuladores_f_v === 'undefined') {
                         var manipuladores_f_v = [];
                         for (let i = 9, n = 0; i >= 0; i--, n++) {
                             for (let k = 0; k <= n; k++) {
                                 for (let j = 0; j < manipuladores.length; j++) {
                                     if (manipuladores_f_v.indexOf(manipuladores[j][0]) == -1) {
-                                        if ( (manipuladores[j][4] == i || manipuladores[j][4] == i + k || manipuladores[j][4] == i - k) && (manipuladores[j][5] == i || manipuladores[j][5] == i + k || manipuladores[j][5] == i - k) ){
+                                        if ( (manipuladores[j][4] == i + k || manipuladores[j][4] == i || manipuladores[j][4] == i - k) && (manipuladores[j][5] == i + k || manipuladores[j][5] == i || manipuladores[j][5] == i - k) ){
                                             manipuladores_f_v.push(manipuladores[j][0]);
                                         }
                                     }
@@ -379,14 +362,15 @@ $(function(){
                         }
                         console.log("Hay " + manipuladores.length + ", manipuladores_f_v tiene " + manipuladores_f_v.length);
                     }
-                    // SI EXISTE UNA LINEA CON CHECKBOXES EN FIABILIDAD Y DISPONIBILIDAD (SOLO LO COMPRUEBA UNA VEZ)
+                    /* SI EXISTE UNA LINEA CON CHECKBOXES EN FIABILIDAD Y DISPONIBILIDAD Y CREACION DE UNA VARIABLE
+                       CON TODOS LOS MANIPULADORES ORDENADOS POR ESTE CRITERIO (SOLO LA CREA UNA VEZ) */
                     if (datosLineas[index][2] && !datosLineas[index][3] && datosLineas[index][4] && typeof manipuladores_f_d === 'undefined') {
                         var manipuladores_f_d = [];
                         for (let i = 9, n = 0; i >= 0; i--, n++) {
                             for (let k = 0; k <= n; k++) {
                                 for (let j = 0; j < manipuladores.length; j++) {
                                     if (manipuladores_f_d.indexOf(manipuladores[j][0]) == -1) {
-                                        if ( (manipuladores[j][4] == i || manipuladores[j][4] == i + k || manipuladores[j][4] == i - k) && (manipuladores[j][6] == i || manipuladores[j][6] == i + k || manipuladores[j][6] == i - k) ){
+                                        if ( (manipuladores[j][4] == i + k || manipuladores[j][4] == i || manipuladores[j][4] == i - k) && (manipuladores[j][6] == i + k || manipuladores[j][6] == i || manipuladores[j][6] == i - k) ){
                                             manipuladores_f_d.push(manipuladores[j][0]);
                                         }
                                     }
@@ -415,14 +399,15 @@ $(function(){
                         }
                         console.log("Hay " + manipuladores.length + ", manipuladores_f_d tiene " + manipuladores_f_d.length);
                     }
-                    // SI EXISTE UNA LINEA CON CHECKBOXES EN VELOCIDAD Y DISPONIBILIDAD (SOLO LO COMPRUEBA UNA VEZ)
+                    /* SI EXISTE UNA LINEA CON CHECKBOXES EN VELOCIDAD Y DISPONIBILIDAD Y CREACION DE LA VARIABLE
+                       QUE CONTIENE TODOS LOS MANIPULADORES ORDENADOS POR ESTE CRITERIO (SOLO LA CREA UNA VEZ) */
                     if (!datosLineas[index][2] && datosLineas[index][3] && datosLineas[index][4] && typeof manipuladores_v_d === 'undefined') {
                         var manipuladores_v_d = [];
                         for (let i = 9, n = 0; i >= 0; i--, n++) {
                             for (let k = 0; k <= n; k++) {
                                 for (let j = 0; j < manipuladores.length; j++) {
                                     if (manipuladores_v_d.indexOf(manipuladores[j][0]) == -1) {
-                                        if ( (manipuladores[j][5] == i || manipuladores[j][5] == i + k || manipuladores[j][5] == i - k) && (manipuladores[j][6] == i || manipuladores[j][6] == i + k || manipuladores[j][6] == i - k) ){
+                                        if ( (manipuladores[j][5] == i + k || manipuladores[j][5] == i || manipuladores[j][5] == i - k) && (manipuladores[j][6] == i + k || manipuladores[j][6] == i || manipuladores[j][6] == i - k) ){
                                             manipuladores_v_d.push(manipuladores[j][0]);
                                         }
                                     }
@@ -455,7 +440,7 @@ $(function(){
             }
             if (existen_lineas_con_1_checkbox) {
                 for (let index = 0; index < datosLineas.length; index++) {
-                    // COMPROBAR SI ESTA PRESENTE LA OPCION DE FIABILIDAD Y CREACION DE LA VARIABLE APROPIADA (SOLO LO COMPRUEBA UNA VEZ)
+                    // COMPROBAR SI ESTA PRESENTE LA OPCION DE FIABILIDAD Y CREACION DE LA VARIABLE APROPIADA (SOLO LA CREA UNA VEZ)
                     if (datosLineas[index][2] && !datosLineas[index][3] && !datosLineas[index][4] && typeof manipuladores_fiabilidad === 'undefined') {
                         var manipuladores_fiabilidad = [];
                         for (let i = 9; i >= 0; i--) {
@@ -469,7 +454,7 @@ $(function(){
                         }
                         console.log("Hay " + manipuladores.length + ", manipuladores_fiabilidad tiene " + manipuladores_fiabilidad.length);
                     }
-                    // COMPROBAR SI ESTA PRESENTE LA OPCION DE VELOCIDAD Y CREACION DE LA VARIABLE APROPIADA (SOLO LO COMPRUEBA UNA VEZ)
+                    // COMPROBAR SI ESTA PRESENTE LA OPCION DE VELOCIDAD Y CREACION DE LA VARIABLE APROPIADA (SOLO LA CREA UNA VEZ)
                     if (!datosLineas[index][2] && datosLineas[index][3] && !datosLineas[index][4] && typeof manipuladores_velocidad === 'undefined') {
                         var manipuladores_velocidad = [];
                         for (let i = 9; i >= 0; i--) {
@@ -481,9 +466,9 @@ $(function(){
                                 }
                             }
                         }
-                        console.log("Hay " + manipuladores.length + ", manipuladores_velocidad " + manipuladores_velocidad.length);
+                        console.log("Hay " + manipuladores.length + ", manipuladores_velocidad tiene " + manipuladores_velocidad.length);
                     }
-                    // COMPROBAR SI ESTA PRESENTE LA OPCION DE DISPONIBILIDAD Y CREACION DE LA VARIABLE APROPIADA (SOLO LO COMPRUEBA UNA VEZ)
+                    // COMPROBAR SI ESTA PRESENTE LA OPCION DE DISPONIBILIDAD Y CREACION DE LA VARIABLE APROPIADA (SOLO LA CREA UNA VEZ)
                     if (!datosLineas[index][2] && !datosLineas[index][3] && datosLineas[index][4] && typeof manipuladores_disponibilidad === 'undefined') {
                         var manipuladores_disponibilidad = [];
                         for (let i = 9; i >= 0; i--) {
@@ -500,14 +485,16 @@ $(function(){
                 }
             }
 
-/* --------------------------------------------------------- REPARTO DE MANIPULADORES ----------------------------------------------------------------- */
+/* ----------------------------------------------------------- REPARTO DE MANIPULADORES --------------------------------------------------------------- */
 
-            /* BARAJADO PARA EVITAR QUE EL REPARTO SEA SIEMPRE EN EL MISMO ORDEN QUE LA POSICION EN LA INTERFAZ DE REPARTO
-               FUNCION shuffleArray() DECLARADA AL FINAL */
+            console.warn("COMIENZO DEL REPARTO");
+            /* BARAJADO PARA EVITAR QUE EL REPARTO SEA SIEMPRE EN EL MISMO ORDEN QUE EL DE LAS BASES DE DATOS
+               DE MANIPULADORES Y LINEAS. FUNCION "shuffleArray()" DECLARADA AL FINAL */
             shuffleArray(datosLineas);
+            shuffleArray(manipuladores);
             // VA A CONTENER LOS IDS DE MANIPULADORES YA ASIGNADOS A UNA LINEA
             var manipuladores_asignados = [];
-            // LA VARIABLE QUE VA A CONTENER LOS MANIPULADORES CON LAS LINEAS ESTA DECLARADA ALREDEDOR DE LA LINEA 279
+            // LA VARIABLE QUE VA A CONTENER LOS MANIPULADORES CON LAS LINEAS ESTA DECLARADA ALREDEDOR DE LA LINEA 263
             // INDICE PARA ITERAR LAS LINEAS, SE VA A IR MODIFICANDO O REINICIANDO AL FINAL DEL BUCLE DO-WHILE
             var indice_lineas = 0;
             for (let index = 0; index < manipuladores.length; index++) {
@@ -531,10 +518,13 @@ $(function(){
                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                     datosLineas[indice_lineas][9] -= 1;
                                     asignacion_realizada = true;
+                                    // ELIMINAR ESTE MANIPULADOR DEL ARRAY DEL QUE SE TOMA
                                     manipuladores_fiabilidad.splice(0, 1);
                                 }
+                            // SI YA HA SIDO ASIGNADO A OTRA LINEA SE DESCARTA
                             } else {
                                 manipuladores_fiabilidad.splice(0, 1);
                                 continue;
@@ -548,10 +538,13 @@ $(function(){
                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                     datosLineas[indice_lineas][9] -= 1;
                                     asignacion_realizada = true;
+                                    // ELIMINAR ESTE MANIPULADOR DEL ARRAY DEL QUE SE TOMA
                                     manipuladores_velocidad.splice(0, 1);
                                 }
+                            // SI YA HA SIDO ASIGNADO A OTRA LINEA SE DESCARTA
                             } else {
                                 manipuladores_velocidad.splice(0, 1);
                                 continue;
@@ -565,10 +558,13 @@ $(function(){
                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                     datosLineas[indice_lineas][9] -= 1;
                                     asignacion_realizada = true;
+                                    // ELIMINAR ESTE MANIPULADOR DEL ARRAY DEL QUE SE TOMA
                                     manipuladores_disponibilidad.splice(0, 1);
                                 }
+                            // SI YA HA SIDO ASIGNADO A OTRA LINEA SE DESCARTA
                             } else {
                                 manipuladores_disponibilidad.splice(0, 1);
                                 continue;
@@ -585,6 +581,7 @@ $(function(){
                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                     datosLineas[indice_lineas][9] -= 1;
                                     asignacion_realizada = true;
                                     manipuladores_f_v.splice(0, 1);
@@ -602,6 +599,7 @@ $(function(){
                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                     datosLineas[indice_lineas][9] -= 1;
                                     asignacion_realizada = true;
                                     manipuladores_f_d.splice(0, 1);
@@ -619,6 +617,7 @@ $(function(){
                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                     datosLineas[indice_lineas][9] -= 1;
                                     asignacion_realizada = true;
                                     manipuladores_v_d.splice(0, 1);
@@ -637,6 +636,7 @@ $(function(){
                                    https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                 lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                 manipuladores_asignados.push(idmanipulador);
+                                // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
                                 datosLineas[indice_lineas][9] -= 1;
                                 asignacion_realizada = true;
                                 manipuladores_f_v_d.splice(0, 1);
@@ -673,64 +673,67 @@ $(function(){
 
             // REPARTO DE MANIPULADORES RESTANTES A LAS POSIBLES LINEAS SIN NINGUN CHECKBOX SELECCIONADO
             if (existen_lineas_con_ningun_checkbox) {
-                var indice_lineas = 0;
-                /* AHORA SE USA DIRECTAMENTE EL ARRAY DE MANIPULADORES PARA REPARTIR A LAS LINEAS SIN NINGUN CHECKBOX SELECCIONADO.
-                   BARAJADO DEL ARRAY DE MANIPULADORES PARA NO REPARTIR POR ORDEN DE MANIPULADORES EN LA BASE DE DATOS */
-                shuffleArray(manipuladores);
-                for (let index = 0; index < manipuladores.length; index++) {
-                    if (manipuladores_asignados.indexOf(manipuladores[index][0]) == -1) {
-                        var idmanipulador = manipuladores[index][0];
-                        var asignacion_realizada = false;
-                        do {
-                            if (!datosLineas[indice_lineas][2] && !datosLineas[indice_lineas][3] && !datosLineas[indice_lineas][4]) {
-                                // ID DE ESTA LINEA
-                                var idlinea = datosLineas[indice_lineas][0];
-                                // PUESTOS POR ASIGNAR DE ESTA LINEA
-                                var puestos_pendientes = datosLineas[indice_lineas][9];
-                                if (puestos_pendientes > 0) {
+                //var indice_lineas = 0;
+                for (let index = 0; index < datosLineas.length; index++) {
+                    // SI ESTA LINEA NO TIENE NINGUN CHECKBOX ACTIVADO
+                    if (datosLineas[index][1] == 0) {
+                        for (let i = 0; i < manipuladores.length; i++) {
+                            // PUESTOS POR ASIGNAR DE ESTA LINEA
+                            var puestos_pendientes = datosLineas[index][9];
+                            // SI QUEDAN POR CUBRIR PUESTOS PARA ESTA LINEA
+                            if (puestos_pendientes > 0) {
+                                var idmanipulador = manipuladores[i][0];
+                                // SI ESTE MANIPULADOR NO ESTA ASIGNADO TODAVIA
+                                if (manipuladores_asignados.indexOf(idmanipulador) == -1) {
+                                    var idlinea = datosLineas[index][0];
                                     /* FORMA DE INTRODUCIR DATOS EN LA POSICION DEL OBJETO Y PROPIEDAD ESPECIFICA DENTRO DEL ARRAY DE OBJETOS
-                                       https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
+                                        https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array */
                                     lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(idmanipulador);
                                     manipuladores_asignados.push(idmanipulador);
-                                    datosLineas[indice_lineas][9] -= 1;
+                                    // DISMINUIR EN 1 LOS PUESTOS PENDIENTES
+                                    datosLineas[index][9] -= 1;
                                 }
-                            }
-                            // PARA CONTROLAR SI TODAS LAS LINEAS YA ESTAN LLENAS
-                            var lineas_llenas = 0;
-                            for (let index = 0; index < datosLineas.length; index++) {
-                                if (datosLineas[index][9] == 0) {
-                                    lineas_llenas++;
-                                }
-                            }
-                            if (lineas_llenas == datosLineas.length) {
-                                asignacion_realizada = true;
-                            }
-                            // SI ESTA LINEA ESTA YA LLENA
-                            if (puestos_pendientes == 0) {
-                                asignacion_realizada = true;
-                            }
-                            // EN CASO DE QUE TODOS LOS MANIPULADORES ESTEN YA REPARTIDOS
-                            if (manipuladores_asignados.length == manipuladores.length) {
-                                asignacion_realizada = true;
-                            }
-                            // CONTROL DEL INDICE DEL ARRAY DE LINEAS
-                            if (indice_lineas == datosLineas.length - 1) {
-                                indice_lineas = 0;
                             } else {
-                                indice_lineas++;
+                                break;
                             }
-                        } while (!asignacion_realizada);
+                        }
                     }
-                } // FIN DEL FOR
+                }
             }
+
+            // PARA COMPROBAR QUE TODAS LAS LINEAS ESTEN YA LLENAS
+            var lineas_llenas = 0;
+            for (let index = 0; index < datosLineas.length; index++) {
+                if (datosLineas[index][9] == 0) {
+                    lineas_llenas++;
+                }
+            }
+
             console.log("Hay " + manipuladores.length + " manipuladores y se han repartido " + manipuladores_asignados.length);
             console.log("Lineas llenas: " + lineas_llenas + ", líneas totales: " + datosLineas.length);
             console.log(lineas_manipuladores);
             for (let index = 0; index < datosLineas.length; index++) {
                 console.log("Para la linea id = " + datosLineas[index][0] + " quedan por asignar " + datosLineas[index][9] + " manipulador/es");
             }
-        /* -------------------------------------------------------- FIN DEL REPARTO DE MANIPULADORES ------------------------------------------------ */
 
+            // COMPROBAR QUE TODOS LOS MANIPULADORES HAN SIDO ASIGNADOS Y AUN SIGUE HABIENDO LINEAS POR COMPLETAR
+            if (manipuladores_asignados.length == manipuladores.length && lineas_llenas < datosLineas.length) {
+                var numero = 0;
+                for (let index = 0; index < datosLineas.length; index++) {
+                    numero += datosLineas[index][9];
+                }
+                alert("No hay suficientes manipuladores para todos los puestos requeridos. Intenta asigar " + numero + " manipuladores menos.");
+                throw new Error("Sin manipuladores suficientes!");
+
+            // COMPROBAR QUE AUN QUEDAN MANIPULADORES POR REPARTIR Y SIGUE HABIENDO LINEAS POR COMPLETAR
+            } else if (manipuladores_asignados.length < manipuladores.length && lineas_llenas < datosLineas.length){
+                alert("Quedan por repatir manipuladores y hay lineas incompletas.");
+                throw new Error("Error lógico en el reparto de manipuladores por las líneas!");
+            }
+
+/* ----------------------------------------- FIN DEL REPARTO DE MANIPULADORES, PREPARACION PARA EL ORDENADO ------------------------------------------- */
+
+            console.warn("COMIENZO DE LA ORDENACION");
             // PREPARACION PARA LA ORDENACION DENTRO DE LAS LINEAS
             // VA A CONTENER LAS LINEAS QUE NECESITAN ORDENACION DESPUES DEL REPARTO
             var lineas_ordenar = [];
@@ -799,41 +802,261 @@ $(function(){
 
             for (let index = 0; index < lineas_ordenar.length; index++) {
                 for (let i = 0; i < datosLineas.length; i++) {
-                    if (datosLineas[i][0] === lineas_ordenar[index]) {
+                    if (datosLineas[i][0] == lineas_ordenar[index]) {
+                        // ESTA LINEA
                         var idlinea = lineas_ordenar[index];
                         var manipuladores_ordenados = [];
+                        // OBTENCION DE LOS MANIPULADORES A ORDENAR DE ESTA LINEA
                         var manipuladores_a_ordenar = lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.slice();
-                        //console.log("Manipuladores contenidos en la variable para la linea " + idlinea + ": " + lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.length);
-                        //console.log("Manipuladores a ordenar: " + manipuladores_a_ordenar.length);
-                        if (datosLineas[i][5] == 3) {
-                            console.log("Manipuladores a ordenar delante para la linea " + idlinea + ": " + manipuladores_a_ordenar.length);
-                            for (let j = 0; j < manipuladores_a_ordenar.length; j++) {
-                                var manipulador = manipulador_por_FVD(manipuladores, manipuladores_a_ordenar, manipuladores_ordenados);
-                                manipuladores_ordenados.push(manipulador);
+                        // SI TIENE QUE IR SIN ORDENACION ALGUNA
+                        if (datosLineas[i][5] == 0 && datosLineas[i][7] == 0) {
+                            shuffleArray(manipuladores_a_ordenar);
+                            manipuladores_ordenados = manipuladores_a_ordenar;
+                        // SI TIENE ORDENACION DELANTE O DETRAS PARA LOS TRES RADIOBUTTONS
+                        } else if (datosLineas[i][5] == 3 || datosLineas[i][7] == 3) {
+                            // SI VAN DELANTE
+                            if (datosLineas[i][7] == 0) {
+                                // EL VALOR 0 SIGNIFICA DELANTE
+                                var posicion = 0;
+                            // O VAN DETRAS
+                            } else {
+                                // EL VALOR 1 SIGNIFICA DETRAS
+                                var posicion = 1;
                             }
-                            console.log("Quedan por ordenar delante: " + (manipuladores_a_ordenar.length - manipuladores_ordenados.length));
-                        } else if (datosLineas[i][7] == 3) {
-                            console.log("Manipuladores a ordenar detras para la linea " + idlinea + ": " + manipuladores_a_ordenar.length);
-                            for (let j = 0; j < manipuladores_a_ordenar.length; j++) {
-                                var manipulador = manipulador_por_FVD(manipuladores, manipuladores_a_ordenar, manipuladores_ordenados);
-                                manipuladores_ordenados.unshift(manipulador);
+                            manipuladores_ordenados = manipuladores_por_FVD(manipuladores, manipuladores_a_ordenar, posicion);
+                        // SI SOLO TIENE ORDENACION DELANTE O DETRAS PARA UNA OPCION
+                        } else if ( (datosLineas[i][5] == 1 && datosLineas[i][7] == 0) || (datosLineas[i][5] == 0 && datosLineas[i][7] == 1) ) {
+                            if (datosLineas[i][7] == 0) {
+                                var donde_opcion = 6;
+                            } else {
+                                var donde_opcion = 8;
                             }
-                            console.log("Quedan por ordenar detras: " + (manipuladores_a_ordenar.length - manipuladores_ordenados.length));
+                            console.log(donde_opcion);
+                            switch (datosLineas[i][donde_opcion][0]) {
+                                case "fiabilidad":
+                                    var opcion = 4;
+                                    break;
+                                case "velocidad":
+                                    var opcion = 5;
+                                    break;
+                                case "disponibilidad":
+                                    var opcion = 6;
+                                    break;
+                            }
+                            if (datosLineas[i][7] == 0) {
+                                var posicion = 0;
+                            } else {
+                                var posicion = 1;
+                            }
+                            manipuladores_ordenados = manipuladores_por_una_opcion(manipuladores, manipuladores_a_ordenar, opcion, posicion);
+                        // SI SOLO TIENE ORDENACION DELANTE O DETRAS PARA 2 OPCIONES
+                        } else if ( (datosLineas[i][5] == 2 && datosLineas[i][7] == 0) || (datosLineas[i][5] == 0 && datosLineas[i][7] == 2) ) {
+                            if (datosLineas[i][7] == 0){
+                                var donde_opciones = 6;
+                                var posicion = 0;
+                            } else {
+                                var donde_opciones = 8;
+                                var posicion = 1;
+                            }
+                            if (datosLineas[i][donde_opciones][0] === "fiabilidad" && datosLineas[i][donde_opciones][1] === "velocidad") {
+                                var opciones = [4, 5];
+                            } else if (datosLineas[i][donde_opciones][0] === "fiabilidad" && datosLineas[i][donde_opciones][1] === "disponibilidad") {
+                                var opciones = [4, 6];
+                            } else if (datosLineas[i][donde_opciones][0] === "velocidad" && datosLineas[i][donde_opciones][1] === "disponibilidad") {
+                                var opciones = [5, 6];
+                            }
+                            manipuladores_ordenados = manipuladores_por_dos_opciones(manipuladores, manipuladores_a_ordenar, opciones, posicion);
+                        // SI TIENE ORDENACION DELANTE PARA 2 OPCIONES Y 1 DETRAS O PARA 2 OPCIONES DETRAS Y 1 DELANTE
+                        } else if ( (datosLineas[i][5] == 2 && datosLineas[i][7] == 1) || (datosLineas[i][5] == 1 && datosLineas[i][7] == 2) ) {
+                            if (datosLineas[i][7] == 1) {
+                                var donde_2_opciones = 6;
+                                var donde_1_opcion = 8;
+                                // EL VALOR 0 SIGNIFICA DELANTE
+                                var posicion_dos_opciones = 0;
+                                // EL VALOR 1 SIGNIFICA DETRAS
+                                var posicion_una_opcion = 1;
+                            } else {
+                                var donde_2_opciones = 8;
+                                var donde_1_opcion = 6;
+                                // EL VALOR 1 SIGNIFICA DETRAS
+                                var posicion_dos_opciones = 1;
+                                // EL VALOR 0 SIGNIFICA DELANTE
+                                var posicion_una_opcion = 0;
+                            }
+                            switch (datosLineas[i][donde_1_opcion][0]) {
+                                    case "fiabilidad":
+                                        var opcion = 4;
+                                        break;
+                                    case "velocidad":
+                                        var opcion = 5;
+                                        break;
+                                    case "disponibilidad":
+                                        var opcion = 6;
+                                        break;
+                            }
+                            if (datosLineas[i][donde_2_opciones][0] === "fiabilidad" && datosLineas[i][donde_2_opciones][1] === "velocidad") {
+                                var opciones = [4, 5];
+                            } else if (datosLineas[i][donde_2_opciones][0] === "fiabilidad" && datosLineas[i][donde_2_opciones][1] === "disponibilidad") {
+                                var opciones = [4, 6];
+                            } else if (datosLineas[i][donde_2_opciones][0] === "velocidad" && datosLineas[i][donde_2_opciones][1] === "disponibilidad") {
+                                var opciones = [5, 6];
+                            }
+                            var manipuladores_ordenados_dos_opciones = manipuladores_por_dos_opciones(manipuladores, manipuladores_a_ordenar, opciones, posicion_dos_opciones);
+                            var manipuladores_ordenados_una_opcion = manipuladores_por_una_opcion(manipuladores, manipuladores_a_ordenar, opcion, posicion_una_opcion);
+                            // ALEATORIEDAD PARA LA ASIGNACION PRIMERO DESDE EL ARRAY DE ORDENACION POR DOS OPCIONES O DESDE EL DE UNA OPCION
+                            var aleatorio = getRandomInt(1, 2);
+                            // VARIABLE AUXILIAR PARA RECIBIR LOS ORDENADOS DELANTE
+                            var aux1 = [];
+                            // VARIABLE AUXILIAR PARA RECIBIR LOS ORDENADOS DETRAS
+                            var aux2 = [];
+                            for (let j = 0; j < manipuladores_a_ordenar.length; j++) {
+                                // CONTROL PARA COGER SOLO 
+                                if (aux1.length + aux2.length == manipuladores_a_ordenar.length) {
+                                    break;
+                                }
+                                // SI "aleatorio" VALE 2 SE EMPIEZA ASIGNANDO UN MANIPULADOR ORDENADO POR 2 OPCIONES, SI NO POR 1 OPCION
+                                if (aleatorio == 2) {
+                                    // SI VAN DELANTE LOS MANIPULADORES ORDENADOS POR 2 OPCIONES
+                                    if (datosLineas[i][7] == 1) {
+                                        // SE RECORRE EL ARRAY DESDE EL PRINCIPIO
+                                        for (let k = 0; k < manipuladores_ordenados_dos_opciones.length; k++) {
+                                            // SI EL MANIPULADOR NO ESTA YA ASIGNADO
+                                            if (aux1.indexOf(manipuladores_ordenados_dos_opciones[k]) == -1 && aux2.indexOf(manipuladores_ordenados_dos_opciones[k]) == -1) {
+                                                // SOLO UNO CADA VEZ SE ASIGNA
+                                                aux1.push(manipuladores_ordenados_dos_opciones[k]);
+                                                break;
+                                            }
+                                        }
+                                    // SI VAN DETRAS LOS MANIPULADORES ORDENADOS POR 2 OPCIONES
+                                    } else {
+                                        // SE RECORRE EL ARRAY DESDE EL FINAL
+                                        for (let k = manipuladores_ordenados_dos_opciones.length - 1; k >= 0 ; k--) {
+                                            // SI EL MANIPULADOR NO ESTA YA ASIGNADO
+                                            if (aux1.indexOf(manipuladores_ordenados_dos_opciones[k]) == -1 && aux2.indexOf(manipuladores_ordenados_dos_opciones[k]) == -1) {
+                                                // SOLO UNO CADA VEZ SE ASIGNA
+                                                aux2.unshift(manipuladores_ordenados_dos_opciones[k]);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // SI VAN DETRAS LOS MANIPULADORES ORDENADOS POR UNA OPCION
+                                    if (datosLineas[i][7] == 1) {
+                                        // SE RECORRE EL ARRAY DESDE EL FINAL
+                                        for (let k = manipuladores_ordenados_una_opcion.length - 1; k >= 0 ; k--) {
+                                            // SI EL MANIPULADOR NO ESTA YA ASIGNADO
+                                            if (aux1.indexOf(manipuladores_ordenados_una_opcion[k]) == -1 && aux2.indexOf(manipuladores_ordenados_una_opcion[k]) == -1) {
+                                                // SOLO UNO CADA VEZ SE ASIGNA
+                                                aux2.unshift(manipuladores_ordenados_una_opcion[k]);
+                                                break;
+                                            }
+                                        }
+                                    // SI VAN DELANTE LOS MANIPULADORES ORDENADOS POR UNA OPCION
+                                    } else {
+                                        // SE RECORRE EL ARRAY DESDE EL PRINCIPIO
+                                        for (let k = 0; k < manipuladores_ordenados_una_opcion.length; k++) {
+                                            // SI EL MANIPULADOR NO ESTA YA ASIGNADO
+                                            if (aux1.indexOf(manipuladores_ordenados_una_opcion[k]) == -1 && aux2.indexOf(manipuladores_ordenados_una_opcion[k]) == -1) {
+                                                // SOLO UNO CADA VEZ SE ASIGNA
+                                                aux1.push(manipuladores_ordenados_una_opcion[k]);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                // CONTROL DEL REPARTO
+                                aleatorio < 2 ? aleatorio++ : aleatorio -= 1;
+                            }// FIN DEL FOR
+                            manipuladores_ordenados = aux1.concat(aux2);
+                        // SI TIENE ORDENACION DELANTE PARA 1 Y ORDENACION DETRAS PARA 1
+                        } else if (datosLineas[i][5] == 1 && datosLineas[i][7] == 1) {
+                            switch (datosLineas[i][6][0]) {
+                                case "fiabilidad":
+                                    var opcion_delante = 4;
+                                    break;
+                                case "velocidad":
+                                    var opcion_delante = 5;
+                                    break;
+                                case "disponibilidad":
+                                    var opcion_delante = 6;
+                                    break;
+                            }
+                            switch (datosLineas[i][8][0]) {
+                                case "fiabilidad":
+                                    var opcion_detras = 4;
+                                    break;
+                                case "velocidad":
+                                    var opcion_detras = 5;
+                                    break;
+                                case "disponibilidad":
+                                    var opcion_detras = 6;
+                                    break;
+                            }
+                            var manipuladores_delante = manipuladores_por_una_opcion(manipuladores, manipuladores_a_ordenar, opcion_delante, 0);
+                            var manipuladores_detras = manipuladores_por_una_opcion(manipuladores, manipuladores_a_ordenar, opcion_detras, 1);
+                            // VARIABLE AUXILIAR PARA RECIBIR LOS ORDENADOS DELANTE
+                            var aux1 = [];
+                            // VARIABLE AUXILIAR PARA RECIBIR LOS ORDENADOS DETRAS
+                            var aux2 = [];
+                            // ALEATORIEDAD PARA ASIGNAR PRIMERO LOS QUE VAN DELANTE O LOS QUE VAN DETRAS
+                            var aleatorio = getRandomInt(1, 2);
+                            for (let j = 0; j < manipuladores_a_ordenar.length; j++) {
+                                if (aux1.length + aux2.length == manipuladores_a_ordenar.length) {
+                                    break;
+                                }
+                                // SI "aleatorio" VALE 1 SE EMPIEZA REPARTIENDO LOS QUE VAN DELANTE, SI NO, LOS DE DETRAS
+                                if (aleatorio == 1) {
+                                    // SE EMPIEZA A RECORRER EL ARRAY DESDE EL PRINCIPIO
+                                    for (let k = 0; k < manipuladores_delante.length; k++) {
+                                        if (aux1.indexOf(manipuladores_delante[k]) == -1 && aux2.indexOf(manipuladores_delante[k]) == -1) {
+                                            aux1.push(manipuladores_delante[k]);
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    // SE EMPIEZA A RECORRER EL ARRAY DESDE EL FINAL
+                                    for (let k = manipuladores_detras.length - 1; k >= 0; k--) {
+                                        if (aux1.indexOf(manipuladores_detras[k]) == -1 && aux2.indexOf(manipuladores_detras[k]) == -1) {
+                                            aux2.unshift(manipuladores_detras[k]);
+                                            break;
+                                        }
+                                    }
+                                }
+                                // CONTROL DEL REPARTO
+                                aleatorio < 2 ? aleatorio++ : aleatorio -= 1;
+                            }
+                            manipuladores_ordenados = aux1.concat(aux2);
                         }
-                        //console.log(manipuladores_ordenados);
+                        console.log(manipuladores_ordenados);
+                        lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores = [];
+                        for (let k = 0; k < manipuladores_ordenados.length; k++) {
+                            var datosManipulador = manipuladores[manipuladores.map(function(elemento) { return elemento[0]; }).indexOf(manipuladores_ordenados[k])];
+                            var objeto = {
+                                idmanipulador: manipuladores_ordenados[k],
+                                nombre: datosManipulador[1],
+                                apellidos: datosManipulador[2]
+                            };
+                            lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(objeto);
+                        }
+                        // ASIGNACION DE LOS MANIPULADORES YA ORDENADOS A LA VARIABLE QUE CONTIENE LAS LINEAS Y LOS MANIPULADORES DEL REPARTO
+                        //lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores = manipuladores_ordenados;
                     }
                 }
             }
-            
+            console.log(lineas_manipuladores);
+            //  CONTINUAR CON EL CODIGO QUE FALTE AQUI
+
         });// FIN DEL DONE JQUERY
     }// FIN DE LA FUNCION
 
+/* ----------------------------------------------------------------- FUNCIONES ----------------------------------------------------------------------- */
+
     /* DEVUELVE UN ENTERO ALEATORIO ENTRE "min" (INCLUIDO) Y "max" (INCLUIDO)
-       https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
-     */
+       https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range */
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
     /* BARAJADO DE LOS ELEMENTOS DE UN ARRAY
        https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array */
     function shuffleArray(array) {
@@ -845,47 +1068,98 @@ $(function(){
         }
     }
 
-    function manipulador_por_FVD(manipuladores, manipuladores_a_ordenar, manipuladores_ordenados){
-        for (let i = 9, n = 0; i >= 0; i--, n++) {
-            for (let k = 0; k <= n; k++) {
-                for (let j = 0; j < manipuladores_a_ordenar.length; j++) {
-                    if (manipuladores_ordenados.indexOf(manipuladores_a_ordenar[j]) == -1) {
-                        
-                        for (let l = 0; l < manipuladores.length; l++) {
-                            
-                            if (parseInt(manipuladores[l][0]) == parseInt(manipuladores_a_ordenar[j])) {
-                                if ( (manipuladores[l][4] == i || manipuladores[l][4] == i + k || manipuladores[l][4] == i - k) && (manipuladores[l][5] == i || manipuladores[l][5] == i + k || manipuladores[l][5] == i - k) && (manipuladores[l][6] == i || manipuladores[l][6] == i + k || manipuladores[l][6] == i - k) ){
-                                    //console.log("Manipulador que devuelve: " + manipuladores_a_ordenar[j]);
-                                    return manipuladores_a_ordenar[j];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    /* DEVUELVE UN ARRAY DE IDS DE MANIPULADORES CON LA MISMA LOGITUD QUE "manipuladores_a_ordenar", ORDENADOS CALCULANDO LA
+       MEDIA ENTRE FIABILIDAD, VELOCIDAD Y DISPONIBILIDAD, DELANTE O DETRAS SEGUN EL VALOR RECIBIDO EN EL PARAMETRO "posicion".
+       SE USAN LOS MANIPULADORES PRESENTES EN "manipuladores_a_ordenar" Y LOS DATOS PRESENTES EN "manipuladores" */
+    function manipuladores_por_FVD(manipuladores, manipuladores_a_ordenar, posicion){
+        var auxiliar = [];
+        for (let index = 0; index < manipuladores_a_ordenar.length; index++) {
+            // ESTE MANIPULADOR
+            var idmanipulador = manipuladores_a_ordenar[index];
+            // ARRAY CON LOS DATOS DE ESTE MANIPULADOR
+            var datos_manipulador = manipuladores[manipuladores.map(function(elemento) { return elemento[0]; }).indexOf(idmanipulador)];
+            var media = (datos_manipulador[4] + datos_manipulador[5] + datos_manipulador[6]) / 3;
+            console.log("Por media devuelve a: " + idmanipulador + ", que tiene f: " + datos_manipulador[4] + ", v: " + datos_manipulador[5] + ", d: " + datos_manipulador[6] + " y media = " + media);
+            auxiliar.push([idmanipulador, media]);
         }
-        if (manipuladores_a_ordenar.length > manipuladores_ordenados.length) {
-            var manipuladoresMedia = [];
-            var manip_temp = [];
-            for (let index = 0; index < manipuladores_a_ordenar.length; index++) {
-                if (manipuladores_ordenados.indexOf(manipuladores_a_ordenar[index]) == -1) {
-                    
-                    for (let i = 0; i < manipuladores.length; i++) {
-                        if (manipuladores[i][0] === manipuladores_a_ordenar[index] && manip_temp.indexOf(manipuladores_a_ordenar[index]) == -1) {
-                            //console.log("id en manipuladores: " + manipuladores[i][0] + ", id en manipuladores a ordenar: " + manipuladores_a_ordenar[index]);
-                            var media = (manipuladores[i][4] + manipuladores[i][5] + manipuladores[i][6]) / 3;
-                            manipuladoresMedia.push([manipuladores_a_ordenar[index], media]);
-                            manip_temp.push(manipuladores_a_ordenar[index]);
-                        }
-                    }
-                }
-            }
-            //console.log("La logitud de manipuladoresMedia es: " + manipuladoresMedia.length);
-            // ORDENACION DE MAYOR A MENOR POR EL VALOR DE LA MEDIA
-            manipuladoresMedia.sort(function(a, b){
+        
+        // ORDENACION DE MAYOR A MENOR USANDO EL VALOR DE LA MEDIA SI LA ORDENACION ES DELANTE (0)
+        if (posicion == 0) {
+            auxiliar.sort(function(a, b){
                 return parseFloat(b[1]) - parseFloat(a[1]);
             });
-            return manipuladoresMedia[0][0];
+        // MENOR A MAYOR USANDO EL VALOR DE LA MEDIA SI ES DETRAS
+        } else {
+            auxiliar.sort(function(a, b){
+                return parseFloat(a[1]) - parseFloat(b[1]);
+            });
         }
+        var manipuladores_ordenados = [];
+        for (let index = 0; index < auxiliar.length; index++) {
+            manipuladores_ordenados.push(auxiliar[index][0]);
+        }
+        return manipuladores_ordenados;
+    }
+
+    /* DEVUELVE UN ARRAY DE IDS DE MANIPULADORES CON LA MISMA LOGITUD QUE "manipuladores_a_ordenar", ORDENADOS CALCULANDO LA
+       MEDIA DE LAS 2 OPCIONES ESPECIFICADAS EN EL PARAMETRO "opciones", DELANTE O DETRAS SEGUN EL VALOR RECIBIDO EN EL PARAMETRO "posicion".
+       SE USAN LOS MANIPULADORES PRESENTES EN "manipuladores_a_ordenar" Y LOS DATOS PRESENTES EN "manipuladores" */
+    function manipuladores_por_dos_opciones(manipuladores, manipuladores_a_ordenar, opciones, posicion){
+        var auxiliar = [];
+        for (let index = 0; index < manipuladores_a_ordenar.length; index++) {
+            // ESTE MANIPULADOR
+            var idmanipulador = manipuladores_a_ordenar[index];
+            // ARRAY CON LOS DATOS DE ESTE MANIPULADOR
+            var datos_manipulador = manipuladores[manipuladores.map(function(elemento) { return elemento[0]; }).indexOf(idmanipulador)];
+            var media = (datos_manipulador[opciones[0]] + datos_manipulador[opciones[1]]) / 2;
+            //console.log("Devuelve a: " + idmanipulador + ", que tiene f: " + datos_manipulador[4] + ", v: " + datos_manipulador[5] + ", d: " + datos_manipulador[6] + " y media = " + media);
+            auxiliar.push([idmanipulador, media]);
+        }
+        
+        // ORDENACION DE MAYOR A MENOR USANDO EL VALOR DE LA MEDIA SI LA ORDENACION ES DELANTE (0)
+        if (posicion == 0) {
+            auxiliar.sort(function(a, b){
+                return parseFloat(b[1]) - parseFloat(a[1]);
+            });
+        // MENOR A MAYOR USANDO EL VALOR DE LA MEDIA SI ES DETRAS
+        } else {
+            auxiliar.sort(function(a, b){
+                return parseFloat(a[1]) - parseFloat(b[1]);
+            });
+        }
+        var manipuladores_ordenados = [];
+        for (let index = 0; index < auxiliar.length; index++) {
+            manipuladores_ordenados.push(auxiliar[index][0]);
+        }
+        return manipuladores_ordenados;
+    }
+
+    /* DEVUELVE UN ARRAY DE IDS DE MANIPULADORES CON LA MISMA LONGITUD QUE "manipuladores_a_ordenar", ORDENADOS
+       POR LA OPCION RECIBIDA EN EL PARÁMETRO "opcion", DELANTE O DETRAS POR EL VALOR RECIBIDO EN "posicion" */
+    function manipuladores_por_una_opcion(manipuladores, manipuladores_a_ordenar, opcion, posicion){
+        var auxiliar = [];
+        for (let j = 0; j < manipuladores_a_ordenar.length; j++) {
+            // ESTE MANIPULADOR
+            var idmanipulador = manipuladores_a_ordenar[j];
+            var datos_manipulador = manipuladores[manipuladores.map(function(elemento) { return elemento[0]; }).indexOf(idmanipulador)];
+            console.log("Devuelve a: " + idmanipulador + ", que tiene f: " + datos_manipulador[4] + ", v: " + datos_manipulador[5] + ", d: " + datos_manipulador[6]);
+            auxiliar.push([idmanipulador, datos_manipulador[opcion]]);
+        }
+        // ORDENACION DE MAYOR A MENOR USANDO EL VALOR DE LA OPCION SI LA ORDENACION ES DELANTE (0)
+        if (posicion == 0) {
+            auxiliar.sort(function(a, b){
+                return parseFloat(b[1]) - parseFloat(a[1]);
+            });
+        // MENOR A MAYOR USANDO EL VALOR DE LA OPCION SI ES DETRAS
+        } else {
+            auxiliar.sort(function(a, b){
+                return parseFloat(a[1]) - parseFloat(b[1]);
+            });
+        }
+        var manipuladores_ordenados = [];
+        for (let index = 0; index < auxiliar.length; index++) {
+            manipuladores_ordenados.push(auxiliar[index][0]);
+        }
+        return manipuladores_ordenados;
     }
 });
