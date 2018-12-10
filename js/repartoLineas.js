@@ -10,7 +10,7 @@ $(document).ready(function() {
         appendTo: $tabs,
         helper:"clone",
         zIndex: 999990
-    }).disableSelection();
+    });
     
     // var $tab_items = $(".nav-tabs > li", $tabs).droppable({
     //     accept: ".t_sortable tr",
@@ -18,40 +18,7 @@ $(document).ready(function() {
     //     drop: function( event, ui ) { return false; }
     // });
 });
-function planificarDia(){
-    var arrayLineas = [];
 
-    $(".table").each(function(){
-        var manipuladores = []
-        $("#"+ $(this).attr('id')+" .fila").each(function(){
-            var datos = {
-                "id": $(this).find("input").val(),
-                "manipulador": $(this).find("span").text(), 
-            } 
-            manipuladores.push(datos)
-        })
-        var datosLineas = [$(this).attr('id'),manipuladores]
-        arrayLineas.push(datosLineas)
-    })
-
-    $.ajax({
-        url:"php/registro_manipuladores_f.php",
-        type:"POST",
-        dataType: "json",
-        data: {
-            op:"insertReg",
-            datos:arrayLineas
-        },
-        success:function(response){
-            // console.log(response.responseText)
-        },
-        error:function(response,jqXHR, textStatus, errorThrown){
-            console.log("Error en la peticion AJAX para mostrar los registros de naves: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
-        }
-    }).done(function(){
-
-        });
-}
 function showManipuladoresReparto(){
     
     var manipuladores = [
@@ -80,16 +47,10 @@ function showManipuladoresReparto(){
     // console.log(manipuladores[0][1][0].nombre)
 
     for (let index = 0; index < manipuladores.length; index++) {
-        if(index==0){
-            var id =  manipuladores[index].id
-        }
-        else{
-            var id = manipuladores[index].id
-        }
         $(".table-responsive").append(
             "<div class='col-3 float-left'>"+
                 "<h3>Linea "+ manipuladores[index].id+"</h3>"+
-                "<table "+ (index == 0 ? 'class="table  table-striped table-bordered tablaindex"': 'class="table  table-striped table-bordered"') +" id='"+ id +"'>"+
+                "<table "+ (index == 0 ? 'class="table  table-striped table-bordered tablaindex"': 'class="table  table-striped table-bordered"') +" id='"+ manipuladores[index].id +"'>"+
                     "<thead class='thead-dark'>"+
                         "<tr><th scope='col'>Manipulador</th></tr>"+
                     "</thead>"+
@@ -103,10 +64,44 @@ function showManipuladoresReparto(){
      $("#datos_reparto_lineas").empty();
     for (let index = 0; index < manipuladores.length; index++){
         for (let indice = 0; indice < manipuladores[index].manipuladores.length; indice++){
-            $("#"+ manipuladores[index].id +" .datos_reparto_lineas").append(
+            $("#"+ manipuladores[index].id +" tbody").append(
                 "<tr class='fila'>"+
                 "<input type='hidden' value='" + manipuladores[index].manipuladores[indice].idmanipulador + "' />" +
                 "<td><span>"+ manipuladores[index].manipuladores[indice].nombre + " " + manipuladores[index].manipuladores[indice].apellidos +"</span></td>");
         }
     }
+}
+function planificarDia(){
+    var arrayLineas = [];
+
+    $(".table").each(function(){
+        var manipuladores = []
+        $("#"+ $(this).attr('id')+" .fila").each(function(){
+            var datos = {
+                "id": $(this).find("input").val(),
+                "manipulador": $(this).find("span").text(), 
+            } 
+            manipuladores.push(datos)
+        })
+        var datosLineas = [$(this).attr('id'),manipuladores]
+        arrayLineas.push(datosLineas)
+    })
+
+    $.ajax({
+        url:"php/registro_manipuladores_f.php",
+        type:"POST",
+        dataType: "json",
+        data: {
+            op:"insertReg",
+            datos:arrayLineas
+        },
+        success:function(response){
+            console.log(response.responseText)
+        },
+        error:function(response,jqXHR, textStatus, errorThrown){
+            console.log("Error en la peticion AJAX para mostrar los registros de naves: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+        }
+    }).done(function(){
+
+        });
 }
