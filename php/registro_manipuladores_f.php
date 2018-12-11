@@ -18,7 +18,7 @@ if(isset($_POST['op'])){
             reasignarLinea();
             break;
         case 'insertReg':
-        insertReg();
+            insertReg();
         break;
     }
 }
@@ -213,31 +213,10 @@ function insertReg(){
             }
             $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
                             VALUES ($idmanipulador,$idTurno,'$actualDate','$hora_inicio','$hora_fin',$linea)";
-
             $resultQuery = $conn->query($sqlInsert);
             $conn->commit();
             
         }
     }
-    // for ($indexLinea=0; $indexLinea < count($datosLineas); $indexLinea++) {
-    //     for ($indexManipulador=0; $indexManipulador < count($datosLineas[$indexLinea][1]); $indexManipulador++) { 
-    //         $linea = $datosLineas[$indexLinea][0];
-    //         $idmanipulador = $datosLineas[$indexLinea][1][$indexManipulador]['id'];
-
-    //         $actualTime= date('h:i:s a', time());
-    //         while($turnos = $resultQueryTurnos->fetch_assoc()){
-    //             if($actualTime >=$turnos['hora_inicio'] && $actualTime <=$turnos['hora_fin']){
-    //                 $idTurno = $turnos['idturno'];
-    //                 $hora_inicio = $turnos['hora_inicio'];
-    //                 $hora_fin = $turnos['hora_fin'];
-            
-    //             }
-    //         }
-    //         $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,hora_inicio,hora_fin,idlinea) 
-    //                         VALUES ($idmanipulador,$idTurno,$hora_inicio,$hora_fin,$linea)";
-    //         // echo $sqlInsert;
-    //     //    echo $datosLineas[$indexLinea][1];
-    //     }
-    // }
 }
 ?>

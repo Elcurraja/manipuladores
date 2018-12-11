@@ -86,7 +86,7 @@
             <tr>
                 <th scope="col">Hora inicio</th>
                 <th scope="col">Hora Fin</th>
-                <th scope="col">IDLinea</th>
+                <th scope="col">Linea</th>
                 <th scope="col">#</th>
             </tr>
         </thead>
@@ -117,10 +117,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="idturno">ID Turno: </label>
+                        <label for="idturno">Turno: </label>
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="idturno" id="idturno" disabled="disable"/>
+                        <input type="text" class="form-control" name="turno" id="turno" disabled="disable">
+                        <input type="hidden" class="form-control" name="idturno" id="idturno" disabled="disable"/>
                     </td>
                 </tr>
    
@@ -152,10 +153,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="idlinea">ID Linea: </label>
+                        <label for="idlinea">Linea: </label>
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="idlinea" id="idlinea"/>
+                        <select class='form-control' id='idlinea'></select>
                     </td>
                 </tr>
                 <input type="hidden" class="form-control" name="idmanipulador" id="idmanipulador"/>

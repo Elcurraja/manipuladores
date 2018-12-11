@@ -142,3 +142,32 @@ td input:enabled, td select:enabled{
 #buscadorReasignar{
     margin-bottom: 20px;
 }
+.reparto_lineas .col-3{
+    padding:0px;
+    margin-left:0.3%;
+    max-width: 24.5%;
+}
+div.col-3 h3 {
+    text-align:center;
+}
+div tbody.datos_reparto_lineas span{
+    /* font-size:.9em; */
+}
+
+.table th,td {
+    text-align: center;
+}
+.t_sortable tr, .ui-sortable-helper {
+    cursor: move;
+}
+.ui-sortable-helper{
+    font-weight: bold;
+    /* font-size:.9em; */
+    background-color:#FFD33C;
+    color:black;
+    border:1px solid black;
+    width:90px;
+}
+.t_sortable tr:first-child {
+    cursor: default;
+}

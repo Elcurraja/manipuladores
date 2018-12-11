@@ -11,13 +11,11 @@ $(document).ready(function() {
 })
 
 function buscarReg(){
-        var datos={
-            op: "buscarReg",
-            id: $("#manipulador").val(),
-            fecha: $("#fechaB").datetimepicker('date').format('L'),
-        }
-    
-    console.log(datos)
+    var datos={
+        op: "buscarReg",
+        id: $("#manipulador").val(),
+        fecha: $("#fechaB").datetimepicker('date').format('L'),
+    }
     $.ajax({
         url:"php/registro_manipuladores_f.php",
         type:"POST",
@@ -28,12 +26,13 @@ function buscarReg(){
                 for (let index = 0; index < response.datosReg.length; index++){
                     $("tbody#tablalineas").append(
                         "<tr class='fila' id='fila"+ index +"'>"+
-                        "<input type='hidden' value='" + response.datosReg[index].idregistro + "' />" +
-                        "<input type='hidden' value='" + response.datosReg[index].idturno + "' id='idturno'/>" +
                         "<td><div class='input-group date' id='horai_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horai_" + index +"' readonly><div class='input-group-append' data-target='#horai_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
                         "<td><div class='input-group date' id='horaf_"+index+"' data-target-input='nearest'><input type='text' class='form-control datetimepicker-input' data-target='#horaf_" + index +"' readonly><div class='input-group-append' data-target='#horaf_" + index +"' data-toggle='datetimepicker'><div class='input-group-text'><i class='far fa-clock'></i></div></div></div></td>"+
-                        "<td><input type='text' name='idlinea' value='" + response.datosReg[index].idlinea + "' class='input_s form-control' readonly></td>"
-                        );
+                        "<td><input type='text' id='linea"+index+"' name='linea' value='' class='input_s form-control' readonly></td>"+
+                        "<input type='hidden' value='" + response.datosReg[index].idlinea + "' id='idlinea'/>"+
+                        "<input type='hidden' value='" + response.datosReg[index].idturno + "' id='idturno'/>"+
+                        "<input type='hidden' value='" + response.turnos[index].franja + "' id='turno'/>"+
+                        "<input type='hidden' value='" + response.datosReg[index].idregistro + "' id='idregistro'/>");
                         //Comprobamos si es el ultimo registro para insertarle el boton de "Reasignar"
                         if(index == (response.datosReg.length-1)){
                             $("tr.fila:last-child").append("<td><button type='button' id='reasignarLinea' class='btn btn-primary' onclick ='modalReasignarLinea();'>Reasignar</button></td>")
@@ -41,7 +40,6 @@ function buscarReg(){
                         else{
                             $("#fila"+index).append("<td></td>")
                         }
-                        
                         //Inicializamos las horas
                         $('#horai_'+ index).datetimepicker({
                             locale: 'es',
@@ -53,24 +51,52 @@ function buscarReg(){
                             format: 'LT',
                             date: moment(response.datosReg[index].hora_fin,"HH:mm")
                         });
-                    }
+                        for (let l=0;l<response.lineas.length;l++){
+                            if(response.lineas[l].idlinea==response.datosReg[index].idlinea){
+                                $("#linea"+index).val(response.lineas[l].nombre)
+                            }
+                        }
+                    }    
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log("Error en la peticion AJAX para mostrar los registros: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
     })
 }
-
 //RECOGEMOS LOS DATOS DEL REGISTRO CON EL BOTON PARA REASIGNAR Y SE LOS MANDAMOS AL MODAL
 function modalReasignarLinea(){
     //ASIGNAMOS LOS VALORES EN LOS INPUTS DEL MODAL
-    $("#modalReasignarLinea #idregistro").val($("tr.fila:last-child").find(":nth-child(1) > input").val())
-    $("#modalReasignarLinea #idturno").val($("tr.fila:last-child").find("#idturno").val())
-    $("#modalReasignarLinea #idlinea").val($("tr.fila:last-child").find("td:nth-child(5) > input").val())
+    $("#modalReasignarLinea #linea").val($("tr.fila:last-child").find(":nth-child(3) > input").val())
+    $("#modalReasignarLinea #idturno").val($("#idturno").val())
+    $("#modalReasignarLinea #turno").val($("#turno").val())
+    $("#modalReasignarLinea #idregistro").val($("#idregistro").val())
     $("#modalReasignarLinea #idmanipulador").val($("#manipulador").val())
     $("#modalReasignarLinea #fecha").val($("#fechaB").datetimepicker('date').format('L'))
-    var horainicio=$("tr.fila:last-child").find("td:nth-child(3) > div").datetimepicker('date').format('LT')
-    var horafin= $("tr.fila:last-child").find("td:nth-child(4) > div").datetimepicker('date').format('LT')
+    var idlinea = $("#idlinea").val()
+    var horainicio=$("tr.fila:last-child").find("td:nth-child(1) > div").datetimepicker('date').format('LT')
+    var horafin= $("tr.fila:last-child").find("td:nth-child(2) > div").datetimepicker('date').format('LT')
+    console.log(horainicio + " ++ " + horafin)
+    $.ajax({
+        url:"php/lineas_f.php",
+        type:"POST",
+        dataType: "json",
+        data: {
+            op:"getLineas"
+        },
+        success:function(response){
+            for (let l=0;l<response.lineas.length;l++){                      
+                if(response.lineas[l].idlinea==idlinea){
+                    $("#modalReasignarLinea #idlinea").append("<option value='"+ response.lineas[l].idlinea+"'selected>" + response.lineas[l].nombre + "</option>")
+                }
+                else{
+                    $("#modalReasignarLinea #idlinea").append("<option value='"+ response.lineas[l].idlinea+"'>" + response.lineas[l].nombre + "</option>")
+                }
+            }
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
+        }
+    });    
     $('#hora_inicio_rl').datetimepicker({
         locale: 'es',
         format: 'LT',
@@ -99,13 +125,12 @@ function reasignarLinea(){
         "horafin":$("#hora_fin_rl").datetimepicker('date').format('LT'),
         "idlinea":$("#idlinea").val(),
     }
-
+    console.log(datos)
     $.ajax({
         url:"php/registro_manipuladores_f.php",
         type:"POST",
         data: datos,
         success: function(response){
-         
             if (response.error == 1) {
                 console.log("Error en php: " + json.mensaje);
             }

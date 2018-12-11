@@ -14,6 +14,9 @@ if(isset($_POST['op'])){
         case 'delete':
             borrarLineas();
             break;
+        case 'getLineas':
+            getLineas();
+            break;
     }
 }
 function showLineas(){
@@ -104,6 +107,21 @@ function addlinea(){
             VALUES ('$nombre',$idnave,$idtipolinea,$disponible,$puestosmax,$fiabilidad,$velocidad,$disponibilidad)";
     $resultQuery = $conn->query($sql);
     $conn->commit();
-
+}
+function getLineas(){
+    $conn=mysql_manipuladores();
+    $query= "SELECT idlinea,nombre from lineas";
+    
+    $resultQuery =$conn->query($query);
+    $response['lineas'] = array();
+    while ($fila = $resultQuery->fetch_assoc()){
+        $fila = array(
+            'idlinea' => $fila['idlinea'],
+            'nombre' => $fila['nombre'],
+        );
+        array_push($response['lineas'], $fila);
+    }
+    $conn->close();
+    echo json_encode($response);
 }
 ?>

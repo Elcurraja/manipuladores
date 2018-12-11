@@ -1,4 +1,8 @@
+
 $(function(){
+
+  
+     
     $.ajax({
         url: "php/reparto_ajax.php",
         type: "post",
@@ -65,6 +69,9 @@ $(function(){
         });
         ordenar(lineas);
     });
+    $("#confirmarReparto").click(function(){
+        planificarDia()
+    })
 
 /* ------------------------------------------------------------------------ FUNCIONES ----------------------------------------------------------------- */
 
@@ -1028,22 +1035,38 @@ $(function(){
                             manipuladores_ordenados = aux1.concat(aux2);
                         }
                         console.log(manipuladores_ordenados);
-                        lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores = [];
-                        for (let k = 0; k < manipuladores_ordenados.length; k++) {
-                            var datosManipulador = manipuladores[manipuladores.map(function(elemento) { return elemento[0]; }).indexOf(manipuladores_ordenados[k])];
-                            var objeto = {
-                                idmanipulador: manipuladores_ordenados[k],
-                                nombre: datosManipulador[1],
-                                apellidos: datosManipulador[2]
-                            };
-                            lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores.push(objeto);
-                        }
-                        // ASIGNACION DE LOS MANIPULADORES YA ORDENADOS A LA VARIABLE QUE CONTIENE LAS LINEAS Y LOS MANIPULADORES DEL REPARTO
-                        //lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores = manipuladores_ordenados;
+                        lineas_manipuladores[lineas_manipuladores.map(function(elemento) { return elemento.id; }).indexOf(idlinea)].manipuladores = manipuladores_ordenados;
                     }
                 }
             }
+            // PREPARACION FINAL DE LA VARIABLE QUE CONTIENE LAS LINEAS Y LOS MANIPULADORES ORDENADOS
+            for (let k = 0; k < lineas_manipuladores.length; k++) {
+                var array_manipuladores = lineas_manipuladores[k].manipuladores.slice();
+                lineas_manipuladores[k].manipuladores = [];
+                for (let n = 0; n < array_manipuladores.length; n++) {
+                    var idmanipulador = array_manipuladores[n];
+                    var datosManipulador = manipuladores[manipuladores.map(function(elemento) { return elemento[0]; }).indexOf(idmanipulador)];
+                    var objeto = {
+                        idmanipulador: idmanipulador,
+                        nombre: datosManipulador[1],
+                        apellidos: datosManipulador[2]
+                    };
+                    lineas_manipuladores[k].manipuladores.push(objeto);
+                }
+            }
             console.log(lineas_manipuladores);
+            showManipuladoresReparto(lineas_manipuladores)
+
+               //https://codepen.io/anon/pen/oQQBwY
+            var $tabs = $('.tablaindex')
+            $("tbody.t_sortable").sortable({
+                connectWith: ".t_sortable",
+                grid:[20,20],
+                items: "> tr",
+                appendTo: $tabs,
+                helper:"clone",
+                zIndex: 999990
+            });
             //  CONTINUAR CON EL CODIGO QUE FALTE AQUI
 
         });// FIN DEL DONE JQUERY
@@ -1161,5 +1184,86 @@ $(function(){
             manipuladores_ordenados.push(auxiliar[index][0]);
         }
         return manipuladores_ordenados;
+    }
+    /*SE LIMPIA EL CONTENIDO DE LA TABLA PARA LA CONFIGURACION DE LAS LINEAS, SE RECIBE LA VARIABLE CON TODOS LAS LINEAS, CON SUS MANIPULADORES CORRESPONDIENTES Y ORDENADOS
+    SE GENERA UNA TABLA POR CADA LINEA, EN LA QUE MEDIANTE JQueryUI PODREMOS MOVER LOS MANIPULADORES DE UNA LINEA A OTRA.*/
+    function showManipuladoresReparto(manipuladores){
+        $(".table-responsive").empty()    
+        for (let index = 0; index < manipuladores.length; index++) {
+            $(".table-responsive").append(
+                "<div class='col-3 float-left'>"+
+                    "<h3>Linea "+ manipuladores[index].id+"</h3>"+
+                    "<table "+ (index == 0 ? 'class="table  table-striped table-bordered tablaindex"': 'class="table  table-striped table-bordered"') +" id='"+ manipuladores[index].id +"'>"+
+                        "<thead class='thead-dark'>"+
+                            "<tr><th scope='col'>Manipulador</th></tr>"+
+                        "</thead>"+
+                        "<tbody class='datos_reparto_lineas t_sortable'>"+
+                            
+                        "</tbody>"+
+                    "</table>"+
+                "</div>"+
+                (index==3 || (index>0 && index+1%4==0) ? "<div class='clearfix'></div>":""))
+            
+        }
+         $("#datos_reparto_lineas").empty();
+        for (let index = 0; index < manipuladores.length; index++){
+            for (let indice = 0; indice < manipuladores[index].manipuladores.length; indice++){
+                $("#"+ manipuladores[index].id +" tbody").append(
+                    "<tr class='fila'>"+
+                    "<input type='hidden' value='" + manipuladores[index].manipuladores[indice].idmanipulador + "' />" +
+                    "<td><span>"+ manipuladores[index].manipuladores[indice].nombre + " " + manipuladores[index].manipuladores[indice].apellidos +"</span></td>");
+            }
+        }
+        $("#repartir").css("display","none")
+        $("#confirmarReparto").css("display","block")
+    }
+    /*FUNCION EN LA QUE RECOGEMOS LOS MANIPULADORES DE CADA TABLA DE LA LINEA, LOS INSERTAMOS EN UN ARRAY Y HACEMOS UNA PETICION AJAX PARA INSERTARLOS EN LA BASE DE DATOS*/
+    function planificarDia(){
+        var arrayLineas = [];
+    
+        $(".table").each(function(){
+            var manipuladores = []
+            $("#"+ $(this).attr('id')+" .fila").each(function(){
+                var datos = {
+                    "id": $(this).find("input").val(),
+                } 
+                manipuladores.push(datos)
+            })
+            var datosLineas = [$(this).attr('id'),manipuladores]
+            arrayLineas.push(datosLineas)
+        })
+        
+        $.ajax({
+            url:"php/registro_manipuladores_f.php",
+            type:"POST",
+            dataType: "json",
+            data: {
+                op:'insertReg',
+                datos:arrayLineas
+            },
+            success:function(response){
+                console.log(response.responseText)
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log()
+                console.log("Error en la peticion AJAX: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+            }
+        }).done(function(){
+            $(".table-responsive").empty()
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1;
+            var yyyy = today.getFullYear();
+            if(dd<10) {
+                dd = '0'+dd
+            }
+            if(mm<10) {
+                mm = '0'+mm
+            }
+            today = mm + '/' + dd + '/' + yyyy;
+            $("#mensaje").css("display","block")
+            $("#mensaje").append(
+                "<h3>Se ha realizado correctamente la planificacion para el dia: "+ today + "</h3>")
+            });
     }
 });
