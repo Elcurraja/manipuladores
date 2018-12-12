@@ -1,28 +1,66 @@
 
 $(function(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
 
-  
-     
+    if(dd<10) {
+        dd = '0'+dd
+    } 
+    if(mm<10) {
+        mm = '0'+mm
+    } 
+    today = mm + '/' + dd + '/' + yyyy;
     $.ajax({
-        url: "php/reparto_ajax.php",
+        url: "php/registro_manipuladores_f.php",
         type: "post",
         dataType: "json",
         data: {
-            accion: "exist_datos_lineas"
+            op: "exist_datos_registro",
+            fecha:today
         },
-        success: function(respuesta){
-            if (respuesta.error == 1) {
-                console.log(respuesta.mensaje);
-            } else {
-                if (respuesta.respuesta == 1) {
-                    mostrarOpcionesLineas();
-                } else {
-                    $("#mensaje_opciones_lineas").css("display", "block").text("No hay datos en 'lineas'");
+        success: function(response){
+            console.log(response)
+            if (response.error == 1) {
+                console.log(response.mensaje);
+            } 
+            else {
+                /* SI RESPONSE.HAYDATOS = 1 es que existen registros con la fecha actual */
+                if(response.hayDatos==1){
+                    $("#repartir").css("display","none")
+                    $("#borrarRepartoDia").css("display","block")
+                    $(".mensaje").append("<h2>Ya existe una planificacion para el dia: "+ today +"</h2>").css("display","block")
+                }
+                else {
+                    $.ajax({
+                        url: "php/reparto_ajax.php",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            accion: "exist_datos_lineas"
+                        },
+                        success: function(respuesta){
+                            if (respuesta.error == 1) {
+                                console.log(respuesta.mensaje);
+                            } else {
+                                if (respuesta.respuesta == 1) {
+                                    $(".table-responsive").css("display","block")
+                                    mostrarOpcionesLineas();
+                                } else {
+                                    $("#mensaje_opciones_lineas").css("display", "block").text("No hay datos en 'lineas'");
+                                }
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown){
+                            console.log("Error en la peticion AJAX para comprobar si existen lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+                        }
+                    });
                 }
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
-            console.log("Error en la peticion AJAX para comprobar si existen lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+            console.log("Error en la peticion AJAX para comprobar si existen registros: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
     });
 
@@ -71,7 +109,10 @@ $(function(){
     });
     $("#confirmarReparto").click(function(){
         planificarDia()
-    })
+    });
+    $("#borrarRepartoDia").click(function(){
+        borrarPlanificacionDia()
+    });
 
 /* ------------------------------------------------------------------------ FUNCIONES ----------------------------------------------------------------- */
 
@@ -1057,7 +1098,8 @@ $(function(){
             console.log(lineas_manipuladores);
             showManipuladoresReparto(lineas_manipuladores)
 
-               //https://codepen.io/anon/pen/oQQBwY
+            /*CODIGO CON JQueryUI QUE PERMITE MOVER LAS FILAS DE LAS TABLAS PARA CAMBIAR LOS MANIPULADORES ENTRE LAS LINEAS
+             https://codepen.io/anon/pen/oQQBwY*/
             var $tabs = $('.tablaindex')
             $("tbody.t_sortable").sortable({
                 connectWith: ".t_sortable",
@@ -1186,7 +1228,7 @@ $(function(){
         return manipuladores_ordenados;
     }
     /*SE LIMPIA EL CONTENIDO DE LA TABLA PARA LA CONFIGURACION DE LAS LINEAS, SE RECIBE LA VARIABLE CON TODOS LAS LINEAS, CON SUS MANIPULADORES CORRESPONDIENTES Y ORDENADOS
-    SE GENERA UNA TABLA POR CADA LINEA, EN LA QUE MEDIANTE JQueryUI PODREMOS MOVER LOS MANIPULADORES DE UNA LINEA A OTRA.*/
+     Y SE GENERA UNA TABLA POR CADA LINEA, EN LA QUE MEDIANTE JQueryUI PODREMOS MOVER LOS MANIPULADORES DE UNA LINEA A OTRA.*/
     function showManipuladoresReparto(manipuladores){
         $(".table-responsive").empty()    
         for (let index = 0; index < manipuladores.length; index++) {
@@ -1242,28 +1284,45 @@ $(function(){
                 datos:arrayLineas
             },
             success:function(response){
-                console.log(response.responseText)
+                console.log(response)
             },
             error:function(jqXHR, textStatus, errorThrown){
-                console.log()
-                console.log("Error en la peticion AJAX: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+                console.log("Error en la peticion AJAX: " + jqXHR + ", " + errorThrown + ", " + textStatus);
             }
         }).done(function(){
-            $(".table-responsive").empty()
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1;
-            var yyyy = today.getFullYear();
-            if(dd<10) {
-                dd = '0'+dd
-            }
-            if(mm<10) {
-                mm = '0'+mm
-            }
-            today = mm + '/' + dd + '/' + yyyy;
-            $("#mensaje").css("display","block")
-            $("#mensaje").append(
-                "<h3>Se ha realizado correctamente la planificacion para el dia: "+ today + "</h3>")
+           
             });
+    }
+    function borrarPlanificacionDia(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+    
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+        today = mm + '/' + dd + '/' + yyyy;
+        $.ajax({
+            url:"php/registro_manipuladores_f.php",
+            type:"POST",
+            data:{
+                op: "delete",
+                fecha:today,
+            },
+            success: function(response){
+                if (response.error == 1) {
+                    console.log("Error en php: " + json.mensaje);
+                }
+            },
+            error: function(response,jqXHR,textStatus, errorThrown){
+                console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
+            }
+        }).done(function(){
+            location.href ="reparto_1.php";
+        });
     }
 });

@@ -20,7 +20,8 @@
             <div class="row align-items-end" id="cabecera">
                 <div class="col-3">
                     <button type="button" id="repartir" class="btn btn-primary"><i class="fas fa-users"></i> Hacer Reparto</button>
-                    <button type="button" id="confirmarReparto" class="btn btn-primary" style="display:none" ><i class="fas fa-users"></i> Confirmar Reparto</button>
+                    <button type="button" id="confirmarReparto" class="btn btn-primary" style="display:none"><i class="fas fa-users"></i> Confirmar Reparto</button>
+                    <button type='button' id='borrarRepartoDia' class='btn btn-primary' style="display:none"><i class='far fa-trash-alt'></i> Borrar Reparto Dia</button>
 
                 </div>
                 <div class="col-6">
@@ -31,7 +32,7 @@
             </div>
         </div>
         <h4 class="text-center" id="mensaje_opciones_lineas"></h4>
-        <div class="table-responsive">
+        <div class="table-responsive" style="display:none">
             <table class="table table-bordered table-hover" id="mostrar_opciones_lineas" >
                 <thead class="thead-dark">
                     <th scope="col">Editar</th>

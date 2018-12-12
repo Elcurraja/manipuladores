@@ -20,9 +20,31 @@ if(isset($_POST['op'])){
         case 'insertReg':
             insertReg();
         break;
+        case 'exist_datos_registro':
+            comprobarDatosRegistro($_POST['fecha']);
+        break;
     }
 }
-
+function comprobarDatosRegistro($fecha){
+    header('Content-Type: application/json; charset=utf-8');
+        $conn = mysql_manipuladores();
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
+        $resultado = $conn->query("SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'");
+        if (!$resultado) {
+            $response['error'] = 1;
+            $response['mensaje'] = $conn->error;
+        }
+        if($resultado->num_rows>0){
+            $response['error'] = 0;
+            $response['hayDatos'] = 1;
+        }
+        else{
+            $response['hayDatos'] = 0;
+        }
+        $conn->close();
+        echo json_encode($response);
+}
 function mostrarRegistros($fecha,$id=0){
     $conn=mysql_manipuladores();
     $query1 = "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea FROM registro_manipuladores as r,manipuladores as m ";
@@ -44,9 +66,6 @@ function mostrarRegistros($fecha,$id=0){
             $query= "$query1 WHERE fecha='$fechaF' AND r.idmanipulador = m.idmanipulador";
         }
     }
-    // $query= "SELECT r.idregistro_manipulador,r.idmanipulador,m.nombre, m.apellidos,r.idturno,r.fecha,r.hora_inicio,r.hora_fin,r.idlinea 
-    //          FROM registro_manipuladores as r,manipuladores as m 
-    //          WHERE r.idmanipulador = m.idmanipulador";
     $resultQuery =$conn->query($query);
     $response['datosReg'] = array();
     while ($fila = $resultQuery->fetch_assoc()){
@@ -66,7 +85,6 @@ function mostrarRegistros($fecha,$id=0){
     }
 
     //QUERY PARA SACAR LOS TURNOS Y MOSTRARLAS EN EL SELECT LUEGO
- 
     $query= "SELECT idturno,franja FROM turnos";
     $resultQuery =$conn->query($query);
     $response['turnos'] = array();
@@ -126,13 +144,25 @@ function updateReg(){
 
 //BORRAR REGISTROS
 function deleteReg(){
+    echo "hola";
     $conn=mysql_manipuladores();
     $conn->begin_transaction();
-    foreach($_POST['datos'] as $fila){
-        $id=$fila['idRegistroManipulador'];
-        $sql= "DELETE FROM registro_manipuladores where idregistro_manipulador=$id";
+    $fecha = $_POST['fecha'];
+    $var= str_replace("/","-",$fecha);
+    $fechaF=date("Y-m-d",strtotime($var));
+    if($fecha){
+        $sql= "DELETE FROM registro_manipuladores where fecha='$fechaF'";
+        echo $sql;
         $resultQuery = $conn->query($sql);
         $conn->commit();
+    }
+    else {
+        foreach($_POST['datos'] as $fila){
+            $id=$fila['idRegistroManipulador'];
+            $sql= "DELETE FROM registro_manipuladores where idregistro_manipulador=$id";
+            $resultQuery = $conn->query($sql);
+            $conn->commit();
+        }
     }
 }
 //SE EJECUTA EL INSERT DEL NUEVO REGISTRO Y HACEMOS UN UPDATE DEL ULTIMO REGISTRO
@@ -191,14 +221,12 @@ function reasignarLinea(){
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($response);
 }
-function insertReg(){
-    
+function insertReg(){ 
     $datosLineas = $_POST['datos'];
     $conn=mysql_manipuladores();
     $query= "SELECT idturno,hora_inicio,hora_fin FROM turnos";
     $resultQueryTurnos =$conn->query($query);
     for ($indexLinea=0; $indexLinea < count($datosLineas); $indexLinea++){
- 
         for ($indexManipulador=0; $indexManipulador < count($datosLineas[$indexLinea][1]); $indexManipulador++){
             $linea = $datosLineas[$indexLinea][0];
             $idmanipulador = $datosLineas[$indexLinea][1][$indexManipulador]['id'];
@@ -210,13 +238,26 @@ function insertReg(){
                     $hora_inicio = $turnos['hora_inicio'];
                     $hora_fin = $turnos['hora_fin'];
                 }
+                try {
+                    $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
+                                    VALUES ($idmanipulador,$idTurno,'$actualDate','$hora_inicio','$hora_fin',$linea)";
+                    $resultQuery = $conn->query($sqlInsert);
+                    if (!$resultQuery) {
+                        throw new Exception($conn->error);
+                    } else {
+                        $response['error'] = 0;
+                    }
+                    $conn->commit();
+                } catch(Exception $e){
+                    $conn->rollback();
+                    $response['error'] = 1;
+                    $response['mensaje'] = $e->getMessage();
+                }
+                $conn->commit();
             }
-            $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
-                            VALUES ($idmanipulador,$idTurno,'$actualDate','$hora_inicio','$hora_fin',$linea)";
-            $resultQuery = $conn->query($sqlInsert);
-            $conn->commit();
-            
         }
     }
+    echo json_encode($response);
+    $conn->close();
 }
 ?>
