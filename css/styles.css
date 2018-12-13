@@ -95,6 +95,10 @@ td input:enabled, td select:enabled{
 #mensaje_manip, #mostrar_manip, #mensaje_descansos, #mostrar_descansos, #mensaje_turnos, #mostrar_turnos {
     display: none;
 }
+.mensaje{
+    margin-top:5%;
+    margin-left:25%;
+}
 .bootstrap-datetimepicker-widget {
     z-index: 1021;
 }

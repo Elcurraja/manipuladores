@@ -158,7 +158,7 @@ function showReg(){
         tabla = $('#tabla_registro').DataTable({
             // https://datatables.net/reference/option/order
             paging: false,
-            order: [[1, "asc"]],
+            order: [[4, "desc"]],
             language: {
                 "sProcessing":     "Procesando...",
                 "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -248,7 +248,6 @@ function updateReg(){
             console.log(this)
                 var data = {
                     "idregistro": $(this).find("> input").val(),
-                    //"idpuesto": $(this).find("td:nth-child(4) > input").val(),
                     "idturno": $(this).find("td:nth-child(6) .selectReg").val(),     
                     "fecha": $(this).find("td:nth-child(7) > div").datetimepicker('date').format('L'),
                     "horainicio": $(this).find("td:nth-child(8) > div").datetimepicker('date').format('LT'),

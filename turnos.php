@@ -48,7 +48,7 @@
             <table class="table table-bordered table-hover" id="mostrar_turnos">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Selecciona</th>
+                        <th scope="col">#</th>
                         <th scope="col">Franja</th>
                         <th scope="col">Hora de Inicio</th>
                         <th scope="col">Hora de Fin</th>

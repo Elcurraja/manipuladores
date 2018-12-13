@@ -66,7 +66,7 @@
             <table class="table table-bordered table-hover" id="mostrar_descansos">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="no_ordenable">Selecciona</th>
+                        <th scope="col" class="no_ordenable">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">DNI / Pasaporte</th>

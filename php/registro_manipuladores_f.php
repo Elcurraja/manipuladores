@@ -28,9 +28,10 @@ if(isset($_POST['op'])){
 function comprobarDatosRegistro($fecha){
     header('Content-Type: application/json; charset=utf-8');
         $conn = mysql_manipuladores();
-        $var= str_replace("/","-",$fecha);
-        $fechaF=date("Y-m-d",strtotime($var));
-        $resultado = $conn->query("SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'");
+        // $var= str_replace("/","-",$fecha);
+        // $fechaF=date("Y-m-d",strtotime($var));
+        
+        $resultado = $conn->query("SELECT * FROM registro_manipuladores WHERE fecha='$fecha'");
         if (!$resultado) {
             $response['error'] = 1;
             $response['mensaje'] = $conn->error;
@@ -144,14 +145,14 @@ function updateReg(){
 
 //BORRAR REGISTROS
 function deleteReg(){
-    echo "hola";
+    
     $conn=mysql_manipuladores();
     $conn->begin_transaction();
     $fecha = $_POST['fecha'];
-    $var= str_replace("/","-",$fecha);
-    $fechaF=date("Y-m-d",strtotime($var));
+    // $var= str_replace("/","-",$fecha);
+    // $fechaF=date("Y-m-d",strtotime($var));
     if($fecha){
-        $sql= "DELETE FROM registro_manipuladores where fecha='$fechaF'";
+        $sql= "DELETE FROM registro_manipuladores where fecha='$fecha'";
         echo $sql;
         $resultQuery = $conn->query($sql);
         $conn->commit();
@@ -238,23 +239,23 @@ function insertReg(){
                     $hora_inicio = $turnos['hora_inicio'];
                     $hora_fin = $turnos['hora_fin'];
                 }
-                try {
-                    $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
-                                    VALUES ($idmanipulador,$idTurno,'$actualDate','$hora_inicio','$hora_fin',$linea)";
-                    $resultQuery = $conn->query($sqlInsert);
-                    if (!$resultQuery) {
-                        throw new Exception($conn->error);
-                    } else {
-                        $response['error'] = 0;
-                    }
-                    $conn->commit();
-                } catch(Exception $e){
-                    $conn->rollback();
-                    $response['error'] = 1;
-                    $response['mensaje'] = $e->getMessage();
+            }
+            try {
+                $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
+                                VALUES ($idmanipulador,$idTurno,'$actualDate','$hora_inicio','$hora_fin',$linea)";
+                $resultQuery = $conn->query($sqlInsert);
+                if (!$resultQuery) {
+                    throw new Exception($conn->error);
+                } else {
+                    $response['error'] = 0;
                 }
                 $conn->commit();
+            } catch(Exception $e){
+                $conn->rollback();
+                $response['error'] = 1;
+                $response['mensaje'] = $e->getMessage();
             }
+            $conn->commit();
         }
     }
     echo json_encode($response);

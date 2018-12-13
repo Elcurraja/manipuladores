@@ -21,7 +21,7 @@
                 <div class="col-3">
                     <button type="button" id="repartir" class="btn btn-primary"><i class="fas fa-users"></i> Hacer Reparto</button>
                     <button type="button" id="confirmarReparto" class="btn btn-primary" style="display:none"><i class="fas fa-users"></i> Confirmar Reparto</button>
-                    <button type='button' id='borrarRepartoDia' class='btn btn-primary' style="display:none"><i class='far fa-trash-alt'></i> Borrar Reparto Dia</button>
+                    <button type='button' class='btn btn-danger borrarRepartoDia' style="display:none" data-toggle="modal" data-target="#modal_confirm_borrar"><i class='far fa-trash-alt'></i> Borrar Planificacion</button>
 
                 </div>
                 <div class="col-6">
@@ -50,5 +50,46 @@
         </div>
     </div>
     <div class="mensaje" style="display:none"></div>
+
+    
+    <div class="modal fade" id="modalPlanificacion" tabindex="-1" role="dialog" aria-labelledby="modalPlanificacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalPlanificacionLabel">Planificacion</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+    
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='./registro_manipuladores.php'">Aceptar</button>
+            <button type='button' class='btn btn-danger borrarRepartoDia' data-toggle="modal" data-target="#modal_confirm_borrar"><i class='far fa-trash-alt'></i> Borrar planificacion</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="modal_confirm_borrar" tabindex="-1" role="dialog" aria-labelledby="modal_confirm_borrar" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Confirmación</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <p id="mensaje_confirm_borrar">
+                    ¿Esta seguro de que desea borrar todos los registros del dia actual?
+                </p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-danger" id="borrar_Reparto_Dia">Borrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
 </body>
 </html>

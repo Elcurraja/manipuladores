@@ -11,7 +11,9 @@ $(function(){
     if(mm<10) {
         mm = '0'+mm
     } 
-    today = mm + '/' + dd + '/' + yyyy;
+    today = yyyy + '-' + mm + '-' + dd;
+
+    /* COMPROBAMOS SI EXISTEN MANIPULADORES CON LA FECHA DEL DIA ACTUAL, PARA VER SI YA SE HA REALIZADO LA PLANIFICACION DEL HOY */
     $.ajax({
         url: "php/registro_manipuladores_f.php",
         type: "post",
@@ -21,18 +23,20 @@ $(function(){
             fecha:today
         },
         success: function(response){
-            console.log(response)
             if (response.error == 1) {
-                console.log(response.mensaje);
+                // console.log(response.mensaje);
             } 
             else {
-                /* SI RESPONSE.HAYDATOS = 1 es que existen registros con la fecha actual */
+                /* SI RESPONSE.HAYDATOS = 1 ES QUE EXISTEN REGISTROS CON LA FECHA ACTUAL */
                 if(response.hayDatos==1){
                     $("#repartir").css("display","none")
-                    $("#borrarRepartoDia").css("display","block")
+                    $(".borrarRepartoDia").css("display","block")
+                    today = dd + '-' + mm + '-' + yyyy;
                     $(".mensaje").append("<h2>Ya existe una planificacion para el dia: "+ today +"</h2>").css("display","block")
                 }
+                /* EN CASO CONTRARIO PROCEDEMOS A MOSTRAR LA TABLA PARA SELECCIONAR LOS PARAMETROS DE LAS LINEAS  */
                 else {
+                    /* */
                     $.ajax({
                         url: "php/reparto_ajax.php",
                         type: "post",
@@ -42,7 +46,7 @@ $(function(){
                         },
                         success: function(respuesta){
                             if (respuesta.error == 1) {
-                                console.log(respuesta.mensaje);
+                                // console.log(respuesta.mensaje);
                             } else {
                                 if (respuesta.respuesta == 1) {
                                     $(".table-responsive").css("display","block")
@@ -60,7 +64,7 @@ $(function(){
             }
         },
         error: function(jqXHR, textStatus, errorThrown){
-            console.log("Error en la peticion AJAX para comprobar si existen registros: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
+            console.log("Error en la peticion AJAX para comprobar si existen registros para la planificacion del dia actual: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
         }
     });
 
@@ -110,7 +114,7 @@ $(function(){
     $("#confirmarReparto").click(function(){
         planificarDia()
     });
-    $("#borrarRepartoDia").click(function(){
+    $("#borrar_Reparto_Dia").click(function(){
         borrarPlanificacionDia()
     });
 
@@ -1284,19 +1288,31 @@ $(function(){
                 datos:arrayLineas
             },
             success:function(response){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1;
+                var yyyy = today.getFullYear();
+            
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+                if(mm<10) {
+                    mm = '0'+mm
+                } 
+                today = dd + '/' + mm + '/' + yyyy;
+                $("#modalPlanificacion .modal-body").append("<p>La planificacion para el dia "+ today + " se ha realizado correctamente")
+                $('#modalPlanificacion').modal('show')
                 console.log(response)
             },
             error:function(jqXHR, textStatus, errorThrown){
                 console.log("Error en la peticion AJAX: " + jqXHR + ", " + errorThrown + ", " + textStatus);
             }
-        }).done(function(){
-           
-            });
+        })
     }
     function borrarPlanificacionDia(){
         var today = new Date();
         var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
+        var mm = today.getMonth()+1; 
         var yyyy = today.getFullYear();
     
         if(dd<10) {
@@ -1305,7 +1321,7 @@ $(function(){
         if(mm<10) {
             mm = '0'+mm
         } 
-        today = mm + '/' + dd + '/' + yyyy;
+        today = yyyy + '/' + mm + '/' + dd;
         $.ajax({
             url:"php/registro_manipuladores_f.php",
             type:"POST",
