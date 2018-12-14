@@ -37,22 +37,3 @@
         </ul>
         </div>
     </nav>
-<script>
-    //SCRIPT PARA AÑADIR UNA CLASE A UN DIV EN EL MENU PARA SABER DONDE ESTAMOS
-  $(document).ready(function() {
-    var url= (window.location.pathname).split("/")
-    if(url[3]=='manipuladores.php' || url[3]=='ausencias.php' || url[3]=='descansos.php'){
-        $("#divlow3").addClass("subdiv")
-    }
-    else if(url[3]=='naves.php'|| url[3]=='lineas.php' || url[3]=='tipolineas.php' || url[3]=='turnos.php'){
-        $("#divlow4").addClass("subdiv")
-    }
-    else if(url[3]=='registro_manipuladores.php'|| url[3]=='reasignar_linea.php'){
-        $("#divlow2").addClass("subdiv")
-    }
-    else{
-        $("#divlow1").addClass("subdiv")
-    }
-  })
-</script>
- 

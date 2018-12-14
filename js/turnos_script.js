@@ -275,6 +275,7 @@ $(function(){
         }).done(function(){
             $("#guardar_cambios_btn, #aviso_borrar_btn").css("display", "none");
             tabla = $('#mostrar_turnos').DataTable({
+                paging: false,
                 // https://datatables.net/reference/option/order
                 order: [[1, "asc"]],
                 /* CODIGO PARA ESTABLECER LA CABECERA DE TABLA FIJA COMENTADO HASTA QUE SOLUCIONEN EL PROBLEMA

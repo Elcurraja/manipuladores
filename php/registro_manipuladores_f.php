@@ -28,10 +28,10 @@ if(isset($_POST['op'])){
 function comprobarDatosRegistro($fecha){
     header('Content-Type: application/json; charset=utf-8');
         $conn = mysql_manipuladores();
-        // $var= str_replace("/","-",$fecha);
-        // $fechaF=date("Y-m-d",strtotime($var));
+        $var= str_replace("/","-",$fecha);
+        $fechaF=date("Y-m-d",strtotime($var));
         
-        $resultado = $conn->query("SELECT * FROM registro_manipuladores WHERE fecha='$fecha'");
+        $resultado = $conn->query("SELECT * FROM registro_manipuladores WHERE fecha='$fechaF'");
         if (!$resultado) {
             $response['error'] = 1;
             $response['mensaje'] = $conn->error;
@@ -148,7 +148,8 @@ function deleteReg(){
     
     $conn=mysql_manipuladores();
     $conn->begin_transaction();
-    $fecha = $_POST['fecha'];
+    $temp= str_replace("/","-",$_POST['fecha']);
+    $fecha=date("Y-m-d",strtotime($temp));
     // $var= str_replace("/","-",$fecha);
     // $fechaF=date("Y-m-d",strtotime($var));
     if($fecha){
@@ -224,17 +225,23 @@ function reasignarLinea(){
 }
 function insertReg(){ 
     $datosLineas = $_POST['datos'];
+    $temp= str_replace("/","-",$_POST['fecha']);
+    $fecha=date("Y-m-d",strtotime($temp));
     $conn=mysql_manipuladores();
     $query= "SELECT idturno,hora_inicio,hora_fin FROM turnos";
+    
     $resultQueryTurnos =$conn->query($query);
     for ($indexLinea=0; $indexLinea < count($datosLineas); $indexLinea++){
         for ($indexManipulador=0; $indexManipulador < count($datosLineas[$indexLinea][1]); $indexManipulador++){
             $linea = $datosLineas[$indexLinea][0];
             $idmanipulador = $datosLineas[$indexLinea][1][$indexManipulador]['id'];
-            $actualTime= date('h:i:s a', time());
-            $actualDate = date('Y-m-d');
+            $actualTime= date('H:i:s');            
+            // $actualDate = date('Y-m-d');
+           
             while($turnos = $resultQueryTurnos->fetch_assoc()){
+                // echo($actualTime >=$turnos['hora_inicio']);
                 if($actualTime >=$turnos['hora_inicio'] && $actualTime <=$turnos['hora_fin']){
+                   
                     $idTurno = $turnos['idturno'];
                     $hora_inicio = $turnos['hora_inicio'];
                     $hora_fin = $turnos['hora_fin'];
@@ -242,9 +249,14 @@ function insertReg(){
             }
             try {
                 $sqlInsert = "INSERT INTO registro_manipuladores (idmanipulador,idturno,fecha,hora_inicio,hora_fin,idlinea) 
-                                VALUES ($idmanipulador,$idTurno,'$actualDate','$hora_inicio','$hora_fin',$linea)";
-                $resultQuery = $conn->query($sqlInsert);
-                if (!$resultQuery) {
+                              VALUES ($idmanipulador,$idTurno,'$fecha','$hora_inicio','$hora_fin',$linea)";
+                $resultQueryInsert = $conn->query($sqlInsert);
+
+                $sqlUpdate = "UPDATE manipuladores SET dias_seguidos_trabajados=dias_seguidos_trabajados+1,dias_totales_trabajados=dias_totales_trabajados+1
+                WHERE idmanipulador=$idmanipulador";
+                $resultQueryUpdate = $conn->query($sqlUpdate);
+
+                if (!$resultQueryInsert ||!$resultQueryUpdate) {
                     throw new Exception($conn->error);
                 } else {
                     $response['error'] = 0;

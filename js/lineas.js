@@ -136,6 +136,7 @@ function showLineas(){
            CON OFFSET A LA ANCHURA DEL MENU (PARA QUE NO SE OCULTE POR DEBAJO), LENGUAJE EN CASTELLANO, Y
            QUE NO HAGA ORDENABLE LA PRIMERA COLUMNA NI USE SU CONTENIDO EN LAS BUSQUEDAS DE LA DATATABLE */
         tabla = $('#tabla_lineas').DataTable({
+            paging: false,
             // https://datatables.net/reference/option/order
             order: [[1, "asc"]],
             language: {

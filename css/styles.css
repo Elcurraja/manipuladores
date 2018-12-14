@@ -59,13 +59,13 @@ tbody tr td input[type="text"], tbody tr td span,select{
 .table-responsive{
     margin-top:2%;
 }
-.table-responsive .table input{
+.table-responsive .table#mostrar_manip input{
     width: inherit;
 }
 .table-responsive .table#tabla_naves input,.table-responsive .table#tabla_tipo_lineas input{
     width: 100%;
 }
-.boton,.col-3 button{
+.boton,.col-3 button,.col-4 button{
     font-size: 1.15em;
 }
 #conf{
@@ -90,6 +90,9 @@ td input:enabled, td select:enabled{
 #guardar_cambios_btn,#aviso_borrar_btn{
     display:none;
 }
+.repartoDiaButtons{
+    
+}
 
 /* MANIPULADORES, DESCANSOS, TURNOS */
 #mensaje_manip, #mostrar_manip, #mensaje_descansos, #mostrar_descansos, #mensaje_turnos, #mostrar_turnos {
@@ -98,6 +101,27 @@ td input:enabled, td select:enabled{
 .mensaje{
     margin-top:5%;
     margin-left:25%;
+}
+div.manipulador{
+    margin-left: 30%;
+    width: 40%;
+}
+div.manipulador .ls_result_div{
+    margin-left: 30%;
+}
+div.manipulador select#idlinea,div.manipulador #addManipuladorRepartoLinea{
+    width: 92%;
+}
+div.manipulador select#idlinea,div.manipulador #addManipuladorRepartoLinea{
+    font-size: 1.25em;
+}
+div.dateReparto#fechaReparto{
+    margin-left: .5%;
+    width: 20%
+}
+div.dateReparto#fechaReparto input,span#spanPlanificarDia{
+    font-size: 1.4em;
+    font-weight: bold;
 }
 .bootstrap-datetimepicker-widget {
     z-index: 1021;
@@ -154,9 +178,9 @@ td input:enabled, td select:enabled{
 div.col-3 h3 {
     text-align:center;
 }
-div tbody.datos_reparto_lineas span{
-    /* font-size:.9em; */
-}
+/* div tbody.datos_reparto_lineas span{
+    font-size:.9em;
+} */
 
 .table th,td {
     text-align: center;

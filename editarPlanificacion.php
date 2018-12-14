@@ -35,23 +35,18 @@
     ?>
             <div class="row align-items-end" id="cabecera">
                 <div class="col-4 repartoDiaButtons">
-                    <button type="button" id="repartir" class="btn btn-primary"><i class="fas fa-users"></i> Hacer Reparto</button>
-                    <button type="button" id="confirmarReparto" class="btn btn-primary" style="display:none"><i class="fas fa-users"></i> Confirmar Reparto</button>
-                    <button type='button' id="borrarRepartoDia" class="btn btn-danger float-left" style="display:none" data-toggle="modal" data-target="#modal_confirm_borrar"><i class='far fa-trash-alt'></i> Borrar Planificacion</button>
-                    <form action="./editarPlanificacion.php" method="POST">
-                        <input type="hidden" id="fechaFormSend" name="fechaFormSend" value="" />
-                        <button type='submit' id="editarRepartoDia" class="btn btn-success float-left" style="display:none"><i class="far fa-edit"></i> Editar Planificacion</button>
-                    </form>
+                    <button type="button" id="guardarReparto" class="btn btn-primary" style="display:none"><i class="fas fa-users"></i> Guardar Reparto</button>
+                    <button type='button' id="borrarRepartoDia" class="btn btn-danger float-left" style="display:none" data-toggle="modal" data-target="#modal_confirm_borrar"><i class='far fa-trash-alt'></i> Borrar Planificacion</button>              
                 </div>
                 <div class="col-4">
-                    <h3 class="msg text-center">Configuración Reparto</h3>
+                    <h3 class="msg text-center">Editar Reparto</h3>
                 </div>
                 <div class="col-4">
 
                 </div>
             </div>
         </div>
-        <h4 class="text-center" id="mensaje_opciones_lineas"></h4>
+    
         <div class="manipulador" style="display:none">
             <label for="busqueda_manipulador">Búsqueda por <strong>Nombre,Apellidos o DNi</strong></label>
             <input type="text" class="form-control" id="busqueda_manipulador" placeholder="Escribe para buscar..." />
@@ -61,50 +56,20 @@
             <button type='button' class='btn btn-seconday añadir' id="addManipuladorRepartoLinea"><i class='fas fa-plus-square'></i> Añadir</button>
             <input type="hidden" class="form-control" name="idmanipulador" id="idmanipulador"/>
         </div>
-        <span id="spanPlanificarDia">Selecciona el dia para realizar el reparto</span>
+        <!-- <span id="spanPlanificarDia">Selecciona el dia para realizar el reparto</span>
         <div class="input-group dateReparto" id="fechaReparto" data-target-input="nearest">
             <input type="text" class="form-control datetimepicker-input" data-target="#fechaReparto" />
             <div class="input-group-append" data-target="#fechaReparto" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
             </div>
-        </div>
-        <div class="table-responsive" style="display:none">
-            <table class="table table-bordered table-hover" id="mostrar_opciones_lineas" >
-                <thead class="thead-dark">
-                    <th scope="col">Editar</th>
-                    <th scope="col">Nave</th>
-                    <th scope="col">Nombre de la Línea</th>
-                    <th scope="col">Tipo de Linea</th>
-                    <th scope="col">Puestos a cubrir</th>
-                    <th scope="col">Preferencias para la línea</th>
-                    <th scope="col">Orden dentro de la línea</th>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+        </div> -->
+        <input type="hidden" class="form-control" name="fecha" id="fecha" value="<?php echo($_POST['fechaFormSend'])?>"/>
+        <div class="table-responsive">
+            
+            
         </div>
     </div>
     <div class="mensaje" style="display:none"></div>
-
-    
-    <div class="modal fade" id="modalPlanificacion" tabindex="-1" role="dialog" aria-labelledby="modalPlanificacionLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modalPlanificacionLabel">Planificacion</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-    
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.href='./registro_manipuladores.php'">Aceptar</button>
-            <button type='button' class='btn btn-danger borrarRepartoDia' data-toggle="modal" data-target="#modal_confirm_borrar"><i class='far fa-trash-alt'></i> Borrar planificacion</button>
-        </div>
-        </div>
-    </div>
-    </div>
 
     <div class="modal fade" id="modal_confirm_borrar" tabindex="-1" role="dialog" aria-labelledby="modal_confirm_borrar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -134,7 +99,7 @@
     <script type="text/javascript" src="js/lib/moment_locale_es.js"></script>
     <script type="text/javascript" src="js/lib/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" src="js/lib/ajaxlivesearch.min.js"></script>
-    <script type="text/javascript" src="js/reparto_1.js"></script>
+    <script type="text/javascript" src="js/editarPlanificacionDia.js"></script>
     <script>
         $(function(){
             /* AJAX LIVE SEARCH ES UN FORMULARIO DE BUSQUEDA PHP QUE MUESTRA EL RESULTADO

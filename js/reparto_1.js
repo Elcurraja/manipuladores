@@ -1,73 +1,87 @@
 
 $(function(){
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
+    var url= (window.location.pathname).split("/")
+    if(url[3]=='manipuladores.php' || url[3]=='ausencias.php' || url[3]=='descansos.php'){
+        $("#divlow3").addClass("subdiv")
+    }
+    else if(url[3]=='naves.php'|| url[3]=='lineas.php' || url[3]=='tipolineas.php' || url[3]=='turnos.php'){
+        $("#divlow4").addClass("subdiv")
+    }
+    else if(url[3]=='registro_manipuladores.php'|| url[3]=='reasignar_linea.php'){
+        $("#divlow2").addClass("subdiv")
+    }
+    else{
+        $("#divlow1").addClass("subdiv")
+    }
+    
+    $('#fechaReparto').datetimepicker({
+        locale: 'es',
+        format: 'L'
+     });
 
-    if(dd<10) {
-        dd = '0'+dd
-    } 
-    if(mm<10) {
-        mm = '0'+mm
-    } 
-    today = yyyy + '-' + mm + '-' + dd;
-
-    /* COMPROBAMOS SI EXISTEN MANIPULADORES CON LA FECHA DEL DIA ACTUAL, PARA VER SI YA SE HA REALIZADO LA PLANIFICACION DEL HOY */
-    $.ajax({
-        url: "php/registro_manipuladores_f.php",
-        type: "post",
-        dataType: "json",
-        data: {
-            op: "exist_datos_registro",
-            fecha:today
-        },
-        success: function(response){
-            if (response.error == 1) {
-                // console.log(response.mensaje);
-            } 
-            else {
-                /* SI RESPONSE.HAYDATOS = 1 ES QUE EXISTEN REGISTROS CON LA FECHA ACTUAL */
-                if(response.hayDatos==1){
-                    $("#repartir").css("display","none")
-                    $(".borrarRepartoDia").css("display","block")
-                    today = dd + '-' + mm + '-' + yyyy;
-                    $(".mensaje").append("<h2>Ya existe una planificacion para el dia: "+ today +"</h2>").css("display","block")
-                }
-                /* EN CASO CONTRARIO PROCEDEMOS A MOSTRAR LA TABLA PARA SELECCIONAR LOS PARAMETROS DE LAS LINEAS  */
+    $("#fechaReparto").on("change.datetimepicker", function (e) {
+        var fecha = $("#fechaReparto").datetimepicker('date').format('L')
+        /* COMPROBAMOS SI EXISTEN MANIPULADORES CON LA FECHA DEL DIA ACTUAL, PARA VER SI YA SE HA REALIZADO LA PLANIFICACION DEL HOY */
+        $.ajax({
+            url: "php/registro_manipuladores_f.php",
+            type: "post",
+            dataType: "json",
+            data: {
+                op: "exist_datos_registro",
+                fecha:fecha
+            },
+            success: function(response){
+                if (response.error == 1) {
+                    console.log(response.mensaje);
+                } 
                 else {
-                    /* */
-                    $.ajax({
-                        url: "php/reparto_ajax.php",
-                        type: "post",
-                        dataType: "json",
-                        data: {
-                            accion: "exist_datos_lineas"
-                        },
-                        success: function(respuesta){
-                            if (respuesta.error == 1) {
-                                // console.log(respuesta.mensaje);
-                            } else {
-                                if (respuesta.respuesta == 1) {
-                                    $(".table-responsive").css("display","block")
-                                    mostrarOpcionesLineas();
+                    /* SI RESPONSE.HAYDATOS = 1 ES QUE EXISTEN REGISTROS CON LA FECHA ACTUAL */
+                    if(response.hayDatos==1){
+                        console.log(response.hayDatos)
+                        $("#repartir,.table-responsive").css("display","none")
+                        $("#borrarRepartoDia,#editarRepartoDia").css("display","block")
+                        $("#fechaFormSend").val(fecha)
+                        $(".mensaje").empty().append("<h2>Ya existe una planificacion para el dia: "+ fecha +"</h2>").css("display","block")
+                    }
+                    /* EN CASO CONTRARIO PROCEDEMOS A MOSTRAR LA TABLA PARA SELECCIONAR LOS PARAMETROS DE LAS LINEAS  */
+                    else {
+                        $(".mensaje").empty().css("display","none")
+                        $("#repartir").css("display","block")
+                        $("#borrarRepartoDia").css("display","none")
+                        $("#editarRepartoDia").css("display","none")
+                        
+                        
+                        $.ajax({
+                            url: "php/reparto_ajax.php",
+                            type: "post",
+                            dataType: "json",
+                            data: {
+                                accion: "exist_datos_lineas"
+                            },
+                            success: function(respuesta){
+                                if (respuesta.error == 1) {
+                                    // console.log(respuesta.mensaje);
                                 } else {
-                                    $("#mensaje_opciones_lineas").css("display", "block").text("No hay datos en 'lineas'");
+                                    if (respuesta.respuesta == 1) {
+                                        $(".table-responsive").css("display","block")
+                                        mostrarOpcionesLineas();
+                                    } else {
+                                        $("#mensaje_opciones_lineas").css("display", "block").text("No hay datos en 'lineas'");
+                                    }
                                 }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown){
+                                console.log("Error en la peticion AJAX para comprobar si existen lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
                             }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown){
-                            console.log("Error en la peticion AJAX para comprobar si existen lineas: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
-                        }
-                    });
+                        });
+                    }
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log("Error en la peticion AJAX para comprobar si existen registros para la planificacion del dia actual: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
             }
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            console.log("Error en la peticion AJAX para comprobar si existen registros para la planificacion del dia actual: " + JSON.stringify(jqXHR) + ", " + errorThrown + ", " + textStatus);
-        }
+        });
     });
-
     $("#mostrar_opciones_lineas").on("change", ".selec_linea", function(){
         //console.log($(this).prop("tagName"));
         var isChecked = $(this).prop("checked");
@@ -94,8 +108,10 @@ $(function(){
     });
 
     $("#repartir").click(function(){
+        var fecha = $("#fechaReparto").datetimepicker('date').format('L')
         var lineas = [];
         $("#mostrar_opciones_lineas tbody td:nth-child(7)").each(function(){
+            
             var puestos_cubrir = $(this).prev().find("select").val();
             if (parseInt(puestos_cubrir) > 0) {
                 var idlinea = $(this).siblings("input").val();
@@ -105,22 +121,50 @@ $(function(){
                 var orden_fiabilidad = $("input[name='ordenacion_fiabilidad_" + idlinea + "']:checked").val();
                 var orden_velocidad = $("input[name='ordenacion_velocidad_" + idlinea + "']:checked").val();
                 var orden_disponibilidad = $("input[name='ordenacion_disponibilidad_" + idlinea + "']:checked").val();
-
-                lineas.push([parseInt(idlinea), fiabilidad, velocidad, disponibilidad, orden_fiabilidad, orden_velocidad, orden_disponibilidad, parseInt(puestos_cubrir)]);
+                var nombre_linea = $(this).closest("tr").find("td:nth-child(4) span").text();
+                console.log(nombre_linea)
+                lineas.push([parseInt(idlinea), fiabilidad, velocidad, disponibilidad, orden_fiabilidad, orden_velocidad, orden_disponibilidad, parseInt(puestos_cubrir), nombre_linea]);
             }
         });
-        ordenar(lineas);
+        ordenar(lineas,fecha);
+        
     });
+
+    $(document).on('click', '.borrar', function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+    });
+
     $("#confirmarReparto").click(function(){
         planificarDia()
     });
     $("#borrar_Reparto_Dia").click(function(){
         borrarPlanificacionDia()
     });
+    $("#editarRepartoDia").click(function(){
+        var fecha = $("#fechaReparto").datetimepicker('date').format('L')
+        $("#fechaFormSend").val(fecha)
+        // editarRepartoDia()
+    })
+    $("#addManipuladorRepartoLinea").click(function(){
+        var idlinea = $("#idlinea").val()
+        var idManipulador = $("#idmanipulador").val()
+        var nombreApellidos = $("#busqueda_manipulador").val()
+        console.log(idlinea + " "+ idManipulador + " "+ nombreApellidos)
 
+        $("#"+ idlinea +" tbody").append(
+            "<tr class='fila'>"+
+            "<input type='hidden' value='" + idManipulador + "' />" +
+            "<td><span>"+ nombreApellidos +"</span></td>"+
+            "<td><button type='button' class='btn btn-danger borrar'><i class='fas fa-minus-square'></i></button>");
+    
+    });
+    
+    
 /* ------------------------------------------------------------------------ FUNCIONES ----------------------------------------------------------------- */
 
     function mostrarOpcionesLineas(){
+        
         $.ajax({
             url: "php/reparto_ajax.php",
             type: "post",
@@ -129,6 +173,7 @@ $(function(){
                 accion: "cargarLineas"
             },
             success: function(respuesta){
+                $("#mostrar_opciones_lineas tbody").empty()
                 for (let index = 0; index < respuesta.datos.length; index++) {
                     $("#mostrar_opciones_lineas tbody").append( "<tr>" +
                                                                     "<td class='align-middle' scope='row'><div class='custom-control custom-checkbox'><input type='checkbox' class='form-check-input selec_linea custom-control-input' id='customCheck" + index + "' /><label class='custom-control-label' for='customCheck" + index + "'></label></div></td>" +
@@ -230,7 +275,8 @@ $(function(){
         
     }
 
-    function ordenar(lineas){
+    function ordenar(lineas,fecha){
+        var fecha = fecha
         var manipuladores = [];
         $.ajax({
             url: "php/manipuladores_ajax.php",
@@ -262,12 +308,12 @@ $(function(){
             /* DISEÑO DE UN NUEVO ARRAY DE DATOS CON LA SIGUIENTE ESTRUCTURA:
                [0]->IDLINEA, [1]->NUMERO DE CHECKBOXES MARCADOS, [2]->BOOLEANO FIABILIDAD, [3]->BOOLEANO VELOCIDAD, [4]->BOOLEANO DISPONIBILIDAD,
                [5]->NUMERO DE OPCIONES SELECCIONADAS DELANTE, [6]->ARRAY CON LOS NOMBRES DE LAS PREFERENCIAS QUE VAN DELANTE,
-               [7]->NUMERO DE OPCIONES SELECCIONADAS DETRAS, [8]->ARRAY CON LOS NOMBRES DE LAS PREFERENCIAS QUE VAN DETRAS, [9]->NUMERO DE PUESTOS A ASIGNAR*/
+               [7]->NUMERO DE OPCIONES SELECCIONADAS DETRAS, [8]->ARRAY CON LOS NOMBRES DE LAS PREFERENCIAS QUE VAN DETRAS, [9]->NUMERO DE PUESTOS A ASIGNAR, [10]->NOMBRE DE LA LINEA*/
             var datosLineas = [];
             for (let index = 0; index < lineas.length; index++) {
                 // NUMERO DE PREFERENCIAS (CHECKBOXES) MARCADOS PARA ESTA LINEA
                 var conteo_prefs = 0;
-
+                var nombre = lineas[index][8];
                 var idlinea = lineas[index][0];
                 if (lineas[index][1]) {
                     conteo_prefs++;
@@ -301,7 +347,7 @@ $(function(){
                         }
                     }
                 }
-                datosLineas.push([idlinea, conteo_prefs, lineas[index][1], lineas[index][2], lineas[index][3], conteo_orden_delante, orden_delante, conteo_orden_detras, orden_detras, lineas[index][7]]);
+                datosLineas.push([idlinea, conteo_prefs, lineas[index][1], lineas[index][2], lineas[index][3], conteo_orden_delante, orden_delante, conteo_orden_detras, orden_detras, lineas[index][7], nombre]);
             }
             /* ------------------------------------------------------------------------------------------------ */
 
@@ -315,9 +361,11 @@ $(function(){
             var lineas_manipuladores = [];
 
             for (let i = 0; i < datosLineas.length; i++) {
+                console.log( datosLineas)
                 // AÑADIR LAS LINEAS A LAS QUE SE LES VA A HACER EL REPARTO COMO OBJETOS CON DOS PROPIEDADES
                 lineas_manipuladores.push({
                     id: datosLineas[i][0],
+                    nombreLinea: datosLineas[i][10],
                     manipuladores: []
                 });
 
@@ -1100,7 +1148,8 @@ $(function(){
                 }
             }
             console.log(lineas_manipuladores);
-            showManipuladoresReparto(lineas_manipuladores)
+            console.log(fecha)
+            showManipuladoresReparto(lineas_manipuladores,fecha)
 
             /*CODIGO CON JQueryUI QUE PERMITE MOVER LAS FILAS DE LAS TABLAS PARA CAMBIAR LOS MANIPULADORES ENTRE LAS LINEAS
              https://codepen.io/anon/pen/oQQBwY*/
@@ -1233,15 +1282,18 @@ $(function(){
     }
     /*SE LIMPIA EL CONTENIDO DE LA TABLA PARA LA CONFIGURACION DE LAS LINEAS, SE RECIBE LA VARIABLE CON TODOS LAS LINEAS, CON SUS MANIPULADORES CORRESPONDIENTES Y ORDENADOS
      Y SE GENERA UNA TABLA POR CADA LINEA, EN LA QUE MEDIANTE JQueryUI PODREMOS MOVER LOS MANIPULADORES DE UNA LINEA A OTRA.*/
-    function showManipuladoresReparto(manipuladores){
+    function showManipuladoresReparto(manipuladores,fecha){
+        
         $(".table-responsive").empty()    
         for (let index = 0; index < manipuladores.length; index++) {
             $(".table-responsive").append(
+                "<input type='hidden' id='fechaARepartir' value='" + fecha + "'>" +
                 "<div class='col-3 float-left'>"+
-                    "<h3>Linea "+ manipuladores[index].id+"</h3>"+
+                    "<h3>"+ manipuladores[index].nombreLinea+"</h3>"+
                     "<table "+ (index == 0 ? 'class="table  table-striped table-bordered tablaindex"': 'class="table  table-striped table-bordered"') +" id='"+ manipuladores[index].id +"'>"+
                         "<thead class='thead-dark'>"+
-                            "<tr><th scope='col'>Manipulador</th></tr>"+
+                            "<tr><th scope='col'>Manipulador</th>"+
+                            "<th scope='col'>#</th></tr>"+
                         "</thead>"+
                         "<tbody class='datos_reparto_lineas t_sortable'>"+
                             
@@ -1257,16 +1309,20 @@ $(function(){
                 $("#"+ manipuladores[index].id +" tbody").append(
                     "<tr class='fila'>"+
                     "<input type='hidden' value='" + manipuladores[index].manipuladores[indice].idmanipulador + "' />" +
-                    "<td><span>"+ manipuladores[index].manipuladores[indice].nombre + " " + manipuladores[index].manipuladores[indice].apellidos +"</span></td>");
+                    "<td><span>"+ manipuladores[index].manipuladores[indice].nombre + " " + manipuladores[index].manipuladores[indice].apellidos +"</span></td>"+
+                    "<td><button type='button' class='btn btn-danger borrar'><i class='fas fa-minus-square'></i></button>");
             }
+            $("select#idlinea").append("<option value='" + manipuladores[index].id + "'>" + manipuladores[index].nombreLinea +"</option>")
         }
-        $("#repartir").css("display","none")
+
+        $("#spanPlanificarDia,#fechaReparto,#repartir").css("display","none")
+   
         $("#confirmarReparto").css("display","block")
+        $(".manipulador").css("display","block")
     }
     /*FUNCION EN LA QUE RECOGEMOS LOS MANIPULADORES DE CADA TABLA DE LA LINEA, LOS INSERTAMOS EN UN ARRAY Y HACEMOS UNA PETICION AJAX PARA INSERTARLOS EN LA BASE DE DATOS*/
     function planificarDia(){
         var arrayLineas = [];
-    
         $(".table").each(function(){
             var manipuladores = []
             $("#"+ $(this).attr('id')+" .fila").each(function(){
@@ -1285,6 +1341,7 @@ $(function(){
             dataType: "json",
             data: {
                 op:'insertReg',
+                fecha:$("#fechaARepartir").val(),
                 datos:arrayLineas
             },
             success:function(response){
@@ -1300,7 +1357,7 @@ $(function(){
                     mm = '0'+mm
                 } 
                 today = dd + '/' + mm + '/' + yyyy;
-                $("#modalPlanificacion .modal-body").append("<p>La planificacion para el dia "+ today + " se ha realizado correctamente")
+                $("#modalPlanificacion .modal-body").append("<p>La planificacion para el dia "+ $("#fechaARepartir").val() + " se ha realizado correctamente")
                 $('#modalPlanificacion').modal('show')
                 console.log(response)
             },
@@ -1310,24 +1367,12 @@ $(function(){
         })
     }
     function borrarPlanificacionDia(){
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; 
-        var yyyy = today.getFullYear();
-    
-        if(dd<10) {
-            dd = '0'+dd
-        } 
-        if(mm<10) {
-            mm = '0'+mm
-        } 
-        today = yyyy + '/' + mm + '/' + dd;
         $.ajax({
             url:"php/registro_manipuladores_f.php",
             type:"POST",
             data:{
                 op: "delete",
-                fecha:today,
+                fecha:$("#fechaReparto").datetimepicker('date').format('L')
             },
             success: function(response){
                 if (response.error == 1) {
@@ -1341,4 +1386,24 @@ $(function(){
             location.href ="reparto_1.php";
         });
     }
+    // function editarRepartoDia(){
+    //     $.ajax({
+    //         url:"php/registro_manipuladores_f.php",
+    //         type:"POST",
+    //         data:{
+    //             op: "editRepartoDia",
+    //             fecha:$("#fechaReparto").datetimepicker('date').format('L')
+    //         },
+    //         success: function(response){
+    //             if (response.error == 1) {
+    //                 console.log("Error en php: " + json.mensaje);
+    //             }
+    //         },
+    //         error: function(response,jqXHR,textStatus, errorThrown){
+    //             console.log("Error en la peticion AJAX: " + errorThrown + ", " + textStatus);
+    //         }
+    //     }).done(function(){
+    //         location.href ="reparto_1.php";
+    //     });
+    // }
 });

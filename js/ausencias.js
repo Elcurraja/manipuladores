@@ -100,26 +100,7 @@ $(document).ready(function() {
         $("#busqueda_fecha").datetimepicker('clear')
         showAusencias()
     })
-    showAusencias()
-
-   
-    // $("#addAusencia").on("keyup","#busqueda_manipulador",function(){
-    //     var errorModalAdd
-    //     $("#addAusencia .error").css({"display":"block","color":"red"})
-    //     $("#addAusencia").on("change","#manipulador",function(){
-    //         if($("#addAusencia #manipulador").val()==""){
-    //             console.log("error")
-    //             $("#addAusencia .error").css({"display":"block","color":"red"})
-    //             errorModalAdd=1
-    //         }
-    //         else{
-    //             console.log("ok")
-    //             errorModalAdd=0
-    //             $("#addAusencia .error").css({"display":"none"})
-    //         }
-    //     })
-    // })
-    
+    showAusencias()   
 });
 function showAusencias(){
     if ($("#busqueda_fecha").datetimepicker('date')==null){
